@@ -116,7 +116,7 @@ namespace Capa_Modelo_Navegador
                 }
                 catch (Exception ex)
                 {
-                    // trans.Rollback(); // revertir en caso que haya error
+                    //trans.Rollback(); // revertir en caso que haya error
                     throw new Exception("Error inesperado al insertar datos: " + ex.Message); // lanza la excepción 
                 }
                 // }

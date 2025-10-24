@@ -8,11 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PruebaEjecucionNavegador
+namespace Capa_Vista_Seguridad
 {
-    public partial class Form1 : Form
+    public partial class Frm_PruebaNavegador : Form
     {
-        public Form1()
+
+        public Frm_PruebaNavegador()
         {
             InitializeComponent();
             //parametros para navegador
@@ -27,41 +28,33 @@ namespace PruebaEjecucionNavegador
                 Nombre = "dgv_empleados"
             };
 
-                        string[] columnas = {
-                "tbl_usuario",
-                "Pk_Id_Usuario",
-                "Fk_Id_Empleado",
-                "Cmp_Nombre_Usuario",
-                "Cmp_Contrasena_Usuario",
-                "Cmp_Intentos_Fallidos_Usuario",
-                "Cmp_Estado_Usuario",
-                "Cmp_FechaCreacion_Usuario",
-                "Cmp_Ultimo_Cambio_Contrasenea",
-                "Cmp_Pidio_Cambio_Contrasenea"
-            };
+            string[] columnas = {
+                    "Tbl_Perfil",
+                    "Pk_Id_Perfil",
+                    "Cmp_Puesto_Perfil",
+                    "Cmp_Descripcion_Perfil",
+                    "Cmp_Estado_Perfil",
+                    "Cmp_Tipo_Perfil"
+                };
 
-                        string[] sEtiquetas = {
-                "Código Usuario",
-                "Código Empleado",
-                "Nombre de Usuario",
-                "Contraseña",
-                "Intentos Fallidos",
-                "Estado del Usuario",
-                "Fecha de Creación",
-                "Último Cambio de Contraseña",
-                "Solicitó Cambio de Contraseña"
-            };
+            string[] sEtiquetas = {
+                    "Código Perfil",
+                    "Puesto del Perfil",
+                    "Descripción del Perfil",
+                    "Estado del Perfil",
+                    "Tipo de Perfil"
+                };
 
 
-
-            int id_aplicacion = 100;
+            int id_aplicacion = 303;
+            int id_Modulo = 4;
             navegador1.IPkId_Aplicacion = id_aplicacion;
+            navegador1.IPkId_Modulo = id_Modulo;
             navegador1.configurarDataGridView(config);
             navegador1.SNombreTabla = columnas[0];
             navegador1.SAlias = columnas;
             navegador1.SEtiquetas = sEtiquetas;
             navegador1.mostrarDatos();
         }
-
     }
 }
