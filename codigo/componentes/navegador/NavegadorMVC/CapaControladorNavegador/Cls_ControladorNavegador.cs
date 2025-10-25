@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
 using System.Drawing;
 using Capa_Modelo_Navegador;
+using Capa_Modelo_Seguridad;
+using Capa_Controlador_Seguridad;
 
 namespace Capa_Controlador_Navegador
 {
@@ -16,6 +18,7 @@ namespace Capa_Controlador_Navegador
     {
         Cls_SentenciasMYSQL sentencias = new Cls_SentenciasMYSQL();
         private Cls_DAOGenerico dao = new Cls_DAOGenerico();
+        private Cls_BitacoraControlador gCtrlBitacora = new Cls_BitacoraControlador();
 
         // ---------------------VALIDANDO ALIAS-----------------------------------------
         //===================== Nuevo Método Validar Columnas - 23/09/2025 =============================
@@ -330,7 +333,7 @@ namespace Capa_Controlador_Navegador
         }
         //===============================================================================
 
-        public void Insertar_Datos(Control contenedor, string[] SAlias)
+        public void Insertar_Datos(Control contenedor, string[] SAlias, int ipkAplicacion)
         {
             object[] SValores = new object[SAlias.Length - 1];
             Cls_DAOGenerico dao = new Cls_DAOGenerico();
@@ -379,6 +382,14 @@ namespace Capa_Controlador_Navegador
                 dao.InsertarDatos(SAlias, SValores);
                 MessageBox.Show("Datos insertados correctamente.");
                 LimpiarCombos(contenedor, SAlias);
+
+                //Bitacora          
+                gCtrlBitacora.RegistrarAccion(
+                  Capa_Controlador_Seguridad.Cls_Usuario_Conectado.iIdUsuario,
+                  ipkAplicacion,
+                  $"Insertó un nuevo registro en la tabla '{SAlias[0]}' con llave: {SValores[0]}",
+                  true
+              );
             }
             catch (Exception ex)
             {
@@ -397,7 +408,7 @@ namespace Capa_Controlador_Navegador
         //---------------------------------------------------------------------------------------------
 
         // ====================== Eliminar / Delete = Fernando Miranda = 20/09/2025 =======================
-        public void Eliminar_Datos(Control contenedor, string[] SAlias)
+        public void Eliminar_Datos(Control contenedor, string[] SAlias, int ipkAplicacion)
         {
             Cls_DAOGenerico dao = new Cls_DAOGenerico();
 
@@ -417,6 +428,13 @@ namespace Capa_Controlador_Navegador
 
                 dao.EliminarDatos(SAlias, pkValor); // llamada directa al DAO
                 MessageBox.Show("Registro eliminado correctamente.");
+                //Bitacora
+                gCtrlBitacora.RegistrarAccion(
+                  Capa_Controlador_Seguridad.Cls_Usuario_Conectado.iIdUsuario,
+                  ipkAplicacion,
+                  $"Eliminó un registro en la tabla '{SAlias[0]}' Con la llave '{CboPK.Text}' ",
+                  true
+                );
             }
             catch (Exception ex)
             {
@@ -426,7 +444,7 @@ namespace Capa_Controlador_Navegador
 
         // ======================= Modificar / Update = Stevens Cambranes = 20/09/2025 =======================
         // ======================= Actualizar en BD leyendo los ComboBox = 20/09/2025 =======================
-        public void Actualizar_Datos(Control contenedor, string[] SAlias)
+        public void Actualizar_Datos(Control contenedor, string[] SAlias, int ipkAplicacion)
         {
             if (SAlias == null || SAlias.Length < 3)
             {
@@ -492,6 +510,14 @@ namespace Capa_Controlador_Navegador
                 dao.ActualizarDatos(SAlias, SValores, pkValor);
 
                 MessageBox.Show("Registro actualizado correctamente.", "Actualización", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                //Bitacora
+                gCtrlBitacora.RegistrarAccion(
+                  Capa_Controlador_Seguridad.Cls_Usuario_Conectado.iIdUsuario,
+                  ipkAplicacion,
+                  $"Actualizo un registro en la tabla '{SAlias[0]}' Con la llave '{pkValor}' ",
+                  true
+                );
             }
             catch (Exception ex)
             {

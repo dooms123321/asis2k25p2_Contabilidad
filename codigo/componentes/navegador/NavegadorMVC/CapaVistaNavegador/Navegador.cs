@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Capa_Controlador_Navegador;
 using Capa_Vista_Reporteador;
+using Capa_Modelo_Seguridad;
+
 
 namespace Capa_Vista_Navegador
 {
@@ -17,6 +19,7 @@ namespace Capa_Vista_Navegador
     {
         public string[] SAlias { get; set; }
         public int IPkId_Aplicacion { get; set; }
+        public int IPkId_Modulo { get; set; }
         public string SNombreTabla { get; set; } // Nueva propiedad para el nombre de la tabla
         public string[] SEtiquetas { get; set; } // Nueva propiedad para las etiquetas
 
@@ -29,8 +32,21 @@ namespace Capa_Vista_Navegador
             InitializeComponent();
 
             // Los botones se inicializan en su estado inicial, Reportes, ingresar e imprimir
-            BotonesEstadoInicial();
+            // Obtener permisos del usuario conectado
+            Cls_Privilegios_Seguridad privilegios = new Cls_Privilegios_Seguridad();
 
+            Cls_Permiso_Aplicacion_Usuario permisos = privilegios.VerificarPermisos(IPkId_Aplicacion, IPkId_Modulo);
+
+
+            BotonesEstadoCRUD(
+                permisos.Cmp_Ingresar_Permiso_Aplicacion_Usuario,
+                permisos.Cmp_Modificar_Permiso_Aplicacion_Usuario,
+                permisos.Cmp_Ingresar_Permiso_Aplicacion_Usuario,
+                permisos.Cmp_Eliminar_Permiso_Aplicacion_Usuario,
+                false,
+                permisos.Cmp_Imprimir_Permiso_Aplicacion_Usuario
+            );
+            //BotonesEstadoInicial();
             // inicializa el evento Load
             this.Load += new EventHandler(Navegador_Load);
         }
@@ -69,7 +85,7 @@ namespace Capa_Vista_Navegador
 
             
             Btn_ingresar.Enabled = false;
-            BotonesEstadoCRUD();
+            Btn_cancelar.Enabled = true;
             mostrarDatos();
             ctrl.ActivarTodosComboBoxes(this);
             
@@ -158,9 +174,10 @@ namespace Capa_Vista_Navegador
             }
         }
 
-        public void BotonesEstadoCRUD()
-        {
+        //public void BotonesEstadoCRUD()
+        //{
             // ======================= Stevens Cambranes = 20/09/2025 =======================
+            /*
             Btn_modificar.Enabled = false;
             Btn_guardar.Enabled = true;
             Btn_cancelar.Enabled = true;
@@ -172,9 +189,10 @@ namespace Capa_Vista_Navegador
             Btn_anterior.Enabled = true;
             Btn_sig.Enabled = true;
             Btn_fin.Enabled = true;
-        }
+            */
+       // }
 
-        public void BotonesEstadoInicial()
+        /*public void BotonesEstadoInicial()
         {
             // ======================= Stevens Cambranes = 20/09/2025 =======================
             Btn_ingresar.Enabled = true;
@@ -189,54 +207,66 @@ namespace Capa_Vista_Navegador
             Btn_anterior.Enabled = false;
             Btn_sig.Enabled = false;
             Btn_fin.Enabled = false;
-        }
+        } 
+        */
 
         //==================== Nuevo método para estado de botones modo edición = KEVIN NATARENO, 11/10/2025======================
-        public void BotonesEstadoEdicion()
+       // public void BotonesEstadoEdicion()
+        //{
+        //    Btn_ingresar.Enabled = true;
+        //    Btn_modificar.Enabled = true;
+        //   Btn_guardar.Enabled = false;
+        //   Btn_cancelar.Enabled = true;
+        //   Btn_eliminar.Enabled = true;
+        //    Btn_inicio.Enabled = true;
+        //  Btn_anterior.Enabled = true;
+        //   Btn_sig.Enabled = true;
+        //   Btn_fin.Enabled = true;
+
+        //}
+        //==================== Nuevo método para estado de botones modo edición = KEVIN NATARENO, 11/10/2025======================
+
+        // ======================= Stevens Cambranes = 20/09/2025 =======================
+        public void BotonesEstadoCRUD(
+                  bool ingresar,
+                  bool modificar,
+                  bool guardar,
+                  bool eliminar,
+                  bool consultar,
+                  bool imprimir)
         {
-            Btn_ingresar.Enabled = true;
-            Btn_modificar.Enabled = true;
-           Btn_guardar.Enabled = false;
-           Btn_cancelar.Enabled = true;
-           Btn_eliminar.Enabled = true;
+            Btn_ingresar.Enabled = ingresar;
+            Btn_modificar.Enabled = modificar;
+            Btn_guardar.Enabled = guardar;
+            Btn_eliminar.Enabled = eliminar;
+            Btn_consultar.Enabled = consultar;
+            Btn_imprimir.Enabled = imprimir;
+
+            // Botones de navegación, se mantienen activos
+            Btn_cancelar.Enabled = false;
+            Btn_refrescar.Enabled = true;
             Btn_inicio.Enabled = true;
             Btn_anterior.Enabled = true;
             Btn_sig.Enabled = true;
             Btn_fin.Enabled = true;
-
         }
-        //==================== Nuevo método para estado de botones modo edición = KEVIN NATARENO, 11/10/2025======================
-
-
-
-        // public void BotonesEstadoCRUD(
-        // bool ingresar,
-        // bool modificar,
-        // bool guardar,
-        // bool eliminar,
-        // bool consultar,
-        // bool imprimir)
-        //    {
-        //        Btn_ingresar.Enabled = ingresar;
-        //        Btn_modificar.Enabled = modificar;
-        //        Btn_guardar.Enabled = guardar;
-        //        Btn_eliminar.Enabled = eliminar;
-        //        Btn_consultar.Enabled = consultar;
-        //        Btn_imprimir.Enabled = imprimir;
-        //        Btn_cancelar.Enabled = true;
-        //         Btn_refrescar.Enabled = true;
-        //         Btn_inicio.Enabled = true;
-        //         Btn_anterior.Enabled = true;
-        //          Btn_sig.Enabled = true;
-        //         Btn_fin.Enabled = true;
-        //    }
-
 
 
         private void Btn_cancelar_Click_1(object sender, EventArgs e)
         {
-            BotonesEstadoInicial();
+            //BotonesEstadoInicial();
             // Limpiar Cbo
+
+            Cls_Privilegios_Seguridad privilegios = new Cls_Privilegios_Seguridad();
+            Cls_Permiso_Aplicacion_Usuario permisos = privilegios.VerificarPermisos(IPkId_Aplicacion, IPkId_Modulo);
+            BotonesEstadoCRUD(
+              permisos.Cmp_Ingresar_Permiso_Aplicacion_Usuario,
+              permisos.Cmp_Modificar_Permiso_Aplicacion_Usuario,
+              permisos.Cmp_Ingresar_Permiso_Aplicacion_Usuario,
+              permisos.Cmp_Eliminar_Permiso_Aplicacion_Usuario,
+              false,
+              permisos.Cmp_Imprimir_Permiso_Aplicacion_Usuario
+          );
             ctrl.LimpiarCombos(this, SAlias);
             ctrl.DesactivarTodosComboBoxes(this);
         }
@@ -249,7 +279,7 @@ namespace Capa_Vista_Navegador
             {
                 case 0: // si es 0 es porque no se presionó el boton de modificar 
                     
-                    ctrl.Insertar_Datos(this, SAlias);
+                    ctrl.Insertar_Datos(this, SAlias, IPkId_Aplicacion);
 
                     // Recarga despues de insertar = Stevens Cambranes
                     mostrarDatos();
@@ -258,7 +288,7 @@ namespace Capa_Vista_Navegador
 
                 case 1: // si es 1 es porque se seleccionó la opcion de modificar 
                     // Esta es la lógica que estaba en el botón modificar 
-                    ctrl.Actualizar_Datos(this, SAlias);
+                    ctrl.Actualizar_Datos(this, SAlias, IPkId_Aplicacion);
                     mostrarDatos();
                     ctrl.RefrescarCombos(this, SAlias[0], SAlias.Skip(1).ToArray());
                     iContadorModificar = 0;
@@ -299,7 +329,20 @@ namespace Capa_Vista_Navegador
             // Rellenar combos con la información de la fila seleccionada
             ctrl.RellenarCombosDesdeFila(this, SAlias, Dgv_Datos.CurrentRow);
 
-            BotonesEstadoEdicion(); // KEVIN NATARENO 11/10/2025
+            // Obtener permisos del usuario conectado
+            Cls_Privilegios_Seguridad privilegios = new Cls_Privilegios_Seguridad();
+            Cls_Permiso_Aplicacion_Usuario permisos = privilegios.VerificarPermisos(IPkId_Aplicacion, IPkId_Modulo);
+
+
+            BotonesEstadoCRUD(
+                permisos.Cmp_Ingresar_Permiso_Aplicacion_Usuario,
+                permisos.Cmp_Modificar_Permiso_Aplicacion_Usuario,
+                permisos.Cmp_Ingresar_Permiso_Aplicacion_Usuario,
+                permisos.Cmp_Eliminar_Permiso_Aplicacion_Usuario,
+                false,
+                permisos.Cmp_Imprimir_Permiso_Aplicacion_Usuario
+            );
+            //BotonesEstadoEdicion(); // KEVIN NATARENO 11/10/2025
 
             // Bloquear (deshabilitar) todos los ComboBox del formulario
             ctrl.DesactivarTodosComboBoxes(this);
@@ -332,7 +375,7 @@ namespace Capa_Vista_Navegador
                 if (resultado != DialogResult.Yes)
                     return;
 
-                ctrl.Eliminar_Datos(this, SAlias);
+                ctrl.Eliminar_Datos(this, SAlias, IPkId_Aplicacion);
                 mostrarDatos();
                 // ======================= Stevens Cambranes = 20/09/2025 =======================
                 ctrl.RefrescarCombos(this, SAlias[0], SAlias.Skip(1).ToArray());
@@ -370,7 +413,20 @@ namespace Capa_Vista_Navegador
             // Creacion Metodo: vuelve a cargar los datos en el DataGridView y limpiar comboBoxes
             ctrl.LimpiarCombos(this, SAlias);
             ctrl.DesactivarTodosComboBoxes(this);
-            BotonesEstadoInicial();
+            // Obtener permisos del usuario conectado
+            Cls_Privilegios_Seguridad privilegios = new Cls_Privilegios_Seguridad();
+            Cls_Permiso_Aplicacion_Usuario permisos = privilegios.VerificarPermisos(IPkId_Aplicacion, IPkId_Modulo);
+
+
+            BotonesEstadoCRUD(
+                permisos.Cmp_Ingresar_Permiso_Aplicacion_Usuario,
+                permisos.Cmp_Modificar_Permiso_Aplicacion_Usuario,
+                permisos.Cmp_Ingresar_Permiso_Aplicacion_Usuario,
+                permisos.Cmp_Eliminar_Permiso_Aplicacion_Usuario,
+                false,
+                permisos.Cmp_Imprimir_Permiso_Aplicacion_Usuario
+            );
+
             iContadorModificar = 0;
             try
             {
@@ -519,6 +575,7 @@ namespace Capa_Vista_Navegador
             }
         }
 
+        
     }
 }
 

@@ -339,5 +339,11 @@ namespace Capa_Vista_Seguridad
         {
             this.Close();
         }
+
+        private void pruebaNavegadorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Frm_PruebaNavegador nav = new Frm_PruebaNavegador();
+            nav.ShowDialog();
+        }
     }
 }

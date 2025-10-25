@@ -41,6 +41,7 @@
             this.asignacionDeAplicacionAPerfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Pnl_Superior = new System.Windows.Forms.Panel();
             this.Pic_Cerrar = new System.Windows.Forms.PictureBox();
+            this.pruebaNavegadorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.Pnl_Superior.SuspendLayout();
@@ -81,7 +82,7 @@
             this.menuStrip1.MaximumSize = new System.Drawing.Size(0, 409);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 2, 802, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1253, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(1373, 25);
             this.menuStrip1.TabIndex = 24;
             this.menuStrip1.Text = "MenuStrip";
             // 
@@ -108,7 +109,8 @@
             this.usuariosToolStripMenuItem,
             this.perfilesToolStripMenuItem,
             this.modulosToolStripMenuItem,
-            this.Btn_Aplicacion});
+            this.Btn_Aplicacion,
+            this.pruebaNavegadorToolStripMenuItem});
             this.catálogosToolStripMenuItem.Font = new System.Drawing.Font("Rockwell", 10F);
             this.catálogosToolStripMenuItem.Name = "catálogosToolStripMenuItem";
             this.catálogosToolStripMenuItem.Size = new System.Drawing.Size(84, 21);
@@ -117,35 +119,35 @@
             // empleadosToolStripMenuItem1
             // 
             this.empleadosToolStripMenuItem1.Name = "empleadosToolStripMenuItem1";
-            this.empleadosToolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
+            this.empleadosToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
             this.empleadosToolStripMenuItem1.Text = "Empleados";
             this.empleadosToolStripMenuItem1.Click += new System.EventHandler(this.empleadosToolStripMenuItem1_Click);
             // 
             // usuariosToolStripMenuItem
             // 
             this.usuariosToolStripMenuItem.Name = "usuariosToolStripMenuItem";
-            this.usuariosToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.usuariosToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.usuariosToolStripMenuItem.Text = "Usuarios";
             this.usuariosToolStripMenuItem.Click += new System.EventHandler(this.usuariosToolStripMenuItem_Click);
             // 
             // perfilesToolStripMenuItem
             // 
             this.perfilesToolStripMenuItem.Name = "perfilesToolStripMenuItem";
-            this.perfilesToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.perfilesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.perfilesToolStripMenuItem.Text = "Perfiles";
             this.perfilesToolStripMenuItem.Click += new System.EventHandler(this.perfilesToolStripMenuItem_Click_1);
             // 
             // modulosToolStripMenuItem
             // 
             this.modulosToolStripMenuItem.Name = "modulosToolStripMenuItem";
-            this.modulosToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.modulosToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.modulosToolStripMenuItem.Text = "Modulos";
             this.modulosToolStripMenuItem.Click += new System.EventHandler(this.modulosToolStripMenuItem_Click);
             // 
             // Btn_Aplicacion
             // 
             this.Btn_Aplicacion.Name = "Btn_Aplicacion";
-            this.Btn_Aplicacion.Size = new System.Drawing.Size(148, 22);
+            this.Btn_Aplicacion.Size = new System.Drawing.Size(194, 22);
             this.Btn_Aplicacion.Text = "Aplicacion";
             this.Btn_Aplicacion.Click += new System.EventHandler(this.Btn_Aplicacion_Click_1);
             // 
@@ -226,7 +228,7 @@
             this.Pnl_Superior.Controls.Add(this.Pic_Cerrar);
             this.Pnl_Superior.Dock = System.Windows.Forms.DockStyle.Top;
             this.Pnl_Superior.Location = new System.Drawing.Point(0, 0);
-            this.Pnl_Superior.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Pnl_Superior.Margin = new System.Windows.Forms.Padding(2);
             this.Pnl_Superior.Name = "Pnl_Superior";
             this.Pnl_Superior.Size = new System.Drawing.Size(802, 36);
             this.Pnl_Superior.TabIndex = 96;
@@ -237,13 +239,20 @@
             this.Pic_Cerrar.Dock = System.Windows.Forms.DockStyle.Right;
             this.Pic_Cerrar.Image = global::Capa_Vista_Seguridad.Properties.Resources.Cancel_icon_icons_com_73703;
             this.Pic_Cerrar.Location = new System.Drawing.Point(774, 0);
-            this.Pic_Cerrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Pic_Cerrar.Margin = new System.Windows.Forms.Padding(2);
             this.Pic_Cerrar.Name = "Pic_Cerrar";
             this.Pic_Cerrar.Size = new System.Drawing.Size(28, 36);
             this.Pic_Cerrar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Pic_Cerrar.TabIndex = 0;
             this.Pic_Cerrar.TabStop = false;
             this.Pic_Cerrar.Click += new System.EventHandler(this.Pic_Cerrar_Click);
+            // 
+            // pruebaNavegadorToolStripMenuItem
+            // 
+            this.pruebaNavegadorToolStripMenuItem.Name = "pruebaNavegadorToolStripMenuItem";
+            this.pruebaNavegadorToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.pruebaNavegadorToolStripMenuItem.Text = "PruebaNavegador";
+            this.pruebaNavegadorToolStripMenuItem.Click += new System.EventHandler(this.pruebaNavegadorToolStripMenuItem_Click);
             // 
             // Frm_Seguridad
             // 
@@ -293,5 +302,6 @@
         private System.Windows.Forms.ToolStripMenuItem asignacionDeAplicacionAPerfilesToolStripMenuItem;
         private System.Windows.Forms.Panel Pnl_Superior;
         private System.Windows.Forms.PictureBox Pic_Cerrar;
+        private System.Windows.Forms.ToolStripMenuItem pruebaNavegadorToolStripMenuItem;
     }
 }

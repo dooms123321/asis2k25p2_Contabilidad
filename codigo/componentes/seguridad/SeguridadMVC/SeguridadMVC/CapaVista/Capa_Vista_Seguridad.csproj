@@ -32,8 +32,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AxShockwaveFlashObjects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="Capa_Controlador_Navegador">
+      <HintPath>..\..\..\..\navegador\NavegadorMVC\CapaControladorNavegador\bin\Debug\Capa_Controlador_Navegador.dll</HintPath>
+    </Reference>
     <Reference Include="Capa_Controlador_Seguridad">
       <HintPath>..\CapaControlador\bin\Debug\Capa_Controlador_Seguridad.dll</HintPath>
+    </Reference>
+    <Reference Include="Capa_Vista_Navegador">
+      <HintPath>..\..\..\..\navegador\NavegadorMVC\CapaVistaNavegador\bin\Debug\Capa_Vista_Navegador.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
@@ -58,6 +64,12 @@
     </Compile>
     <Compile Include="Frm_Permisos_Perfiles.Designer.cs">
       <DependentUpon>Frm_Permisos_Perfiles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_PruebaNavegador.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_PruebaNavegador.Designer.cs">
+      <DependentUpon>Frm_PruebaNavegador.cs</DependentUpon>
     </Compile>
     <Compile Include="Frm_Reporte_aplicacion.cs">
       <SubType>Form</SubType>
@@ -225,6 +237,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Frm_Permisos_Perfiles.resx">
       <DependentUpon>Frm_Permisos_Perfiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_PruebaNavegador.resx">
+      <DependentUpon>Frm_PruebaNavegador.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_Reporte_aplicacion.resx">
       <DependentUpon>Frm_Reporte_aplicacion.cs</DependentUpon>
