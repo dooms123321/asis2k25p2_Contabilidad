@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 using Capa_Modelo_Seguridad;
 
 namespace Capa_Controlador_Seguridad
@@ -276,7 +277,17 @@ namespace Capa_Controlador_Seguridad
 
         public bool ValidarNombreOApellido(char keyChar)
         {
-            return char.IsLetter(keyChar) || char.IsControl(keyChar) || keyChar == ' ';
+            // Permitir controles (Backspace, etc.) y espacio siempre
+            if (char.IsControl(keyChar) || keyChar == ' ') return true;
+
+            var categoria = CharUnicodeInfo.GetUnicodeCategory(keyChar);
+            if (categoria == UnicodeCategory.NonSpacingMark) return true;
+
+            // Permitir letras (incluye letras acentuadas)
+            if (char.IsLetter(keyChar)) return true;
+
+            // Por defecto, no permitir
+            return false;
         }
 
         //Métodos para sistema de permisos 
@@ -318,7 +329,6 @@ namespace Capa_Controlador_Seguridad
         }
 
         // --- Métodos de validación y lógica
-
         public bool ValidarDpiKeyPress(char keyChar, string textoActual)
         {
             if (!char.IsControl(keyChar) && !char.IsDigit(keyChar))
@@ -381,6 +391,10 @@ namespace Capa_Controlador_Seguridad
             out string mensajeError)
         {
             mensajeError = string.Empty;
+
+            nombre = nombre?.Normalize(System.Text.NormalizationForm.FormC).Trim();
+            apellido = apellido?.Normalize(System.Text.NormalizationForm.FormC).Trim();
+            correo = correo?.Trim();
             if (string.IsNullOrWhiteSpace(id) ||
                 string.IsNullOrWhiteSpace(nombre) ||
                 string.IsNullOrWhiteSpace(apellido) ||
@@ -395,10 +409,11 @@ namespace Capa_Controlador_Seguridad
                 mensajeError = "Debe llenar todos los campos antes de guardar.";
                 return false;
             }
-            if (!System.Text.RegularExpressions.Regex.IsMatch(nombre, @"^[a-zA-Z\s]+$") ||
-                !System.Text.RegularExpressions.Regex.IsMatch(apellido, @"^[a-zA-Z\s]+$"))
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(nombre, @"^[\p{L}\s]+$") ||
+                !System.Text.RegularExpressions.Regex.IsMatch(apellido, @"^[\p{L}\s]+$"))
             {
-                mensajeError = "El nombre y apellido solo pueden contener letras y espacios.";
+                mensajeError = "El nombre y apellido solo pueden contener letras (incluyendo acentos) y espacios.";
                 return false;
             }
             if (!System.Text.RegularExpressions.Regex.IsMatch(dpi, @"^\d{13}$"))

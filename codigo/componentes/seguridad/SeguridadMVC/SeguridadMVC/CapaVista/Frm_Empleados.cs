@@ -325,8 +325,6 @@ namespace Capa_Vista_Seguridad
                 fun_ConfiguracionInicial();
             }
         }
-
-        // Ernesto David Samayoa Jocol - 0901-22-3415 - Fecha: 12/10/2025
         private void Btn_eliminar_empleado_Click(object sender, EventArgs e)
         {
             // 1) Validar ID ingresado (mensaje de error viene del controlador)
@@ -344,7 +342,7 @@ namespace Capa_Vista_Seguridad
                     validacion.Mensaje,
                     string.IsNullOrEmpty(validacion.Titulo) ? "Aviso" : validacion.Titulo,
                     MessageBoxButtons.OK
-                  
+
                 );
                 return;
             }
@@ -363,10 +361,7 @@ namespace Capa_Vista_Seguridad
 
             MessageBox.Show(
                 resultado.Mensaje ?? (resultado.Exito ? "Empleado eliminado correctamente." : "Error al eliminar el empleado."),
-                string.IsNullOrEmpty(resultado.Titulo) ? (resultado.Exito ? "Éxito" : "Error") : resultado.Titulo,
-                MessageBoxButtons.OK
-                
-            );
+                string.IsNullOrEmpty(resultado.Titulo) ? (resultado.Exito ? "Éxito" : "Error") : resultado.Titulo, MessageBoxButtons.OK);
 
             if (resultado.Exito)
             {
@@ -378,13 +373,18 @@ namespace Capa_Vista_Seguridad
                     true
                 );
 
-                // Opcional: acciones posteriores a la eliminación (limpiar campos, refrescar lista, etc.)
-                fun_LimpiarCampos();
                 fun_CargarEmpleados();
+                fun_ConfigurarComboBoxEmpleados();
+                fun_LimpiarCampos();
+                fun_ConfiguracionInicial();
+            }
+            else
+            {
+                MessageBox.Show("Eliminación cancelada por el usuario.", "Cancelado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
-        private void Btn_cancelar_Click(object sender, EventArgs e)
+private void Btn_cancelar_Click(object sender, EventArgs e)
         {
             fun_LimpiarCampos();
             fun_ConfiguracionInicial();
