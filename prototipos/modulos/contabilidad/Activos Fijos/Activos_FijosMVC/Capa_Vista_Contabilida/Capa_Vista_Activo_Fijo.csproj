@@ -46,26 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Depreciacion.cs">
+    <Compile Include="Frm_depreciacion_activos_fijos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Depreciacion.Designer.cs">
-      <DependentUpon>Depreciacion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_depreciacion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_depreciacion.Designer.cs">
-      <DependentUpon>Frm_depreciacion.cs</DependentUpon>
+    <Compile Include="Frm_depreciacion_activos_fijos.Designer.cs">
+      <DependentUpon>Frm_depreciacion_activos_fijos.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Depreciacion.resx">
-      <DependentUpon>Depreciacion.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_depreciacion.resx">
-      <DependentUpon>Frm_depreciacion.cs</DependentUpon>
+    <EmbeddedResource Include="Frm_depreciacion_activos_fijos.resx">
+      <DependentUpon>Frm_depreciacion_activos_fijos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
