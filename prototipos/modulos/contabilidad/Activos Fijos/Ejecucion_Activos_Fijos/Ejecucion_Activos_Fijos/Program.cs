@@ -16,7 +16,7 @@ namespace Ejecucion_Activos_Fijos
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Capa_Vista_Contabilida.Frm_depreciacion());
+            Application.Run(new Capa_Vista_Contabilida.Frm_depreciacion_activos_fijos());
         }
     }
 }
