@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capa_Vista_Estados_Financie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capa_Controlador_Estados_Financieros", "Capa_Controlador_Estados_Financieros\Capa_Controlador_Estados_Financieros.csproj", "{22267F70-243A-48FF-84E9-DB28994130BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capa_Modelo_Estados_Finanacieros", "Capa_Modelo_Estados_Finanacieros\Capa_Modelo_Estados_Finanacieros.csproj", "{FE35540B-3417-42A4-B9B8-7CAD1F955537}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capa_Modelo_Estados_Financieros", "Capa_Modelo_Estados_Finanacieros\Capa_Modelo_Estados_Financieros.csproj", "{FE35540B-3417-42A4-B9B8-7CAD1F955537}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -16,7 +16,7 @@ namespace Ejecucion_Estados_Financieros
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Capa_Vista_Estados_Financieros.Frm_Estados_Financieros());
+            Application.Run(new Capa_Vista_Estados_Financieros.Frm_EstadosFinancieros());
         }
     }
 }

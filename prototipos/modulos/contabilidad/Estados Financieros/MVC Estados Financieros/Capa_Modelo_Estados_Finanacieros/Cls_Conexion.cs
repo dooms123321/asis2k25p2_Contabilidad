@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Odbc;
 
-namespace Capa_Modelo_Estados_Finanacieros
+namespace Capa_Modelo_Estados_Financieros
 {
     public class Cls_Conexion
     {

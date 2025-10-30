@@ -1,7 +1,7 @@
 ﻿
 namespace Capa_Vista_Estados_Financieros
 {
-    partial class Frm_Estado_de_Resultados
+    partial class Frm_EstadoDeResultados
     {
         /// <summary>
         /// Required designer variable.
@@ -34,16 +34,11 @@ namespace Capa_Vista_Estados_Financieros
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.Btn_Generar = new System.Windows.Forms.Button();
-            this.Btm_Limpiar = new System.Windows.Forms.Button();
+            this.Btn_Limpiar = new System.Windows.Forms.Button();
             this.Btn_Salir = new System.Windows.Forms.Button();
-            this.Dgv_EstadoBalanceGeneral = new System.Windows.Forms.DataGridView();
+            this.Dgv_EstadoDeResultados = new System.Windows.Forms.DataGridView();
             this.Btn_Generar_PDF = new System.Windows.Forms.Button();
-            this.Col_No = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Col_Cuentas = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Col_Monto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Col_Suma_Cuentas = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Col_Suma_Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_EstadoBalanceGeneral)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_EstadoDeResultados)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -72,12 +67,12 @@ namespace Capa_Vista_Estados_Financieros
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Rockwell", 12F);
-            this.label3.Location = new System.Drawing.Point(775, 69);
+            this.label3.Location = new System.Drawing.Point(683, 69);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(261, 22);
+            this.label3.Size = new System.Drawing.Size(400, 22);
             this.label3.TabIndex = 2;
-            this.label3.Text = "al 31 de diciembre de 2025";
+            this.label3.Text = "Del 1 de enero al 31 de diciembre de 2025";
             // 
             // label4
             // 
@@ -97,25 +92,27 @@ namespace Capa_Vista_Estados_Financieros
             this.Btn_Generar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Generar.ForeColor = System.Drawing.Color.Black;
             this.Btn_Generar.Location = new System.Drawing.Point(26, 160);
-            this.Btn_Generar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn_Generar.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Generar.Name = "Btn_Generar";
             this.Btn_Generar.Size = new System.Drawing.Size(160, 74);
             this.Btn_Generar.TabIndex = 4;
             this.Btn_Generar.Text = "Generar";
             this.Btn_Generar.UseVisualStyleBackColor = false;
+            this.Btn_Generar.Click += new System.EventHandler(this.Btn_Generar_Click);
             // 
-            // Btm_Limpiar
+            // Btn_Limpiar
             // 
-            this.Btm_Limpiar.BackColor = System.Drawing.Color.White;
-            this.Btm_Limpiar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Btm_Limpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btm_Limpiar.Location = new System.Drawing.Point(26, 271);
-            this.Btm_Limpiar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Btm_Limpiar.Name = "Btm_Limpiar";
-            this.Btm_Limpiar.Size = new System.Drawing.Size(160, 76);
-            this.Btm_Limpiar.TabIndex = 5;
-            this.Btm_Limpiar.Text = "Limpiar";
-            this.Btm_Limpiar.UseVisualStyleBackColor = false;
+            this.Btn_Limpiar.BackColor = System.Drawing.Color.White;
+            this.Btn_Limpiar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Btn_Limpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Limpiar.Location = new System.Drawing.Point(26, 271);
+            this.Btn_Limpiar.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Limpiar.Name = "Btn_Limpiar";
+            this.Btn_Limpiar.Size = new System.Drawing.Size(160, 76);
+            this.Btn_Limpiar.TabIndex = 5;
+            this.Btn_Limpiar.Text = "Limpiar";
+            this.Btn_Limpiar.UseVisualStyleBackColor = false;
+            this.Btn_Limpiar.Click += new System.EventHandler(this.Btn_Limpiar_Click);
             // 
             // Btn_Salir
             // 
@@ -124,34 +121,29 @@ namespace Capa_Vista_Estados_Financieros
             this.Btn_Salir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Salir.ForeColor = System.Drawing.Color.Black;
             this.Btn_Salir.Location = new System.Drawing.Point(1488, 530);
-            this.Btn_Salir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn_Salir.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Salir.Name = "Btn_Salir";
             this.Btn_Salir.Size = new System.Drawing.Size(148, 85);
             this.Btn_Salir.TabIndex = 6;
             this.Btn_Salir.Text = "Salir";
             this.Btn_Salir.UseVisualStyleBackColor = false;
+            this.Btn_Salir.Click += new System.EventHandler(this.Btn_Salir_Click);
             // 
-            // Dgv_EstadoBalanceGeneral
+            // Dgv_EstadoDeResultados
             // 
-            this.Dgv_EstadoBalanceGeneral.AllowUserToResizeRows = false;
-            this.Dgv_EstadoBalanceGeneral.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.Dgv_EstadoBalanceGeneral.BackgroundColor = System.Drawing.Color.White;
-            this.Dgv_EstadoBalanceGeneral.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.Dgv_EstadoBalanceGeneral.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Dgv_EstadoBalanceGeneral.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Col_No,
-            this.Col_Cuentas,
-            this.Col_Monto,
-            this.Col_Suma_Cuentas,
-            this.Col_Suma_Total});
-            this.Dgv_EstadoBalanceGeneral.Location = new System.Drawing.Point(226, 138);
-            this.Dgv_EstadoBalanceGeneral.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Dgv_EstadoBalanceGeneral.Name = "Dgv_EstadoBalanceGeneral";
-            this.Dgv_EstadoBalanceGeneral.RowHeadersVisible = false;
-            this.Dgv_EstadoBalanceGeneral.RowHeadersWidth = 51;
-            this.Dgv_EstadoBalanceGeneral.RowTemplate.Height = 24;
-            this.Dgv_EstadoBalanceGeneral.Size = new System.Drawing.Size(1239, 493);
-            this.Dgv_EstadoBalanceGeneral.TabIndex = 7;
+            this.Dgv_EstadoDeResultados.AllowUserToResizeRows = false;
+            this.Dgv_EstadoDeResultados.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.Dgv_EstadoDeResultados.BackgroundColor = System.Drawing.Color.White;
+            this.Dgv_EstadoDeResultados.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.Dgv_EstadoDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Dgv_EstadoDeResultados.Location = new System.Drawing.Point(226, 138);
+            this.Dgv_EstadoDeResultados.Margin = new System.Windows.Forms.Padding(4);
+            this.Dgv_EstadoDeResultados.Name = "Dgv_EstadoDeResultados";
+            this.Dgv_EstadoDeResultados.RowHeadersVisible = false;
+            this.Dgv_EstadoDeResultados.RowHeadersWidth = 51;
+            this.Dgv_EstadoDeResultados.RowTemplate.Height = 24;
+            this.Dgv_EstadoDeResultados.Size = new System.Drawing.Size(1239, 493);
+            this.Dgv_EstadoDeResultados.TabIndex = 7;
             // 
             // Btn_Generar_PDF
             // 
@@ -163,49 +155,20 @@ namespace Capa_Vista_Estados_Financieros
             this.Btn_Generar_PDF.Name = "Btn_Generar_PDF";
             this.Btn_Generar_PDF.Size = new System.Drawing.Size(160, 74);
             this.Btn_Generar_PDF.TabIndex = 8;
-            this.Btn_Generar_PDF.Text = "Generar";
+            this.Btn_Generar_PDF.Text = "Generar PDF";
             this.Btn_Generar_PDF.UseVisualStyleBackColor = false;
+            this.Btn_Generar_PDF.Click += new System.EventHandler(this.Btn_Generar_PDF_Click);
             // 
-            // Col_No
-            // 
-            this.Col_No.HeaderText = "No.";
-            this.Col_No.MinimumWidth = 6;
-            this.Col_No.Name = "Col_No";
-            // 
-            // Col_Cuentas
-            // 
-            this.Col_Cuentas.HeaderText = "Cuentas";
-            this.Col_Cuentas.MinimumWidth = 6;
-            this.Col_Cuentas.Name = "Col_Cuentas";
-            // 
-            // Col_Monto
-            // 
-            this.Col_Monto.HeaderText = "Montos";
-            this.Col_Monto.MinimumWidth = 6;
-            this.Col_Monto.Name = "Col_Monto";
-            // 
-            // Col_Suma_Cuentas
-            // 
-            this.Col_Suma_Cuentas.HeaderText = "Suma de cuentas";
-            this.Col_Suma_Cuentas.MinimumWidth = 6;
-            this.Col_Suma_Cuentas.Name = "Col_Suma_Cuentas";
-            // 
-            // Col_Suma_Total
-            // 
-            this.Col_Suma_Total.HeaderText = "Suma Total";
-            this.Col_Suma_Total.MinimumWidth = 6;
-            this.Col_Suma_Total.Name = "Col_Suma_Total";
-            // 
-            // Frm_Estado_de_Resultados
+            // Frm_EstadoDeResultados
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(1676, 628);
             this.Controls.Add(this.Btn_Generar_PDF);
-            this.Controls.Add(this.Dgv_EstadoBalanceGeneral);
+            this.Controls.Add(this.Dgv_EstadoDeResultados);
             this.Controls.Add(this.Btn_Salir);
-            this.Controls.Add(this.Btm_Limpiar);
+            this.Controls.Add(this.Btn_Limpiar);
             this.Controls.Add(this.Btn_Generar);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -213,11 +176,11 @@ namespace Capa_Vista_Estados_Financieros
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Rockwell", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "Frm_Estado_de_Resultados";
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Name = "Frm_EstadoDeResultados";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Estado de Resultados";
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_EstadoBalanceGeneral)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_EstadoDeResultados)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -230,14 +193,9 @@ namespace Capa_Vista_Estados_Financieros
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button Btn_Generar;
-        private System.Windows.Forms.Button Btm_Limpiar;
+        private System.Windows.Forms.Button Btn_Limpiar;
         private System.Windows.Forms.Button Btn_Salir;
-        private System.Windows.Forms.DataGridView Dgv_EstadoBalanceGeneral;
+        private System.Windows.Forms.DataGridView Dgv_EstadoDeResultados;
         private System.Windows.Forms.Button Btn_Generar_PDF;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Col_No;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Col_Cuentas;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Col_Monto;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Col_Suma_Cuentas;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Col_Suma_Total;
     }
 }

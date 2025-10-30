@@ -41,7 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clase_Conexion.cs" />
+    <Compile Include="Cls_BalanceDeSaldos_Calculo.cs" />
+    <Compile Include="Cls_BalanceGeneral_Dao.cs" />
+    <Compile Include="Cls_BalanceGeneral_Calculo.cs" />
+    <Compile Include="Cls_Conexion.cs" />
+    <Compile Include="Cls_BalanceDeSaldos_Dao.cs" />
+    <Compile Include="Cls_EstadoDeResultados_Calculo.cs" />
+    <Compile Include="Cls_EstadoDeResultados_Dao.cs" />
+    <Compile Include="Cls_FlujoDeEfectivo_Calculo.cs" />
+    <Compile Include="Cls_FlujoDeEfectivo_Dao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
