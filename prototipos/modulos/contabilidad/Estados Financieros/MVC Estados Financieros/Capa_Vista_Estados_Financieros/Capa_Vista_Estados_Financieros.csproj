@@ -46,54 +46,56 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Frm_Balance_de_Situacion_General.cs">
+    <Compile Include="Frm_EstadoDeBalanceDeSaldos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frm_Balance_de_Situacion_General.Designer.cs">
-      <DependentUpon>Frm_Balance_de_Situacion_General.cs</DependentUpon>
+    <Compile Include="Frm_EstadoDeBalanceDeSaldos.Designer.cs">
+      <DependentUpon>Frm_EstadoDeBalanceDeSaldos.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frm_Estados_Financieros.cs">
+    <Compile Include="Frm_EstadoDeBalanceGeneral.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frm_Estados_Financieros.Designer.cs">
-      <DependentUpon>Frm_Estados_Financieros.cs</DependentUpon>
+    <Compile Include="Frm_EstadoDeBalanceGeneral.Designer.cs">
+      <DependentUpon>Frm_EstadoDeBalanceGeneral.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frm_Estado_de_Cambios_en_el_Patrimonio_Neto.cs">
+    <Compile Include="Frm_EstadoDeFlujoDeEfectivo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frm_Estado_de_Cambios_en_el_Patrimonio_Neto.Designer.cs">
-      <DependentUpon>Frm_Estado_de_Cambios_en_el_Patrimonio_Neto.cs</DependentUpon>
+    <Compile Include="Frm_EstadoDeFlujoDeEfectivo.Designer.cs">
+      <DependentUpon>Frm_EstadoDeFlujoDeEfectivo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frm_Estado_de_Flujo_de_Efectivo.cs">
+    <Compile Include="Frm_EstadoDeResultados.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frm_Estado_de_Flujo_de_Efectivo.Designer.cs">
-      <DependentUpon>Frm_Estado_de_Flujo_de_Efectivo.cs</DependentUpon>
+    <Compile Include="Frm_EstadoDeResultados.Designer.cs">
+      <DependentUpon>Frm_EstadoDeResultados.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frm_Estado_de_Resultados.cs">
+    <Compile Include="Frm_EstadosFinancieros.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frm_Estado_de_Resultados.Designer.cs">
-      <DependentUpon>Frm_Estado_de_Resultados.cs</DependentUpon>
+    <Compile Include="Frm_EstadosFinancieros.Designer.cs">
+      <DependentUpon>Frm_EstadosFinancieros.cs</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Frm_Balance_de_Situacion_General.resx">
-      <DependentUpon>Frm_Balance_de_Situacion_General.cs</DependentUpon>
+    <EmbeddedResource Include="Frm_EstadoDeBalanceDeSaldos.resx">
+      <DependentUpon>Frm_EstadoDeBalanceDeSaldos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Estados_Financieros.resx">
-      <DependentUpon>Frm_Estados_Financieros.cs</DependentUpon>
+    <EmbeddedResource Include="Frm_EstadoDeBalanceGeneral.resx">
+      <DependentUpon>Frm_EstadoDeBalanceGeneral.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Estado_de_Cambios_en_el_Patrimonio_Neto.resx">
-      <DependentUpon>Frm_Estado_de_Cambios_en_el_Patrimonio_Neto.cs</DependentUpon>
+    <EmbeddedResource Include="Frm_EstadoDeFlujoDeEfectivo.resx">
+      <DependentUpon>Frm_EstadoDeFlujoDeEfectivo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Estado_de_Flujo_de_Efectivo.resx">
-      <DependentUpon>Frm_Estado_de_Flujo_de_Efectivo.cs</DependentUpon>
+    <EmbeddedResource Include="Frm_EstadoDeResultados.resx">
+      <DependentUpon>Frm_EstadoDeResultados.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Estado_de_Resultados.resx">
-      <DependentUpon>Frm_Estado_de_Resultados.cs</DependentUpon>
+    <EmbeddedResource Include="Frm_EstadosFinancieros.resx">
+      <DependentUpon>Frm_EstadosFinancieros.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -44,6 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cls_BalanceDeSaldos_Controlador.cs" />
+    <Compile Include="Cls_BalanceGeneral_Controlador.cs" />
+    <Compile Include="Cls_EstadoDeResultados_Controlador.cs" />
+    <Compile Include="Cls_FlujoDeEfectivo_Controlador.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
