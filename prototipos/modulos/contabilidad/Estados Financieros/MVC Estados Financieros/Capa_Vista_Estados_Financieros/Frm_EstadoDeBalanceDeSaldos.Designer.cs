@@ -39,6 +39,7 @@ namespace Capa_Vista_Estados_Financieros
             this.Btn_Salir = new System.Windows.Forms.Button();
             this.Dgv_EstadoBalanceDeSaldos = new System.Windows.Forms.DataGridView();
             this.Lbl_Diferencia = new System.Windows.Forms.Label();
+            this.Btn_Generar_Reportes = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_EstadoBalanceDeSaldos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -170,11 +171,25 @@ namespace Capa_Vista_Estados_Financieros
             this.Lbl_Diferencia.Size = new System.Drawing.Size(0, 20);
             this.Lbl_Diferencia.TabIndex = 19;
             // 
+            // Btn_Generar_Reportes
+            // 
+            this.Btn_Generar_Reportes.BackColor = System.Drawing.Color.White;
+            this.Btn_Generar_Reportes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Btn_Generar_Reportes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Generar_Reportes.Location = new System.Drawing.Point(1524, 158);
+            this.Btn_Generar_Reportes.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Generar_Reportes.Name = "Btn_Generar_Reportes";
+            this.Btn_Generar_Reportes.Size = new System.Drawing.Size(160, 74);
+            this.Btn_Generar_Reportes.TabIndex = 20;
+            this.Btn_Generar_Reportes.Text = "Generar Reportes";
+            this.Btn_Generar_Reportes.UseVisualStyleBackColor = false;
+            // 
             // Frm_EstadoDeBalanceDeSaldos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1719, 721);
+            this.Controls.Add(this.Btn_Generar_Reportes);
             this.Controls.Add(this.Lbl_Diferencia);
             this.Controls.Add(this.Dgv_EstadoBalanceDeSaldos);
             this.Controls.Add(this.Btn_Salir);
@@ -205,5 +220,6 @@ namespace Capa_Vista_Estados_Financieros
         private System.Windows.Forms.Button Btn_Salir;
         private System.Windows.Forms.DataGridView Dgv_EstadoBalanceDeSaldos;
         private System.Windows.Forms.Label Lbl_Diferencia;
+        private System.Windows.Forms.Button Btn_Generar_Reportes;
     }
 }

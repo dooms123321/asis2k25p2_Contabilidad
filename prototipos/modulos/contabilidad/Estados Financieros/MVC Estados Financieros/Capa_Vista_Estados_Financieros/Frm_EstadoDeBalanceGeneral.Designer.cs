@@ -39,6 +39,7 @@ namespace Capa_Vista_Estados_Financieros
             this.Btn_Generar = new System.Windows.Forms.Button();
             this.Btn_Salir = new System.Windows.Forms.Button();
             this.Lbl_EcuacionContable = new System.Windows.Forms.Label();
+            this.Btn_Generar_Reportes = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_EstadoBalanceGeneral)).BeginInit();
             this.SuspendLayout();
             // 
@@ -171,11 +172,25 @@ namespace Capa_Vista_Estados_Financieros
             this.Lbl_EcuacionContable.Size = new System.Drawing.Size(0, 22);
             this.Lbl_EcuacionContable.TabIndex = 28;
             // 
+            // Btn_Generar_Reportes
+            // 
+            this.Btn_Generar_Reportes.BackColor = System.Drawing.Color.White;
+            this.Btn_Generar_Reportes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Btn_Generar_Reportes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Generar_Reportes.Location = new System.Drawing.Point(1483, 164);
+            this.Btn_Generar_Reportes.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Generar_Reportes.Name = "Btn_Generar_Reportes";
+            this.Btn_Generar_Reportes.Size = new System.Drawing.Size(160, 74);
+            this.Btn_Generar_Reportes.TabIndex = 29;
+            this.Btn_Generar_Reportes.Text = "Generar Reportes";
+            this.Btn_Generar_Reportes.UseVisualStyleBackColor = false;
+            // 
             // Frm_EstadoBalanceGeneral
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1656, 752);
+            this.Controls.Add(this.Btn_Generar_Reportes);
             this.Controls.Add(this.Lbl_EcuacionContable);
             this.Controls.Add(this.Btn_Salir);
             this.Controls.Add(this.Dgv_EstadoBalanceGeneral);
@@ -206,5 +221,6 @@ namespace Capa_Vista_Estados_Financieros
         private System.Windows.Forms.Button Btn_Generar;
         private System.Windows.Forms.Button Btn_Salir;
         private System.Windows.Forms.Label Lbl_EcuacionContable;
+        private System.Windows.Forms.Button Btn_Generar_Reportes;
     }
 }

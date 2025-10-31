@@ -38,6 +38,7 @@ namespace Capa_Vista_Estados_Financieros
             this.Btn_Salir = new System.Windows.Forms.Button();
             this.Dgv_EstadoDeResultados = new System.Windows.Forms.DataGridView();
             this.Btn_Generar_PDF = new System.Windows.Forms.Button();
+            this.Btn_Generar_Reportes = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_EstadoDeResultados)).BeginInit();
             this.SuspendLayout();
             // 
@@ -159,12 +160,26 @@ namespace Capa_Vista_Estados_Financieros
             this.Btn_Generar_PDF.UseVisualStyleBackColor = false;
             this.Btn_Generar_PDF.Click += new System.EventHandler(this.Btn_Generar_PDF_Click);
             // 
+            // Btn_Generar_Reportes
+            // 
+            this.Btn_Generar_Reportes.BackColor = System.Drawing.Color.White;
+            this.Btn_Generar_Reportes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Btn_Generar_Reportes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Generar_Reportes.Location = new System.Drawing.Point(1488, 138);
+            this.Btn_Generar_Reportes.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Generar_Reportes.Name = "Btn_Generar_Reportes";
+            this.Btn_Generar_Reportes.Size = new System.Drawing.Size(160, 74);
+            this.Btn_Generar_Reportes.TabIndex = 9;
+            this.Btn_Generar_Reportes.Text = "Generar Reportes";
+            this.Btn_Generar_Reportes.UseVisualStyleBackColor = false;
+            // 
             // Frm_EstadoDeResultados
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(1676, 628);
+            this.Controls.Add(this.Btn_Generar_Reportes);
             this.Controls.Add(this.Btn_Generar_PDF);
             this.Controls.Add(this.Dgv_EstadoDeResultados);
             this.Controls.Add(this.Btn_Salir);
@@ -197,5 +212,6 @@ namespace Capa_Vista_Estados_Financieros
         private System.Windows.Forms.Button Btn_Salir;
         private System.Windows.Forms.DataGridView Dgv_EstadoDeResultados;
         private System.Windows.Forms.Button Btn_Generar_PDF;
+        private System.Windows.Forms.Button Btn_Generar_Reportes;
     }
 }

@@ -38,6 +38,7 @@ namespace Capa_Vista_Estados_Financieros
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.Btn_Salir = new System.Windows.Forms.Button();
+            this.Btn_Generar_Reportes = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_EstadoDeFlujoDeEfectivo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -159,11 +160,25 @@ namespace Capa_Vista_Estados_Financieros
             this.Btn_Salir.UseVisualStyleBackColor = false;
             this.Btn_Salir.Click += new System.EventHandler(this.Btn_Salir_Click);
             // 
+            // Btn_Generar_Reportes
+            // 
+            this.Btn_Generar_Reportes.BackColor = System.Drawing.Color.White;
+            this.Btn_Generar_Reportes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Btn_Generar_Reportes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Generar_Reportes.Location = new System.Drawing.Point(1471, 142);
+            this.Btn_Generar_Reportes.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Generar_Reportes.Name = "Btn_Generar_Reportes";
+            this.Btn_Generar_Reportes.Size = new System.Drawing.Size(160, 74);
+            this.Btn_Generar_Reportes.TabIndex = 18;
+            this.Btn_Generar_Reportes.Text = "Generar Reportes";
+            this.Btn_Generar_Reportes.UseVisualStyleBackColor = false;
+            // 
             // Frm_EstadoDeFlujoDeEfectivo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1644, 737);
+            this.Controls.Add(this.Btn_Generar_Reportes);
             this.Controls.Add(this.Btn_Salir);
             this.Controls.Add(this.Btn_Generar_PDF);
             this.Controls.Add(this.Dgv_EstadoDeFlujoDeEfectivo);
@@ -193,5 +208,6 @@ namespace Capa_Vista_Estados_Financieros
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button Btn_Salir;
+        private System.Windows.Forms.Button Btn_Generar_Reportes;
     }
 }
