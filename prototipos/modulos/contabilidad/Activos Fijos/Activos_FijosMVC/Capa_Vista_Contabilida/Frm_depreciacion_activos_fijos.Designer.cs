@@ -200,7 +200,6 @@ namespace Capa_Vista_Contabilida
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.ClientSize = new System.Drawing.Size(1241, 635);
             this.Controls.Add(this.Btn_limpiar_campo);
             this.Controls.Add(this.Dgv_depreciacion_activo_fijo);
