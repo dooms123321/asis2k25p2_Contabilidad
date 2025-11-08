@@ -41,15 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <Compile Include="Cls_CierreContable.cs" />
-    <Compile Include="Cls_conexión.cs" />
-=======
     <Compile Include="Class1.cs" />
     <Compile Include="Cls_CierreContable.cs" />
     <Compile Include="Cls_conexión.cs" />
     <Compile Include="Cls_Sectencias_Cierre_contable.cs" />
->>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
