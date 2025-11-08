@@ -49,18 +49,48 @@ namespace Capa_vista
             this.Txt_activo_fijo = new System.Windows.Forms.TextBox();
             this.Lbl_activo_fijo = new System.Windows.Forms.Label();
             this.Gpb_cuentas_Activo = new System.Windows.Forms.GroupBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.Cbo_gastos_depreciacoin = new System.Windows.Forms.ComboBox();
+            this.Cbo_cuenta_depreciacion = new System.Windows.Forms.ComboBox();
+            this.Cbo_cuenta_activo = new System.Windows.Forms.ComboBox();
             this.Btn_limpiar = new System.Windows.Forms.Button();
             this.Btn_guardar = new System.Windows.Forms.Button();
             this.Lbl_cuneta_gastos = new System.Windows.Forms.Label();
             this.Lbl_cuenta_depreciacion = new System.Windows.Forms.Label();
             this.Lbl_cuenta_activo = new System.Windows.Forms.Label();
-            this.Btn_diagnostico = new System.Windows.Forms.Button();
-            this.Btn_diagnostico_indice = new System.Windows.Forms.Button();
+            this.Tbc_calculo_activo_fijo = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.Btn_calcular_activo_fijo = new System.Windows.Forms.Button();
+            this.Btn_guardar_calculo = new System.Windows.Forms.Button();
+            this.Btn_limpial_calculo = new System.Windows.Forms.Button();
+            this.Lbl_resultado = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.Dgv_depreciacion_lineal = new System.Windows.Forms.DataGridView();
+            this.Gpb_activos_fijos_seleccion = new System.Windows.Forms.GroupBox();
+            this.Btn_actualizar = new System.Windows.Forms.Button();
+            this.Btn_buscar_activo = new System.Windows.Forms.Button();
+            this.Gpb_costo_adquisicion = new System.Windows.Forms.GroupBox();
+            this.Lbl_adquisicion = new System.Windows.Forms.Label();
+            this.Gpb_grupo = new System.Windows.Forms.GroupBox();
+            this.Lbl_grupo_gpb = new System.Windows.Forms.Label();
+            this.Gpb_Activo_fijo = new System.Windows.Forms.GroupBox();
+            this.Lbl_activo_gpb = new System.Windows.Forms.Label();
+            this.Cbo_seleccion_activo = new System.Windows.Forms.ComboBox();
+            this.Lbl_seleccion = new System.Windows.Forms.Label();
             this.Gpb_activo.SuspendLayout();
             this.Gpb_cuentas_Activo.SuspendLayout();
+            this.Tbc_calculo_activo_fijo.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_depreciacion_lineal)).BeginInit();
+            this.Gpb_activos_fijos_seleccion.SuspendLayout();
+            this.Gpb_costo_adquisicion.SuspendLayout();
+            this.Gpb_grupo.SuspendLayout();
+            this.Gpb_Activo_fijo.SuspendLayout();
             this.SuspendLayout();
             // 
             // Gpb_activo
@@ -84,7 +114,7 @@ namespace Capa_vista
             this.Gpb_activo.Controls.Add(this.Txt_activo_fijo);
             this.Gpb_activo.Controls.Add(this.Lbl_activo_fijo);
             this.Gpb_activo.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Gpb_activo.Location = new System.Drawing.Point(12, 21);
+            this.Gpb_activo.Location = new System.Drawing.Point(9, 6);
             this.Gpb_activo.Name = "Gpb_activo";
             this.Gpb_activo.Size = new System.Drawing.Size(1200, 346);
             this.Gpb_activo.TabIndex = 0;
@@ -112,7 +142,7 @@ namespace Capa_vista
             // Lbl_estado_activo
             // 
             this.Lbl_estado_activo.AutoSize = true;
-            this.Lbl_estado_activo.Location = new System.Drawing.Point(801, 292);
+            this.Lbl_estado_activo.Location = new System.Drawing.Point(780, 289);
             this.Lbl_estado_activo.Name = "Lbl_estado_activo";
             this.Lbl_estado_activo.Size = new System.Drawing.Size(174, 22);
             this.Lbl_estado_activo.TabIndex = 16;
@@ -251,47 +281,45 @@ namespace Capa_vista
             // 
             // Gpb_cuentas_Activo
             // 
-            this.Gpb_cuentas_Activo.Controls.Add(this.Btn_diagnostico_indice);
-            this.Gpb_cuentas_Activo.Controls.Add(this.Btn_diagnostico);
-            this.Gpb_cuentas_Activo.Controls.Add(this.comboBox3);
-            this.Gpb_cuentas_Activo.Controls.Add(this.comboBox2);
-            this.Gpb_cuentas_Activo.Controls.Add(this.comboBox1);
+            this.Gpb_cuentas_Activo.Controls.Add(this.Cbo_gastos_depreciacoin);
+            this.Gpb_cuentas_Activo.Controls.Add(this.Cbo_cuenta_depreciacion);
+            this.Gpb_cuentas_Activo.Controls.Add(this.Cbo_cuenta_activo);
             this.Gpb_cuentas_Activo.Controls.Add(this.Btn_limpiar);
             this.Gpb_cuentas_Activo.Controls.Add(this.Btn_guardar);
             this.Gpb_cuentas_Activo.Controls.Add(this.Lbl_cuneta_gastos);
             this.Gpb_cuentas_Activo.Controls.Add(this.Lbl_cuenta_depreciacion);
             this.Gpb_cuentas_Activo.Controls.Add(this.Lbl_cuenta_activo);
             this.Gpb_cuentas_Activo.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Gpb_cuentas_Activo.Location = new System.Drawing.Point(15, 402);
+            this.Gpb_cuentas_Activo.Location = new System.Drawing.Point(13, 374);
             this.Gpb_cuentas_Activo.Name = "Gpb_cuentas_Activo";
             this.Gpb_cuentas_Activo.Size = new System.Drawing.Size(1196, 279);
             this.Gpb_cuentas_Activo.TabIndex = 1;
             this.Gpb_cuentas_Activo.TabStop = false;
             this.Gpb_cuentas_Activo.Text = "Cuentas de depreciacion";
             // 
-            // comboBox3
+            // Cbo_gastos_depreciacoin
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(799, 153);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(321, 30);
-            this.comboBox3.TabIndex = 7;
+            this.Cbo_gastos_depreciacoin.FormattingEnabled = true;
+            this.Cbo_gastos_depreciacoin.Location = new System.Drawing.Point(279, 158);
+            this.Cbo_gastos_depreciacoin.Name = "Cbo_gastos_depreciacoin";
+            this.Cbo_gastos_depreciacoin.Size = new System.Drawing.Size(402, 30);
+            this.Cbo_gastos_depreciacoin.TabIndex = 7;
             // 
-            // comboBox2
+            // Cbo_cuenta_depreciacion
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(219, 153);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(282, 30);
-            this.comboBox2.TabIndex = 6;
+            this.Cbo_cuenta_depreciacion.FormattingEnabled = true;
+            this.Cbo_cuenta_depreciacion.Location = new System.Drawing.Point(216, 99);
+            this.Cbo_cuenta_depreciacion.Name = "Cbo_cuenta_depreciacion";
+            this.Cbo_cuenta_depreciacion.Size = new System.Drawing.Size(465, 30);
+            this.Cbo_cuenta_depreciacion.TabIndex = 6;
             // 
-            // comboBox1
+            // Cbo_cuenta_activo
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(216, 62);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(285, 30);
-            this.comboBox1.TabIndex = 5;
+            this.Cbo_cuenta_activo.FormattingEnabled = true;
+            this.Cbo_cuenta_activo.Location = new System.Drawing.Point(216, 44);
+            this.Cbo_cuenta_activo.Name = "Cbo_cuenta_activo";
+            this.Cbo_cuenta_activo.Size = new System.Drawing.Size(465, 30);
+            this.Cbo_cuenta_activo.TabIndex = 5;
             // 
             // Btn_limpiar
             // 
@@ -315,7 +343,7 @@ namespace Capa_vista
             // Lbl_cuneta_gastos
             // 
             this.Lbl_cuneta_gastos.AutoSize = true;
-            this.Lbl_cuneta_gastos.Location = new System.Drawing.Point(522, 156);
+            this.Lbl_cuneta_gastos.Location = new System.Drawing.Point(6, 161);
             this.Lbl_cuneta_gastos.Name = "Lbl_cuneta_gastos";
             this.Lbl_cuneta_gastos.Size = new System.Drawing.Size(271, 22);
             this.Lbl_cuneta_gastos.TabIndex = 2;
@@ -324,7 +352,7 @@ namespace Capa_vista
             // Lbl_cuenta_depreciacion
             // 
             this.Lbl_cuenta_depreciacion.AutoSize = true;
-            this.Lbl_cuenta_depreciacion.Location = new System.Drawing.Point(6, 153);
+            this.Lbl_cuenta_depreciacion.Location = new System.Drawing.Point(3, 99);
             this.Lbl_cuenta_depreciacion.Name = "Lbl_cuenta_depreciacion";
             this.Lbl_cuenta_depreciacion.Size = new System.Drawing.Size(207, 22);
             this.Lbl_cuenta_depreciacion.TabIndex = 1;
@@ -333,40 +361,251 @@ namespace Capa_vista
             // Lbl_cuenta_activo
             // 
             this.Lbl_cuenta_activo.AutoSize = true;
-            this.Lbl_cuenta_activo.Location = new System.Drawing.Point(33, 62);
+            this.Lbl_cuenta_activo.Location = new System.Drawing.Point(28, 47);
             this.Lbl_cuenta_activo.Name = "Lbl_cuenta_activo";
             this.Lbl_cuenta_activo.Size = new System.Drawing.Size(170, 22);
             this.Lbl_cuenta_activo.TabIndex = 0;
             this.Lbl_cuenta_activo.Text = "Cuenta de activo:";
             // 
-            // Btn_diagnostico
+            // Tbc_calculo_activo_fijo
             // 
-            this.Btn_diagnostico.Location = new System.Drawing.Point(725, 42);
-            this.Btn_diagnostico.Name = "Btn_diagnostico";
-            this.Btn_diagnostico.Size = new System.Drawing.Size(75, 23);
-            this.Btn_diagnostico.TabIndex = 8;
-            this.Btn_diagnostico.Text = "button1";
-            this.Btn_diagnostico.UseVisualStyleBackColor = true;
-            this.Btn_diagnostico.Click += new System.EventHandler(this.Btn_diagnostico_Click);
+            this.Tbc_calculo_activo_fijo.Controls.Add(this.tabPage1);
+            this.Tbc_calculo_activo_fijo.Controls.Add(this.tabPage2);
+            this.Tbc_calculo_activo_fijo.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Tbc_calculo_activo_fijo.Location = new System.Drawing.Point(0, 0);
+            this.Tbc_calculo_activo_fijo.Name = "Tbc_calculo_activo_fijo";
+            this.Tbc_calculo_activo_fijo.SelectedIndex = 0;
+            this.Tbc_calculo_activo_fijo.Size = new System.Drawing.Size(1222, 741);
+            this.Tbc_calculo_activo_fijo.TabIndex = 2;
             // 
-            // Btn_diagnostico_indice
+            // tabPage1
             // 
-            this.Btn_diagnostico_indice.Location = new System.Drawing.Point(987, 47);
-            this.Btn_diagnostico_indice.Name = "Btn_diagnostico_indice";
-            this.Btn_diagnostico_indice.Size = new System.Drawing.Size(75, 23);
-            this.Btn_diagnostico_indice.TabIndex = 9;
-            this.Btn_diagnostico_indice.Text = "c";
-            this.Btn_diagnostico_indice.UseVisualStyleBackColor = true;
-            this.Btn_diagnostico_indice.Click += new System.EventHandler(this.Btn_diagnostico_indice_Click);
+            this.tabPage1.Controls.Add(this.Gpb_activo);
+            this.tabPage1.Controls.Add(this.Gpb_cuentas_Activo);
+            this.tabPage1.Location = new System.Drawing.Point(4, 31);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1214, 706);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.groupBox2);
+            this.tabPage2.Controls.Add(this.groupBox1);
+            this.tabPage2.Controls.Add(this.Gpb_activos_fijos_seleccion);
+            this.tabPage2.Location = new System.Drawing.Point(4, 31);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1214, 706);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.Btn_calcular_activo_fijo);
+            this.groupBox2.Controls.Add(this.Btn_guardar_calculo);
+            this.groupBox2.Controls.Add(this.Btn_limpial_calculo);
+            this.groupBox2.Controls.Add(this.Lbl_resultado);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Location = new System.Drawing.Point(6, 553);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(1186, 123);
+            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Resultado";
+            // 
+            // Btn_calcular_activo_fijo
+            // 
+            this.Btn_calcular_activo_fijo.Location = new System.Drawing.Point(793, 45);
+            this.Btn_calcular_activo_fijo.Name = "Btn_calcular_activo_fijo";
+            this.Btn_calcular_activo_fijo.Size = new System.Drawing.Size(125, 39);
+            this.Btn_calcular_activo_fijo.TabIndex = 4;
+            this.Btn_calcular_activo_fijo.Text = "Calcular";
+            this.Btn_calcular_activo_fijo.UseVisualStyleBackColor = true;
+            this.Btn_calcular_activo_fijo.Click += new System.EventHandler(this.Btn_calcular_activo_fijo_Click);
+            // 
+            // Btn_guardar_calculo
+            // 
+            this.Btn_guardar_calculo.Location = new System.Drawing.Point(971, 45);
+            this.Btn_guardar_calculo.Name = "Btn_guardar_calculo";
+            this.Btn_guardar_calculo.Size = new System.Drawing.Size(197, 39);
+            this.Btn_guardar_calculo.TabIndex = 3;
+            this.Btn_guardar_calculo.Text = "Guardar Calculo";
+            this.Btn_guardar_calculo.UseVisualStyleBackColor = true;
+            this.Btn_guardar_calculo.Click += new System.EventHandler(this.Btn_guardar_calculo_Click);
+            // 
+            // Btn_limpial_calculo
+            // 
+            this.Btn_limpial_calculo.Location = new System.Drawing.Point(662, 45);
+            this.Btn_limpial_calculo.Name = "Btn_limpial_calculo";
+            this.Btn_limpial_calculo.Size = new System.Drawing.Size(125, 39);
+            this.Btn_limpial_calculo.TabIndex = 2;
+            this.Btn_limpial_calculo.Text = "Limpiar";
+            this.Btn_limpial_calculo.UseVisualStyleBackColor = true;
+            this.Btn_limpial_calculo.Click += new System.EventHandler(this.Btn_limpial_calculo_Click);
+            // 
+            // Lbl_resultado
+            // 
+            this.Lbl_resultado.AutoSize = true;
+            this.Lbl_resultado.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_resultado.Location = new System.Drawing.Point(478, 27);
+            this.Lbl_resultado.Name = "Lbl_resultado";
+            this.Lbl_resultado.Size = new System.Drawing.Size(48, 27);
+            this.Lbl_resultado.TabIndex = 1;
+            this.Lbl_resultado.Text = "Lbl";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(10, 27);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(391, 27);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Depreciacion anual (Linea Recta):";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.Dgv_depreciacion_lineal);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(6, 282);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(1197, 265);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Depreciacion Linea Recta";
+            // 
+            // Dgv_depreciacion_lineal
+            // 
+            this.Dgv_depreciacion_lineal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Dgv_depreciacion_lineal.Location = new System.Drawing.Point(181, 29);
+            this.Dgv_depreciacion_lineal.Name = "Dgv_depreciacion_lineal";
+            this.Dgv_depreciacion_lineal.RowHeadersWidth = 62;
+            this.Dgv_depreciacion_lineal.RowTemplate.Height = 28;
+            this.Dgv_depreciacion_lineal.Size = new System.Drawing.Size(921, 225);
+            this.Dgv_depreciacion_lineal.TabIndex = 0;
+            // 
+            // Gpb_activos_fijos_seleccion
+            // 
+            this.Gpb_activos_fijos_seleccion.Controls.Add(this.Btn_actualizar);
+            this.Gpb_activos_fijos_seleccion.Controls.Add(this.Btn_buscar_activo);
+            this.Gpb_activos_fijos_seleccion.Controls.Add(this.Gpb_costo_adquisicion);
+            this.Gpb_activos_fijos_seleccion.Controls.Add(this.Gpb_grupo);
+            this.Gpb_activos_fijos_seleccion.Controls.Add(this.Gpb_Activo_fijo);
+            this.Gpb_activos_fijos_seleccion.Controls.Add(this.Cbo_seleccion_activo);
+            this.Gpb_activos_fijos_seleccion.Controls.Add(this.Lbl_seleccion);
+            this.Gpb_activos_fijos_seleccion.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Gpb_activos_fijos_seleccion.Location = new System.Drawing.Point(3, 16);
+            this.Gpb_activos_fijos_seleccion.Name = "Gpb_activos_fijos_seleccion";
+            this.Gpb_activos_fijos_seleccion.Size = new System.Drawing.Size(1201, 260);
+            this.Gpb_activos_fijos_seleccion.TabIndex = 0;
+            this.Gpb_activos_fijos_seleccion.TabStop = false;
+            this.Gpb_activos_fijos_seleccion.Text = "Activos Fijos";
+            // 
+            // Btn_actualizar
+            // 
+            this.Btn_actualizar.Location = new System.Drawing.Point(565, 30);
+            this.Btn_actualizar.Name = "Btn_actualizar";
+            this.Btn_actualizar.Size = new System.Drawing.Size(134, 46);
+            this.Btn_actualizar.TabIndex = 6;
+            this.Btn_actualizar.Text = "Actualizar";
+            this.Btn_actualizar.UseVisualStyleBackColor = true;
+            this.Btn_actualizar.Click += new System.EventHandler(this.Btn_actualizar_Click);
+            // 
+            // Btn_buscar_activo
+            // 
+            this.Btn_buscar_activo.Location = new System.Drawing.Point(409, 30);
+            this.Btn_buscar_activo.Name = "Btn_buscar_activo";
+            this.Btn_buscar_activo.Size = new System.Drawing.Size(134, 46);
+            this.Btn_buscar_activo.TabIndex = 5;
+            this.Btn_buscar_activo.Text = "Buscar";
+            this.Btn_buscar_activo.UseVisualStyleBackColor = true;
+            // 
+            // Gpb_costo_adquisicion
+            // 
+            this.Gpb_costo_adquisicion.Controls.Add(this.Lbl_adquisicion);
+            this.Gpb_costo_adquisicion.Location = new System.Drawing.Point(780, 114);
+            this.Gpb_costo_adquisicion.Name = "Gpb_costo_adquisicion";
+            this.Gpb_costo_adquisicion.Size = new System.Drawing.Size(313, 119);
+            this.Gpb_costo_adquisicion.TabIndex = 4;
+            this.Gpb_costo_adquisicion.TabStop = false;
+            this.Gpb_costo_adquisicion.Text = "Costo Adquisición";
+            // 
+            // Lbl_adquisicion
+            // 
+            this.Lbl_adquisicion.AutoSize = true;
+            this.Lbl_adquisicion.Location = new System.Drawing.Point(145, 57);
+            this.Lbl_adquisicion.Name = "Lbl_adquisicion";
+            this.Lbl_adquisicion.Size = new System.Drawing.Size(39, 22);
+            this.Lbl_adquisicion.TabIndex = 0;
+            this.Lbl_adquisicion.Text = "Lbl";
+            // 
+            // Gpb_grupo
+            // 
+            this.Gpb_grupo.Controls.Add(this.Lbl_grupo_gpb);
+            this.Gpb_grupo.Location = new System.Drawing.Point(461, 114);
+            this.Gpb_grupo.Name = "Gpb_grupo";
+            this.Gpb_grupo.Size = new System.Drawing.Size(313, 119);
+            this.Gpb_grupo.TabIndex = 3;
+            this.Gpb_grupo.TabStop = false;
+            this.Gpb_grupo.Text = "Grupo";
+            // 
+            // Lbl_grupo_gpb
+            // 
+            this.Lbl_grupo_gpb.AutoSize = true;
+            this.Lbl_grupo_gpb.Location = new System.Drawing.Point(130, 57);
+            this.Lbl_grupo_gpb.Name = "Lbl_grupo_gpb";
+            this.Lbl_grupo_gpb.Size = new System.Drawing.Size(39, 22);
+            this.Lbl_grupo_gpb.TabIndex = 0;
+            this.Lbl_grupo_gpb.Text = "Lbl";
+            // 
+            // Gpb_Activo_fijo
+            // 
+            this.Gpb_Activo_fijo.Controls.Add(this.Lbl_activo_gpb);
+            this.Gpb_Activo_fijo.Location = new System.Drawing.Point(142, 114);
+            this.Gpb_Activo_fijo.Name = "Gpb_Activo_fijo";
+            this.Gpb_Activo_fijo.Size = new System.Drawing.Size(313, 119);
+            this.Gpb_Activo_fijo.TabIndex = 2;
+            this.Gpb_Activo_fijo.TabStop = false;
+            this.Gpb_Activo_fijo.Text = "Activo Fijo";
+            // 
+            // Lbl_activo_gpb
+            // 
+            this.Lbl_activo_gpb.AutoSize = true;
+            this.Lbl_activo_gpb.Location = new System.Drawing.Point(104, 57);
+            this.Lbl_activo_gpb.Name = "Lbl_activo_gpb";
+            this.Lbl_activo_gpb.Size = new System.Drawing.Size(39, 22);
+            this.Lbl_activo_gpb.TabIndex = 0;
+            this.Lbl_activo_gpb.Text = "Lbl";
+            // 
+            // Cbo_seleccion_activo
+            // 
+            this.Cbo_seleccion_activo.FormattingEnabled = true;
+            this.Cbo_seleccion_activo.Location = new System.Drawing.Point(128, 36);
+            this.Cbo_seleccion_activo.Name = "Cbo_seleccion_activo";
+            this.Cbo_seleccion_activo.Size = new System.Drawing.Size(275, 30);
+            this.Cbo_seleccion_activo.TabIndex = 1;
+            // 
+            // Lbl_seleccion
+            // 
+            this.Lbl_seleccion.AutoSize = true;
+            this.Lbl_seleccion.Location = new System.Drawing.Point(25, 39);
+            this.Lbl_seleccion.Name = "Lbl_seleccion";
+            this.Lbl_seleccion.Size = new System.Drawing.Size(97, 22);
+            this.Lbl_seleccion.TabIndex = 0;
+            this.Lbl_seleccion.Text = "Seleccion";
             // 
             // Frm_registro_activo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(108)))), ((int)(((byte)(0)))));
-            this.ClientSize = new System.Drawing.Size(1219, 724);
-            this.Controls.Add(this.Gpb_cuentas_Activo);
-            this.Controls.Add(this.Gpb_activo);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(1219, 726);
+            this.Controls.Add(this.Tbc_calculo_activo_fijo);
             this.Name = "Frm_registro_activo";
             this.Text = "Frm_registro_activo";
             this.Load += new System.EventHandler(this.Frm_registro_activo_Load);
@@ -374,6 +613,21 @@ namespace Capa_vista
             this.Gpb_activo.PerformLayout();
             this.Gpb_cuentas_Activo.ResumeLayout(false);
             this.Gpb_cuentas_Activo.PerformLayout();
+            this.Tbc_calculo_activo_fijo.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_depreciacion_lineal)).EndInit();
+            this.Gpb_activos_fijos_seleccion.ResumeLayout(false);
+            this.Gpb_activos_fijos_seleccion.PerformLayout();
+            this.Gpb_costo_adquisicion.ResumeLayout(false);
+            this.Gpb_costo_adquisicion.PerformLayout();
+            this.Gpb_grupo.ResumeLayout(false);
+            this.Gpb_grupo.PerformLayout();
+            this.Gpb_Activo_fijo.ResumeLayout(false);
+            this.Gpb_Activo_fijo.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -399,16 +653,36 @@ namespace Capa_vista
         private System.Windows.Forms.Label Lbl_vida_util;
         private System.Windows.Forms.GroupBox Gpb_cuentas_Activo;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox Cbo_gastos_depreciacoin;
+        private System.Windows.Forms.ComboBox Cbo_cuenta_depreciacion;
+        private System.Windows.Forms.ComboBox Cbo_cuenta_activo;
         private System.Windows.Forms.Button Btn_limpiar;
         private System.Windows.Forms.Button Btn_guardar;
         private System.Windows.Forms.Label Lbl_cuneta_gastos;
         private System.Windows.Forms.Label Lbl_cuenta_depreciacion;
         private System.Windows.Forms.Label Lbl_cuenta_activo;
         private System.Windows.Forms.TextBox Txt_fecha_adquisicion;
-        private System.Windows.Forms.Button Btn_diagnostico;
-        private System.Windows.Forms.Button Btn_diagnostico_indice;
+        private System.Windows.Forms.TabControl Tbc_calculo_activo_fijo;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.GroupBox Gpb_activos_fijos_seleccion;
+        private System.Windows.Forms.ComboBox Cbo_seleccion_activo;
+        private System.Windows.Forms.Label Lbl_seleccion;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label Lbl_resultado;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.DataGridView Dgv_depreciacion_lineal;
+        private System.Windows.Forms.GroupBox Gpb_costo_adquisicion;
+        private System.Windows.Forms.Label Lbl_adquisicion;
+        private System.Windows.Forms.GroupBox Gpb_grupo;
+        private System.Windows.Forms.Label Lbl_grupo_gpb;
+        private System.Windows.Forms.GroupBox Gpb_Activo_fijo;
+        private System.Windows.Forms.Label Lbl_activo_gpb;
+        private System.Windows.Forms.Button Btn_calcular_activo_fijo;
+        private System.Windows.Forms.Button Btn_guardar_calculo;
+        private System.Windows.Forms.Button Btn_limpial_calculo;
+        private System.Windows.Forms.Button Btn_buscar_activo;
+        private System.Windows.Forms.Button Btn_actualizar;
     }
 }
