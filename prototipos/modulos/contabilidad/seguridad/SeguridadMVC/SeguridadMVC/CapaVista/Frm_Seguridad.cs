@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Capa_Controlador_Seguridad;
 using Capa_Vista_CierreContable;
+using Capa_vista;//capa de activo fijo
+using Capa_Vista_Estados_Financieros;
+using Capa_Vista_Polizas;
 
 namespace Capa_Vista_Seguridad
 {
@@ -364,6 +367,65 @@ namespace Capa_Vista_Seguridad
         {
             CerrarFormulariosHijos();
             Frm_CierreContable frmCierre = new Frm_CierreContable();
+            frmCierre.MdiParent = this;
+            frmCierre.Show();
+        }
+
+        private void activosFijosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CerrarFormulariosHijos();
+            Frm_registro_activo frmCierre = new Frm_registro_activo();
+            frmCierre.MdiParent = this;
+            frmCierre.Show();
+        }
+
+        private void estadosFinancierosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        
+
+        private void polizasLocalesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CerrarFormulariosHijos();
+            Frm_PolizasLocales frmCierre = new Frm_PolizasLocales();
+            frmCierre.MdiParent = this;
+            frmCierre.Show();
+        }
+
+        private void estadoDeResultadosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CerrarFormulariosHijos();
+            Frm_EstadoDeResultados frmCierre = new Frm_EstadoDeResultados();
+            frmCierre.MdiParent = this;
+            frmCierre.Show();
+        }
+
+        private void estadoDeBalancesDeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            CerrarFormulariosHijos();
+            Frm_EstadoDeBalanceDeSaldos frmCierre = new Frm_EstadoDeBalanceDeSaldos();
+            frmCierre.MdiParent = this;
+            frmCierre.Show();
+
+        }
+        
+
+
+        private void balanceGeneralToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            CerrarFormulariosHijos();
+            Frm_EstadoBalanceGeneral frmCierre = new Frm_EstadoBalanceGeneral();
+            frmCierre.MdiParent = this;
+            frmCierre.Show();
+        }
+        
+        private void flujoDeEfectivoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CerrarFormulariosHijos();
+            Frm_EstadoDeFlujoDeEfectivo frmCierre = new Frm_EstadoDeFlujoDeEfectivo();
             frmCierre.MdiParent = this;
             frmCierre.Show();
         }

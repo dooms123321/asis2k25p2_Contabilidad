@@ -38,11 +38,20 @@
     <Reference Include="Capa_Controlador_Seguridad">
       <HintPath>..\CapaControlador\bin\Debug\Capa_Controlador_Seguridad.dll</HintPath>
     </Reference>
+    <Reference Include="Capa_vista">
+      <HintPath>..\..\..\..\Depreciacion Activos\Depreciacion_activos_fijos\Capa_vista\bin\Debug\Capa_vista.dll</HintPath>
+    </Reference>
     <Reference Include="Capa_Vista_CierreContable">
       <HintPath>..\..\..\..\Cierre Contable\CierreConable_MVC_Prototipo\Capa_Vista_CierreContable\bin\Debug\Capa_Vista_CierreContable.dll</HintPath>
     </Reference>
+    <Reference Include="Capa_Vista_Estados_Financieros">
+      <HintPath>..\..\..\..\Estados Financieros\MVC Estados Financieros\Capa_Vista_Estados_Financieros\bin\Debug\Capa_Vista_Estados_Financieros.dll</HintPath>
+    </Reference>
     <Reference Include="Capa_Vista_Navegador">
       <HintPath>..\..\..\..\navegador\NavegadorMVC\CapaVistaNavegador\bin\Debug\Capa_Vista_Navegador.dll</HintPath>
+    </Reference>
+    <Reference Include="Capa_Vista_Polizas">
+      <HintPath>..\..\..\..\Polizas Locales\Polizas_LocalesMVC\Capa_Vista_Polizas\bin\Debug\Capa_Vista_Polizas.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
