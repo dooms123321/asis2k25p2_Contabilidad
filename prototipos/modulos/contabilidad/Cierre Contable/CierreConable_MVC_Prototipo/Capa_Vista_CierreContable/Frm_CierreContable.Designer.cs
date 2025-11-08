@@ -59,11 +59,19 @@ namespace Capa_Vista_CierreContable
             // Dgv_Cuentas
             // 
             this.Dgv_Cuentas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+<<<<<<< HEAD
             this.Dgv_Cuentas.Location = new System.Drawing.Point(22, 214);
             this.Dgv_Cuentas.Name = "Dgv_Cuentas";
             this.Dgv_Cuentas.RowHeadersWidth = 51;
             this.Dgv_Cuentas.RowTemplate.Height = 24;
             this.Dgv_Cuentas.Size = new System.Drawing.Size(812, 219);
+=======
+            this.Dgv_Cuentas.Location = new System.Drawing.Point(53, 207);
+            this.Dgv_Cuentas.Name = "Dgv_Cuentas";
+            this.Dgv_Cuentas.RowHeadersWidth = 51;
+            this.Dgv_Cuentas.RowTemplate.Height = 24;
+            this.Dgv_Cuentas.Size = new System.Drawing.Size(776, 219);
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             this.Dgv_Cuentas.TabIndex = 0;
             this.Dgv_Cuentas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Cuentas_CellContentClick);
             // 
@@ -86,7 +94,11 @@ namespace Capa_Vista_CierreContable
             this.Gbp_datos.Controls.Add(this.Lbl_fecha_de_cierre);
             this.Gbp_datos.Controls.Add(this.Lbl_periodo);
             this.Gbp_datos.Controls.Add(this.Cbo_periodo);
+<<<<<<< HEAD
             this.Gbp_datos.Location = new System.Drawing.Point(22, 83);
+=======
+            this.Gbp_datos.Location = new System.Drawing.Point(12, 70);
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             this.Gbp_datos.Name = "Gbp_datos";
             this.Gbp_datos.Size = new System.Drawing.Size(800, 116);
             this.Gbp_datos.TabIndex = 2;
@@ -161,7 +173,11 @@ namespace Capa_Vista_CierreContable
             // 
             this.Lbl_saldos_totales.AutoSize = true;
             this.Lbl_saldos_totales.Font = new System.Drawing.Font("Rockwell", 10F);
+<<<<<<< HEAD
             this.Lbl_saldos_totales.Location = new System.Drawing.Point(557, 478);
+=======
+            this.Lbl_saldos_totales.Location = new System.Drawing.Point(575, 453);
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             this.Lbl_saldos_totales.Name = "Lbl_saldos_totales";
             this.Lbl_saldos_totales.Size = new System.Drawing.Size(126, 20);
             this.Lbl_saldos_totales.TabIndex = 3;
@@ -172,7 +188,11 @@ namespace Capa_Vista_CierreContable
             // 
             this.Lbl_Debe.AutoSize = true;
             this.Lbl_Debe.Font = new System.Drawing.Font("Rockwell", 10F);
+<<<<<<< HEAD
             this.Lbl_Debe.Location = new System.Drawing.Point(40, 472);
+=======
+            this.Lbl_Debe.Location = new System.Drawing.Point(30, 453);
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             this.Lbl_Debe.Name = "Lbl_Debe";
             this.Lbl_Debe.Size = new System.Drawing.Size(99, 20);
             this.Lbl_Debe.TabIndex = 4;
@@ -183,7 +203,11 @@ namespace Capa_Vista_CierreContable
             // 
             this.Lbl_cierre_contable.AutoSize = true;
             this.Lbl_cierre_contable.Font = new System.Drawing.Font("Rockwell", 20F);
+<<<<<<< HEAD
             this.Lbl_cierre_contable.Location = new System.Drawing.Point(433, 29);
+=======
+            this.Lbl_cierre_contable.Location = new System.Drawing.Point(308, 29);
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             this.Lbl_cierre_contable.Name = "Lbl_cierre_contable";
             this.Lbl_cierre_contable.Size = new System.Drawing.Size(271, 38);
             this.Lbl_cierre_contable.TabIndex = 5;
@@ -193,7 +217,11 @@ namespace Capa_Vista_CierreContable
             // 
             this.Lbl_haber.AutoSize = true;
             this.Lbl_haber.Font = new System.Drawing.Font("Rockwell", 10F);
+<<<<<<< HEAD
             this.Lbl_haber.Location = new System.Drawing.Point(292, 475);
+=======
+            this.Lbl_haber.Location = new System.Drawing.Point(311, 452);
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             this.Lbl_haber.Name = "Lbl_haber";
             this.Lbl_haber.Size = new System.Drawing.Size(109, 20);
             this.Lbl_haber.TabIndex = 6;
@@ -203,7 +231,11 @@ namespace Capa_Vista_CierreContable
             // 
             this.Lbl_observaciones.AutoSize = true;
             this.Lbl_observaciones.Font = new System.Drawing.Font("Rockwell", 10F);
+<<<<<<< HEAD
             this.Lbl_observaciones.Location = new System.Drawing.Point(43, 560);
+=======
+            this.Lbl_observaciones.Location = new System.Drawing.Point(60, 551);
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             this.Lbl_observaciones.Name = "Lbl_observaciones";
             this.Lbl_observaciones.Size = new System.Drawing.Size(109, 20);
             this.Lbl_observaciones.TabIndex = 7;
@@ -212,7 +244,11 @@ namespace Capa_Vista_CierreContable
             // 
             // Rtb_observaciones
             // 
+<<<<<<< HEAD
             this.Rtb_observaciones.Location = new System.Drawing.Point(198, 533);
+=======
+            this.Rtb_observaciones.Location = new System.Drawing.Point(229, 524);
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             this.Rtb_observaciones.Name = "Rtb_observaciones";
             this.Rtb_observaciones.Size = new System.Drawing.Size(559, 82);
             this.Rtb_observaciones.TabIndex = 9;
@@ -220,9 +256,15 @@ namespace Capa_Vista_CierreContable
             // 
             // Btn_cargar
             // 
+<<<<<<< HEAD
             this.Btn_cargar.Location = new System.Drawing.Point(882, 156);
             this.Btn_cargar.Name = "Btn_cargar";
             this.Btn_cargar.Size = new System.Drawing.Size(94, 43);
+=======
+            this.Btn_cargar.Location = new System.Drawing.Point(922, 198);
+            this.Btn_cargar.Name = "Btn_cargar";
+            this.Btn_cargar.Size = new System.Drawing.Size(94, 36);
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             this.Btn_cargar.TabIndex = 10;
             this.Btn_cargar.Text = "Cargar ";
             this.Btn_cargar.UseVisualStyleBackColor = true;
@@ -230,7 +272,11 @@ namespace Capa_Vista_CierreContable
             // 
             // Btn_imprimir
             // 
+<<<<<<< HEAD
             this.Btn_imprimir.Location = new System.Drawing.Point(882, 337);
+=======
+            this.Btn_imprimir.Location = new System.Drawing.Point(922, 371);
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             this.Btn_imprimir.Name = "Btn_imprimir";
             this.Btn_imprimir.Size = new System.Drawing.Size(94, 43);
             this.Btn_imprimir.TabIndex = 11;
@@ -239,7 +285,11 @@ namespace Capa_Vista_CierreContable
             // 
             // Btn_Guardar
             // 
+<<<<<<< HEAD
             this.Btn_Guardar.Location = new System.Drawing.Point(882, 253);
+=======
+            this.Btn_Guardar.Location = new System.Drawing.Point(922, 283);
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             this.Btn_Guardar.Name = "Btn_Guardar";
             this.Btn_Guardar.Size = new System.Drawing.Size(94, 39);
             this.Btn_Guardar.TabIndex = 12;
@@ -249,7 +299,11 @@ namespace Capa_Vista_CierreContable
             // 
             // Btn_salir
             // 
+<<<<<<< HEAD
             this.Btn_salir.Location = new System.Drawing.Point(882, 434);
+=======
+            this.Btn_salir.Location = new System.Drawing.Point(922, 466);
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             this.Btn_salir.Name = "Btn_salir";
             this.Btn_salir.Size = new System.Drawing.Size(94, 44);
             this.Btn_salir.TabIndex = 14;
@@ -259,7 +313,11 @@ namespace Capa_Vista_CierreContable
             // Lbl_TotalDebe
             // 
             this.Lbl_TotalDebe.AutoSize = true;
+<<<<<<< HEAD
             this.Lbl_TotalDebe.Location = new System.Drawing.Point(171, 475);
+=======
+            this.Lbl_TotalDebe.Location = new System.Drawing.Point(194, 456);
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             this.Lbl_TotalDebe.Name = "Lbl_TotalDebe";
             this.Lbl_TotalDebe.Size = new System.Drawing.Size(49, 17);
             this.Lbl_TotalDebe.TabIndex = 15;
@@ -268,7 +326,11 @@ namespace Capa_Vista_CierreContable
             // Lbl_TotalHaber
             // 
             this.Lbl_TotalHaber.AutoSize = true;
+<<<<<<< HEAD
             this.Lbl_TotalHaber.Location = new System.Drawing.Point(454, 478);
+=======
+            this.Lbl_TotalHaber.Location = new System.Drawing.Point(474, 455);
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             this.Lbl_TotalHaber.Name = "Lbl_TotalHaber";
             this.Lbl_TotalHaber.Size = new System.Drawing.Size(49, 17);
             this.Lbl_TotalHaber.TabIndex = 16;
@@ -278,7 +340,11 @@ namespace Capa_Vista_CierreContable
             // Lbl_SaldosTotales
             // 
             this.Lbl_SaldosTotales.AutoSize = true;
+<<<<<<< HEAD
             this.Lbl_SaldosTotales.Location = new System.Drawing.Point(722, 481);
+=======
+            this.Lbl_SaldosTotales.Location = new System.Drawing.Point(743, 454);
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             this.Lbl_SaldosTotales.Name = "Lbl_SaldosTotales";
             this.Lbl_SaldosTotales.Size = new System.Drawing.Size(49, 17);
             this.Lbl_SaldosTotales.TabIndex = 17;
@@ -288,7 +354,11 @@ namespace Capa_Vista_CierreContable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+<<<<<<< HEAD
             this.ClientSize = new System.Drawing.Size(1010, 634);
+=======
+            this.ClientSize = new System.Drawing.Size(1104, 632);
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             this.Controls.Add(this.Lbl_SaldosTotales);
             this.Controls.Add(this.Lbl_TotalHaber);
             this.Controls.Add(this.Lbl_TotalDebe);

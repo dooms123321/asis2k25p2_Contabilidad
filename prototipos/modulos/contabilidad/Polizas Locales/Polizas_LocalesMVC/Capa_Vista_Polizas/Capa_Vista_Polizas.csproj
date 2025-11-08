@@ -1,14 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D5E883B8-4060-4B63-BE67-36162AF31DEA}</ProjectGuid>
+    <ProjectGuid>{A8DBD143-512F-4457-B238-34D132B8F75A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Capa_Modelo_CierreContable</RootNamespace>
-    <AssemblyName>Capa_Modelo_CierreContable</AssemblyName>
+    <RootNamespace>Capa_Vista_Polizas</RootNamespace>
+    <AssemblyName>Capa_Vista_Polizas</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,8 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Capa_Controlador_Polizas">
+      <HintPath>..\Capa_Controlador_Polizas\bin\Debug\Capa_Controlador_Polizas.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,16 +46,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <Compile Include="Cls_CierreContable.cs" />
-    <Compile Include="Cls_conexión.cs" />
-=======
-    <Compile Include="Class1.cs" />
-    <Compile Include="Cls_CierreContable.cs" />
-    <Compile Include="Cls_conexión.cs" />
-    <Compile Include="Cls_Sectencias_Cierre_contable.cs" />
->>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
+    <Compile Include="Frm_DetallePolizas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_DetallePolizas.Designer.cs">
+      <DependentUpon>Frm_DetallePolizas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_PolizasLocales.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_PolizasLocales.Designer.cs">
+      <DependentUpon>Frm_PolizasLocales.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Frm_DetallePolizas.resx">
+      <DependentUpon>Frm_DetallePolizas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_PolizasLocales.resx">
+      <DependentUpon>Frm_PolizasLocales.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

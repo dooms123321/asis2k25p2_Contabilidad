@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EA35C2EB-4E81-4CB4-A9A8-4DD3F3F54E86}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Capa_Vista_Estados_Financieros</RootNamespace>
+    <AssemblyName>Capa_Vista_Estados_Financieros</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Capa_Controlador_Estados_Financieros">
+      <HintPath>..\Capa_Controlador_Estados_Financieros\bin\Debug\Capa_Controlador_Estados_Financieros.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Frm_EstadoDeBalanceDeSaldos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_EstadoDeBalanceDeSaldos.Designer.cs">
+      <DependentUpon>Frm_EstadoDeBalanceDeSaldos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_EstadoDeBalanceGeneral.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_EstadoDeBalanceGeneral.Designer.cs">
+      <DependentUpon>Frm_EstadoDeBalanceGeneral.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_EstadoDeFlujoDeEfectivo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_EstadoDeFlujoDeEfectivo.Designer.cs">
+      <DependentUpon>Frm_EstadoDeFlujoDeEfectivo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_EstadoDeResultados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_EstadoDeResultados.Designer.cs">
+      <DependentUpon>Frm_EstadoDeResultados.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_EstadosFinancieros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_EstadosFinancieros.Designer.cs">
+      <DependentUpon>Frm_EstadosFinancieros.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Frm_EstadoDeBalanceDeSaldos.resx">
+      <DependentUpon>Frm_EstadoDeBalanceDeSaldos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_EstadoDeBalanceGeneral.resx">
+      <DependentUpon>Frm_EstadoDeBalanceGeneral.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_EstadoDeFlujoDeEfectivo.resx">
+      <DependentUpon>Frm_EstadoDeFlujoDeEfectivo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_EstadoDeResultados.resx">
+      <DependentUpon>Frm_EstadoDeResultados.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_EstadosFinancieros.resx">
+      <DependentUpon>Frm_EstadosFinancieros.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

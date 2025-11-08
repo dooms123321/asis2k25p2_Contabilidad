@@ -16,7 +16,15 @@ namespace Capa_Controlador_CierreContable
             return modelo.ObtenerCuentas();
         }
 
+<<<<<<< HEAD
       
+=======
+        public void GuardarCierre(string codigoCuenta, DateTime fecha, string periodo, decimal debe, decimal haber, decimal saldoAnterior, decimal saldoFinal, string observaciones)
+        {
+            modelo.InsertarCierre(codigoCuenta, fecha, periodo, debe, haber, saldoAnterior, saldoFinal, observaciones);
+            modelo.ActualizarSaldoCuenta(codigoCuenta, saldoFinal);
+        }
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
 
 
 
@@ -28,6 +36,7 @@ namespace Capa_Controlador_CierreContable
 
        
 
+<<<<<<< HEAD
     
 
 
@@ -73,6 +82,17 @@ namespace Capa_Controlador_CierreContable
 
 
 
+=======
+        public void InsertarCierreContable(string codigoCuenta, DateTime fechaCierre, string periodo,
+                                           DateTime fechaDesde, DateTime fechaHasta,
+                                           decimal debe, decimal haber, string observaciones)
+        {
+            modelo.InsertarCierreContable(codigoCuenta, fechaCierre, periodo,
+                                          fechaDesde, fechaHasta, debe, haber, observaciones);
+        }
+
+
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
     }
 
 }

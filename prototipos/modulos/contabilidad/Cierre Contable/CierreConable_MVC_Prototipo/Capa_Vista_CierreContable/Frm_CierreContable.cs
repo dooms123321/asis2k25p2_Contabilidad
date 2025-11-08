@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+<<<<<<< HEAD
 using System.Data.Odbc;
+=======
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -31,11 +34,15 @@ namespace Capa_Vista_CierreContable
 
         private void Frm_CierreContable_Load(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             Dgv_Cuentas.AutoGenerateColumns = true;
             Dgv_Cuentas.DataSource = null;
 
             // Evita que el usuario agregue filas manualmente
             Dgv_Cuentas.AllowUserToAddRows = false;
+=======
+            
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -55,6 +62,7 @@ namespace Capa_Vista_CierreContable
 
         private void Cbo_periodo_SelectedIndexChanged(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             DateTime hoy = DateTime.Today;
             switch (Cbo_periodo.SelectedItem.ToString())
             {
@@ -73,6 +81,26 @@ namespace Capa_Vista_CierreContable
             }
         }
 
+=======
+
+
+            string periodoSeleccionado = Cbo_periodo.SelectedItem.ToString();
+
+            switch (periodoSeleccionado)
+            {
+                case "Anual":
+                    MessageBox.Show("Seleccionaste ANUAL");
+                    break;
+                case "Mensual":
+                    MessageBox.Show("Seleccionaste MENSUAL");
+                    break;
+                case "Diario":
+                    MessageBox.Show("Seleccionaste DIARIO");
+                    break;
+            }
+
+        }
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
 
         private void Lbl_fecha_desde_Click(object sender, EventArgs e)
         {
@@ -98,6 +126,7 @@ namespace Capa_Vista_CierreContable
 
         private void Btn_cargar_Click(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             Btn_cargar.Enabled = false;
             MessageBox.Show( "Cargando datos...");
             Application.DoEvents();
@@ -107,6 +136,9 @@ namespace Capa_Vista_CierreContable
 
             MessageBox.Show("Datos cargados correctamente.", "Cierre contable", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Btn_cargar.Enabled = true;
+=======
+            CargarPolizas();
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
         }
 
 
@@ -114,6 +146,7 @@ namespace Capa_Vista_CierreContable
         {
             try
             {
+<<<<<<< HEAD
                 DateTime fechaDesde = Dtp_fecha_desde.Value.Date;
                 DateTime fechaHasta = Dtp_Fecha_Hasta.Value.Date;
 
@@ -140,23 +173,41 @@ namespace Capa_Vista_CierreContable
                 if (dt.Columns.Contains("Debe"))
                     Dgv_Cuentas.Columns["Debe"].HeaderText = "Debe";
                 if (dt.Columns.Contains("Haber"))
+=======
+                DataTable dt = controlador.CargarPolizas();
+                Dgv_Cuentas.DataSource = dt;
+
+                Dgv_Cuentas.Columns["Pk_EncCodigo_Poliza"].HeaderText = "Código Póliza";
+                Dgv_Cuentas.Columns["Pk_Fecha_Poliza"].HeaderText = "Fecha";
+                Dgv_Cuentas.Columns["Pk_Codigo_Cuenta"].HeaderText = "Código Cuenta";
+                Dgv_Cuentas.Columns["Cmp_CtaNombre"].HeaderText = "Nombre de la Cuenta";
+                Dgv_Cuentas.Columns["Cmp_Concepto_Poliza"].HeaderText = "Concepto";            
+                
+                Dgv_Cuentas.Columns["Debe"].HeaderText = "Debe";
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
                 Dgv_Cuentas.Columns["Haber"].HeaderText = "Haber";
 
                 Dgv_Cuentas.AutoResizeColumns();
 
                 CalcularTotales();
             }
+<<<<<<< HEAD
             catch (ArgumentException ex)
             {
                 MessageBox.Show(ex.Message, "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+=======
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar pólizas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
         private void Lbl_observaciones_Click(object sender, EventArgs e)
         {
 
@@ -169,11 +220,16 @@ namespace Capa_Vista_CierreContable
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
         private void CalcularTotales()
         {
             decimal totalDebe = 0;
             decimal totalHaber = 0;
 
+<<<<<<< HEAD
             // ✅ Validar que existen las columnas antes de usarlas
             if (!Dgv_Cuentas.Columns.Contains("Debe") || !Dgv_Cuentas.Columns.Contains("Haber"))
             {
@@ -207,16 +263,45 @@ namespace Capa_Vista_CierreContable
             Lbl_TotalDebe.Text = totalDebe.ToString("N2");
             Lbl_TotalHaber.Text = totalHaber.ToString("N2");
 
+=======
+            // Recorremos todas las filas del DataGridView
+
+            // Verifica que las columnas existen
+            if (!Dgv_Cuentas.Columns.Contains("Pk_Codigo_Cuenta"))
+            {
+                MessageBox.Show("La columna 'Pk_Codigo_Cuenta' no existe en el DataGridView.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            foreach (DataGridViewRow fila in Dgv_Cuentas.Rows)
+            {
+                if (fila.Cells["Debe"].Value != null && decimal.TryParse(fila.Cells["Debe"].Value.ToString(), out decimal debe))
+                    totalDebe += debe;
+
+                if (fila.Cells["Haber"].Value != null && decimal.TryParse(fila.Cells["Haber"].Value.ToString(), out decimal haber))
+                    totalHaber += haber;
+            }
+
+            // Mostramos los resultados
+            Lbl_TotalDebe.Text = totalDebe.ToString("N2");
+            Lbl_TotalHaber.Text = totalHaber.ToString("N2");
+
+            // Calculamos la diferencia (resultado del cierre)
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
             decimal totalCierre = totalDebe - totalHaber;
             Lbl_SaldosTotales.Text = totalCierre.ToString("N2");
         }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
         private void Lbl_TotalHaber_Click(object sender, EventArgs e)
         {
 
         }
 
+<<<<<<< HEAD
 
 
         private void Btn_Guardar_Click(object sender, EventArgs e)
@@ -275,5 +360,11 @@ namespace Capa_Vista_CierreContable
 
 
 
+=======
+        private void Btn_Guardar_Click(object sender, EventArgs e)
+        {
+          
+        }
+>>>>>>> e42e22a9edf48ad572659449d0ea79beb894f129
     }
 }
