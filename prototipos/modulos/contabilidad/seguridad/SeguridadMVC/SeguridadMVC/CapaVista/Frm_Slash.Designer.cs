@@ -72,7 +72,7 @@ namespace Capa_Vista_Seguridad
             this.Pic_carga.TabIndex = 2;
             this.Pic_carga.TabStop = false;
             // 
-            // frmSlash
+            // Frm_Slash
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -81,7 +81,7 @@ namespace Capa_Vista_Seguridad
             this.Controls.Add(this.Lbl_carga);
             this.Controls.Add(this.Pic_carga);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "frmSlash";
+            this.Name = "Frm_Slash";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmSlash";
             ((System.ComponentModel.ISupportInitialize)(this.Pic_carga)).EndInit();
