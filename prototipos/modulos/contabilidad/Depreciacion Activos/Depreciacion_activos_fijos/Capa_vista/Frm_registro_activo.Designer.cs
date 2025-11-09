@@ -79,6 +79,24 @@ namespace Capa_vista
             this.Lbl_activo_gpb = new System.Windows.Forms.Label();
             this.Cbo_seleccion_activo = new System.Windows.Forms.ComboBox();
             this.Lbl_seleccion = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.Gpb_detalle_poliza_activo = new System.Windows.Forms.GroupBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.Lbl_estado_envio = new System.Windows.Forms.Label();
+            this.Lbl_vida_util_poliza = new System.Windows.Forms.Label();
+            this.Lbl_info_total = new System.Windows.Forms.Label();
+            this.Lbl_total_polizas = new System.Windows.Forms.Label();
+            this.Lbl_activo_poliza = new System.Windows.Forms.Label();
+            this.LblVidaUtil = new System.Windows.Forms.Label();
+            this.LblCostoAdquisicion = new System.Windows.Forms.Label();
+            this.Lbl_TotalPoliza = new System.Windows.Forms.Label();
+            this.Lbl_ActivoPoliza = new System.Windows.Forms.Label();
+            this.Btn_enviar_poliza_todo = new System.Windows.Forms.Button();
+            this.Dgv_polizas_depreciacion = new System.Windows.Forms.DataGridView();
+            this.Btn_actualiazr_poliza_depre = new System.Windows.Forms.Button();
+            this.Btn_enviar_poliza = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.Dtp_fecha_poliza = new System.Windows.Forms.DateTimePicker();
             this.Gpb_activo.SuspendLayout();
             this.Gpb_cuentas_Activo.SuspendLayout();
             this.Tbc_calculo_activo_fijo.SuspendLayout();
@@ -91,6 +109,9 @@ namespace Capa_vista
             this.Gpb_costo_adquisicion.SuspendLayout();
             this.Gpb_grupo.SuspendLayout();
             this.Gpb_Activo_fijo.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.Gpb_detalle_poliza_activo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_polizas_depreciacion)).BeginInit();
             this.SuspendLayout();
             // 
             // Gpb_activo
@@ -371,6 +392,7 @@ namespace Capa_vista
             // 
             this.Tbc_calculo_activo_fijo.Controls.Add(this.tabPage1);
             this.Tbc_calculo_activo_fijo.Controls.Add(this.tabPage2);
+            this.Tbc_calculo_activo_fijo.Controls.Add(this.tabPage3);
             this.Tbc_calculo_activo_fijo.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Tbc_calculo_activo_fijo.Location = new System.Drawing.Point(0, 0);
             this.Tbc_calculo_activo_fijo.Name = "Tbc_calculo_activo_fijo";
@@ -599,6 +621,187 @@ namespace Capa_vista
             this.Lbl_seleccion.TabIndex = 0;
             this.Lbl_seleccion.Text = "Seleccion";
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.Dtp_fecha_poliza);
+            this.tabPage3.Controls.Add(this.Gpb_detalle_poliza_activo);
+            this.tabPage3.Controls.Add(this.Btn_enviar_poliza_todo);
+            this.tabPage3.Controls.Add(this.Dgv_polizas_depreciacion);
+            this.tabPage3.Controls.Add(this.Btn_actualiazr_poliza_depre);
+            this.tabPage3.Controls.Add(this.Btn_enviar_poliza);
+            this.tabPage3.Controls.Add(this.label3);
+            this.tabPage3.Location = new System.Drawing.Point(4, 31);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(1214, 706);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "tabPage3";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // Gpb_detalle_poliza_activo
+            // 
+            this.Gpb_detalle_poliza_activo.Controls.Add(this.progressBar1);
+            this.Gpb_detalle_poliza_activo.Controls.Add(this.Lbl_estado_envio);
+            this.Gpb_detalle_poliza_activo.Controls.Add(this.Lbl_vida_util_poliza);
+            this.Gpb_detalle_poliza_activo.Controls.Add(this.Lbl_info_total);
+            this.Gpb_detalle_poliza_activo.Controls.Add(this.Lbl_total_polizas);
+            this.Gpb_detalle_poliza_activo.Controls.Add(this.Lbl_activo_poliza);
+            this.Gpb_detalle_poliza_activo.Controls.Add(this.LblVidaUtil);
+            this.Gpb_detalle_poliza_activo.Controls.Add(this.LblCostoAdquisicion);
+            this.Gpb_detalle_poliza_activo.Controls.Add(this.Lbl_TotalPoliza);
+            this.Gpb_detalle_poliza_activo.Controls.Add(this.Lbl_ActivoPoliza);
+            this.Gpb_detalle_poliza_activo.Location = new System.Drawing.Point(15, 458);
+            this.Gpb_detalle_poliza_activo.Name = "Gpb_detalle_poliza_activo";
+            this.Gpb_detalle_poliza_activo.Size = new System.Drawing.Size(1186, 197);
+            this.Gpb_detalle_poliza_activo.TabIndex = 5;
+            this.Gpb_detalle_poliza_activo.TabStop = false;
+            this.Gpb_detalle_poliza_activo.Text = "Detalle";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(826, 107);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(318, 23);
+            this.progressBar1.TabIndex = 9;
+            // 
+            // Lbl_estado_envio
+            // 
+            this.Lbl_estado_envio.AutoSize = true;
+            this.Lbl_estado_envio.Location = new System.Drawing.Point(822, 76);
+            this.Lbl_estado_envio.Name = "Lbl_estado_envio";
+            this.Lbl_estado_envio.Size = new System.Drawing.Size(154, 22);
+            this.Lbl_estado_envio.TabIndex = 8;
+            this.Lbl_estado_envio.Text = "Estado Enviado";
+            // 
+            // Lbl_vida_util_poliza
+            // 
+            this.Lbl_vida_util_poliza.AutoSize = true;
+            this.Lbl_vida_util_poliza.Location = new System.Drawing.Point(228, 145);
+            this.Lbl_vida_util_poliza.Name = "Lbl_vida_util_poliza";
+            this.Lbl_vida_util_poliza.Size = new System.Drawing.Size(68, 22);
+            this.Lbl_vida_util_poliza.TabIndex = 7;
+            this.Lbl_vida_util_poliza.Text = "label7";
+            // 
+            // Lbl_info_total
+            // 
+            this.Lbl_info_total.AutoSize = true;
+            this.Lbl_info_total.Location = new System.Drawing.Point(228, 112);
+            this.Lbl_info_total.Name = "Lbl_info_total";
+            this.Lbl_info_total.Size = new System.Drawing.Size(68, 22);
+            this.Lbl_info_total.TabIndex = 6;
+            this.Lbl_info_total.Text = "label6";
+            // 
+            // Lbl_total_polizas
+            // 
+            this.Lbl_total_polizas.AutoSize = true;
+            this.Lbl_total_polizas.Location = new System.Drawing.Point(228, 76);
+            this.Lbl_total_polizas.Name = "Lbl_total_polizas";
+            this.Lbl_total_polizas.Size = new System.Drawing.Size(68, 22);
+            this.Lbl_total_polizas.TabIndex = 5;
+            this.Lbl_total_polizas.Text = "label5";
+            // 
+            // Lbl_activo_poliza
+            // 
+            this.Lbl_activo_poliza.AutoSize = true;
+            this.Lbl_activo_poliza.Location = new System.Drawing.Point(228, 36);
+            this.Lbl_activo_poliza.Name = "Lbl_activo_poliza";
+            this.Lbl_activo_poliza.Size = new System.Drawing.Size(68, 22);
+            this.Lbl_activo_poliza.TabIndex = 4;
+            this.Lbl_activo_poliza.Text = "label4";
+            // 
+            // LblVidaUtil
+            // 
+            this.LblVidaUtil.AutoSize = true;
+            this.LblVidaUtil.Location = new System.Drawing.Point(125, 145);
+            this.LblVidaUtil.Name = "LblVidaUtil";
+            this.LblVidaUtil.Size = new System.Drawing.Size(97, 22);
+            this.LblVidaUtil.TabIndex = 3;
+            this.LblVidaUtil.Text = "Vida Util:";
+            // 
+            // LblCostoAdquisicion
+            // 
+            this.LblCostoAdquisicion.AutoSize = true;
+            this.LblCostoAdquisicion.Location = new System.Drawing.Point(43, 112);
+            this.LblCostoAdquisicion.Name = "LblCostoAdquisicion";
+            this.LblCostoAdquisicion.Size = new System.Drawing.Size(179, 22);
+            this.LblCostoAdquisicion.TabIndex = 2;
+            this.LblCostoAdquisicion.Text = "Costo adquisicion:";
+            // 
+            // Lbl_TotalPoliza
+            // 
+            this.Lbl_TotalPoliza.AutoSize = true;
+            this.Lbl_TotalPoliza.Location = new System.Drawing.Point(93, 76);
+            this.Lbl_TotalPoliza.Name = "Lbl_TotalPoliza";
+            this.Lbl_TotalPoliza.Size = new System.Drawing.Size(129, 22);
+            this.Lbl_TotalPoliza.TabIndex = 1;
+            this.Lbl_TotalPoliza.Text = "Total Polizas:";
+            // 
+            // Lbl_ActivoPoliza
+            // 
+            this.Lbl_ActivoPoliza.AutoSize = true;
+            this.Lbl_ActivoPoliza.Location = new System.Drawing.Point(148, 36);
+            this.Lbl_ActivoPoliza.Name = "Lbl_ActivoPoliza";
+            this.Lbl_ActivoPoliza.Size = new System.Drawing.Size(74, 22);
+            this.Lbl_ActivoPoliza.TabIndex = 0;
+            this.Lbl_ActivoPoliza.Text = "Activo:";
+            // 
+            // Btn_enviar_poliza_todo
+            // 
+            this.Btn_enviar_poliza_todo.Location = new System.Drawing.Point(184, 406);
+            this.Btn_enviar_poliza_todo.Name = "Btn_enviar_poliza_todo";
+            this.Btn_enviar_poliza_todo.Size = new System.Drawing.Size(192, 46);
+            this.Btn_enviar_poliza_todo.TabIndex = 4;
+            this.Btn_enviar_poliza_todo.Text = "Enviar todo";
+            this.Btn_enviar_poliza_todo.UseVisualStyleBackColor = true;
+            this.Btn_enviar_poliza_todo.Click += new System.EventHandler(this.Btn_enviar_poliza_todo_Click);
+            // 
+            // Dgv_polizas_depreciacion
+            // 
+            this.Dgv_polizas_depreciacion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Dgv_polizas_depreciacion.Location = new System.Drawing.Point(15, 83);
+            this.Dgv_polizas_depreciacion.Name = "Dgv_polizas_depreciacion";
+            this.Dgv_polizas_depreciacion.RowHeadersWidth = 62;
+            this.Dgv_polizas_depreciacion.RowTemplate.Height = 28;
+            this.Dgv_polizas_depreciacion.Size = new System.Drawing.Size(1188, 317);
+            this.Dgv_polizas_depreciacion.TabIndex = 3;
+            // 
+            // Btn_actualiazr_poliza_depre
+            // 
+            this.Btn_actualiazr_poliza_depre.Location = new System.Drawing.Point(382, 406);
+            this.Btn_actualiazr_poliza_depre.Name = "Btn_actualiazr_poliza_depre";
+            this.Btn_actualiazr_poliza_depre.Size = new System.Drawing.Size(131, 46);
+            this.Btn_actualiazr_poliza_depre.TabIndex = 2;
+            this.Btn_actualiazr_poliza_depre.Text = "Actualizar";
+            this.Btn_actualiazr_poliza_depre.UseVisualStyleBackColor = true;
+            this.Btn_actualiazr_poliza_depre.Click += new System.EventHandler(this.Btn_actualiazr_poliza_depre_Click);
+            // 
+            // Btn_enviar_poliza
+            // 
+            this.Btn_enviar_poliza.Location = new System.Drawing.Point(15, 406);
+            this.Btn_enviar_poliza.Name = "Btn_enviar_poliza";
+            this.Btn_enviar_poliza.Size = new System.Drawing.Size(163, 43);
+            this.Btn_enviar_poliza.TabIndex = 1;
+            this.Btn_enviar_poliza.Text = "Enviar Poliza";
+            this.Btn_enviar_poliza.UseVisualStyleBackColor = true;
+            this.Btn_enviar_poliza.Click += new System.EventHandler(this.Btn_enviar_poliza_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Rockwell", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(8, 15);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(539, 41);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Enviar polizas de depreciacion";
+            // 
+            // Dtp_fecha_poliza
+            // 
+            this.Dtp_fecha_poliza.Location = new System.Drawing.Point(782, 435);
+            this.Dtp_fecha_poliza.Name = "Dtp_fecha_poliza";
+            this.Dtp_fecha_poliza.Size = new System.Drawing.Size(413, 31);
+            this.Dtp_fecha_poliza.TabIndex = 6;
+            // 
             // Frm_registro_activo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -628,6 +831,11 @@ namespace Capa_vista
             this.Gpb_grupo.PerformLayout();
             this.Gpb_Activo_fijo.ResumeLayout(false);
             this.Gpb_Activo_fijo.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            this.Gpb_detalle_poliza_activo.ResumeLayout(false);
+            this.Gpb_detalle_poliza_activo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_polizas_depreciacion)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -684,5 +892,23 @@ namespace Capa_vista
         private System.Windows.Forms.Button Btn_limpial_calculo;
         private System.Windows.Forms.Button Btn_buscar_activo;
         private System.Windows.Forms.Button Btn_actualizar;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button Btn_actualiazr_poliza_depre;
+        private System.Windows.Forms.Button Btn_enviar_poliza;
+        private System.Windows.Forms.DataGridView Dgv_polizas_depreciacion;
+        private System.Windows.Forms.Button Btn_enviar_poliza_todo;
+        private System.Windows.Forms.GroupBox Gpb_detalle_poliza_activo;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label Lbl_estado_envio;
+        private System.Windows.Forms.Label Lbl_vida_util_poliza;
+        private System.Windows.Forms.Label Lbl_info_total;
+        private System.Windows.Forms.Label Lbl_total_polizas;
+        private System.Windows.Forms.Label Lbl_activo_poliza;
+        private System.Windows.Forms.Label LblVidaUtil;
+        private System.Windows.Forms.Label LblCostoAdquisicion;
+        private System.Windows.Forms.Label Lbl_TotalPoliza;
+        private System.Windows.Forms.Label Lbl_ActivoPoliza;
+        private System.Windows.Forms.DateTimePicker Dtp_fecha_poliza;
     }
 }

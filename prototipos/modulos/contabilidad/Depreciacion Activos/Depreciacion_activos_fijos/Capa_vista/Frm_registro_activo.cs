@@ -8,8 +8,13 @@ namespace Capa_vista
     public partial class Frm_registro_activo : Form
     {
         private Cls_Depreciacion_Controlador controlador = new Cls_Depreciacion_Controlador();
+        private DataTable dtPolizasDepreciacion = new DataTable();
+        private Cls_envio_poliza_depreciacion polizaService = new Cls_envio_poliza_depreciacion();
         public int IdActivoSeleccionado { get; private set; }
         public string NombreActivoSeleccionado { get; private set; }
+        private int idActivoActual = 0;
+        private DateTime fechaPolizaActual;
+        private decimal depreciacionAnualActual;
 
         public Frm_registro_activo()
         {
@@ -21,6 +26,8 @@ namespace Capa_vista
             Cbo_seleccion_activo.SelectedIndexChanged += Cbo_seleccion_activo_SelectedIndexChanged;
             ConfigurarTabDepreciacion();
             ConfigurarGridDepreciacion();
+            ConfigurarTabPolizas();
+            Dtp_fecha_poliza.Value = DateTime.Now;
         }
 
         private void ConfigurarGridDepreciacion()
@@ -668,6 +675,7 @@ namespace Capa_vista
             Txt_activo_fijo.Focus();
             tabPage1.Text = "Datos del Activo";
             tabPage2.Text = "Calcular Depreciacion";
+            tabPage3.Text = "Envio poliza";
         }
 
         private void Btn_guardar_Click_1(object sender, EventArgs e)
@@ -877,6 +885,440 @@ namespace Capa_vista
             catch (Exception ex)
             {
                 Console.WriteLine($"Error en prueba directa: {ex.Message}");
+            }
+        }
+        private void EnviarPolizaDepreciacionAnual()
+        {
+            try
+            {
+                // 1. OBTENER ID DEL ACTIVO SELECCIONADO (usando tu lógica existente)
+                int idActivo = ObtenerIdActivoSeleccionado();
+
+                if (idActivo == 0)
+                {
+                    MessageBox.Show("Por favor seleccione un activo primero.", "Advertencia",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 2. OBTENER DEPRECIACIÓN ANUAL (usando tus cálculos existentes)
+                var controlador = new Cls_Depreciacion_Controlador();
+                DataTable dtDepreciacion = controlador.CalcularDepreciacionLineal(idActivo);
+
+                if (dtDepreciacion.Rows.Count == 0)
+                {
+                    MessageBox.Show("No hay datos de depreciación calculados. Calcule primero.", "Advertencia",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 3. OBTENER DEPRECIACIÓN DEL PRIMER AÑO (o la que necesites)
+                decimal depreciacionAnual = 0;
+                if (decimal.TryParse(dtDepreciacion.Rows[0]["DepreciacionAnual"].ToString()
+                                    .Replace("Q", "").Replace("$", "").Replace(",", ""),
+                                    out decimal temp))
+                {
+                    depreciacionAnual = temp;
+                }
+
+                if (depreciacionAnual <= 0)
+                {
+                    MessageBox.Show("La depreciación anual es cero o no se pudo obtener.", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // 4. DEFINIR FECHA (normalmente fin de año)
+                DateTime fechaPoliza = new DateTime(DateTime.Now.Year, 12, 31);
+
+                // 5. CONFIRMAR ENVÍO
+                DialogResult confirmacion = MessageBox.Show(
+                    $"¿Enviar póliza de depreciación anual?\n\n" +
+                    $"Activo: {Cbo_seleccion_activo.Text}\n" +
+                    $"Fecha: {fechaPoliza:dd/MM/yyyy}\n" +
+                    $"Depreciación Anual: {depreciacionAnual:C}\n\n" +
+                    $"Esta póliza se registrará en el sistema contable.",
+                    "Confirmar Envío de Póliza",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (confirmacion != DialogResult.Yes) return;
+
+                // 6. ENVIAR PÓLIZA
+                var envioPoliza = new Cls_envio_poliza_depreciacion();
+                bool resultado = envioPoliza.EnviarPolizaDepreciacion(idActivo, fechaPoliza, depreciacionAnual);
+
+                if (resultado)
+                {
+                    // Opcional: Cambiar a pestaña de pólizas
+                    Tbc_calculo_activo_fijo.SelectedTab = tabPage3;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al enviar póliza: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private int ObtenerIdActivoSeleccionado()
+        {
+            int idActivo = 0;
+
+            if (Cbo_seleccion_activo.SelectedValue != null)
+            {
+                if (Cbo_seleccion_activo.SelectedValue is DataRowView rowView)
+                {
+                    idActivo = Convert.ToInt32(rowView["Pk_Activo_ID"]);
+                }
+                else if (Cbo_seleccion_activo.SelectedValue is int)
+                {
+                    idActivo = (int)Cbo_seleccion_activo.SelectedValue;
+                }
+                else if (int.TryParse(Cbo_seleccion_activo.SelectedValue.ToString(), out int tempId))
+                {
+                    idActivo = tempId;
+                }
+            }
+
+            return idActivo;
+        }
+        //Configuradcion para polizas
+        private void ConfigurarTabPolizas()
+        {
+            ConfigurarGridPolizas();
+            // Configurar fecha por defecto
+            Dtp_fecha_poliza.Value = DateTime.Now;
+            Console.WriteLine("Tab de pólizas configurada correctamente");
+        }
+        private void ConfigurarGridPolizas()
+        {
+            try
+            {
+                Dgv_polizas_depreciacion.Columns.Clear();
+
+                // Agregar columnas
+                Dgv_polizas_depreciacion.Columns.Add("Año", "Año");
+                Dgv_polizas_depreciacion.Columns.Add("DepreciacionAnual", "Depreciación Anual");
+                Dgv_polizas_depreciacion.Columns.Add("CuentaGasto", "Cuenta Gasto");
+                Dgv_polizas_depreciacion.Columns.Add("CuentaDepreciacion", "Cuenta Depreciación");
+                Dgv_polizas_depreciacion.Columns.Add("Concepto", "Concepto");
+                Dgv_polizas_depreciacion.Columns.Add("Estado", "Estado");
+
+                // Configurar anchos
+                Dgv_polizas_depreciacion.Columns["Año"].Width = 80;
+                Dgv_polizas_depreciacion.Columns["DepreciacionAnual"].Width = 150;
+                Dgv_polizas_depreciacion.Columns["CuentaGasto"].Width = 120;
+                Dgv_polizas_depreciacion.Columns["CuentaDepreciacion"].Width = 120;
+                Dgv_polizas_depreciacion.Columns["Concepto"].Width = 200;
+                Dgv_polizas_depreciacion.Columns["Estado"].Width = 100;
+
+                Console.WriteLine("Grid de pólizas configurado correctamente");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error configurando grid de pólizas: {ex.Message}");
+            }
+        }
+        private void Btn_actualiazr_poliza_depre_Click(object sender, EventArgs e)
+        {
+            int idActivo = ObtenerIdActivoSeleccionado();
+            if (idActivo > 0)
+            {
+                CargarDatosParaPolizas(idActivo);
+                MessageBox.Show("Datos de pólizas actualizados", "Actualización",
+                              MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Seleccione un activo primero", "Advertencia",
+                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+        private void Tbc_calculo_activo_fijo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Tbc_calculo_activo_fijo.SelectedTab == tabPage3) // Pestaña de pólizas
+            {
+                int idActivo = ObtenerIdActivoSeleccionado();
+                if (idActivo > 0)
+                {
+                    CargarDatosParaPolizas(idActivo);  // ← ESTE MÉTODO YA ESTÁ IMPLEMENTADO
+                }
+                else
+                {
+                    MessageBox.Show("Seleccione un activo primero.", "Advertencia",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else if (Tbc_calculo_activo_fijo.SelectedTab == tabPage2)
+            {
+                ActualizarListasActivos();
+            }
+        }
+
+        private void Btn_enviar_poliza_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Dgv_polizas_depreciacion.CurrentRow == null)
+                {
+                    MessageBox.Show("Seleccione un año de depreciación para enviar la póliza.", "Advertencia",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                int idActivo = ObtenerIdActivoSeleccionado();
+                if (idActivo == 0)
+                {
+                    MessageBox.Show("No hay activo seleccionado.", "Advertencia",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Obtener datos de la fila seleccionada
+                int año = Convert.ToInt32(Dgv_polizas_depreciacion.CurrentRow.Cells["Año"].Value);
+                string depreciacionAnualStr = Dgv_polizas_depreciacion.CurrentRow.Cells["DepreciacionAnual"].Value.ToString()
+                    .Replace("Q", "").Replace("$", "").Replace(",", "").Trim();
+
+                decimal depreciacionAnual = decimal.Parse(depreciacionAnualStr);
+
+                // Obtener datos del activo a través del controlador
+                string[] datosActivo = controlador.ObtenerDatosActivo(idActivo);
+
+                if (datosActivo == null || datosActivo.Length < 1)
+                {
+                    MessageBox.Show("No se pudo obtener información del activo.", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                string nombreActivo = datosActivo[0];
+
+                // *** CAMBIO PRINCIPAL: Obtener fecha desde el DateTimePicker ***
+                DateTime fechaPoliza = Dtp_fecha_poliza.Value;
+
+                // Mostrar confirmación con la fecha seleccionada
+                DialogResult confirmacion = MessageBox.Show(
+                    $"¿Enviar póliza de depreciación anual?\n\n" +
+                    $"Activo: {nombreActivo}\n" +
+                    $"Año de depreciación: {año}\n" +
+                    $"Fecha de póliza: {fechaPoliza:dd/MM/yyyy}\n" +
+                    $"Depreciación Anual: {depreciacionAnual:C}\n\n" +
+                    $"Esta póliza se registrará en el sistema contable.",
+                    "Confirmar Envío de Póliza",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (confirmacion != DialogResult.Yes) return;
+
+                // Enviar póliza usando el método del controlador
+                bool resultado = controlador.EnviarPolizaDepreciacion(idActivo, fechaPoliza, depreciacionAnual);
+
+                if (resultado)
+                {
+                    // Actualizar estado en el grid
+                    Dgv_polizas_depreciacion.CurrentRow.Cells["Estado"].Value = "Enviada";
+                    MessageBox.Show($"Póliza de depreciación enviada correctamente.\nFecha: {fechaPoliza:dd/MM/yyyy}", "Éxito",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Error al enviar la póliza.", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al enviar póliza: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void CargarDatosParaPolizas(int idActivo)
+        {
+            try
+            {
+                Console.WriteLine($"Cargando datos para pólizas - Activo ID: {idActivo}");
+
+                // Obtener datos del activo a través del controlador
+                string[] datosActivo = controlador.ObtenerDatosActivo(idActivo);
+
+                if (datosActivo == null || datosActivo.Length < 3)
+                {
+                    MessageBox.Show("No se pudo obtener información del activo seleccionado.", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                string nombreActivo = datosActivo[0];
+                string grupoActivo = datosActivo[1];
+
+                // Obtener depreciaciones calculadas
+                DataTable dtDepreciaciones = controlador.ObtenerDepreciacionesExistentes(idActivo);
+
+                // **DEBUG: Verificar las columnas del DataTable**
+                Console.WriteLine($"Columnas en dtDepreciaciones:");
+                foreach (DataColumn col in dtDepreciaciones.Columns)
+                {
+                    Console.WriteLine($"  - {col.ColumnName} ({col.DataType})");
+                }
+
+                if (dtDepreciaciones.Rows.Count == 0)
+                {
+                    MessageBox.Show("No hay depreciaciones calculadas para este activo.", "Información",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                // Obtener cuentas contables del activo usando el nuevo método
+                var cuentas = controlador.ObtenerCuentasContablesActivo(idActivo);
+                string cuentaGasto = cuentas.cuentaGasto;
+                string cuentaDepreciacion = cuentas.cuentaDepreciacion;
+
+                // Limpiar datos anteriores
+                Dgv_polizas_depreciacion.Rows.Clear();
+
+                // **CORRECCIÓN: Usar los nombres correctos de las columnas**
+                string columnaAnio = "Cmp_Anio"; // Nombre real en la tabla
+                string columnaDepreciacionAnual = "Cmp_Depreciacion_Anual"; // Nombre real en la tabla
+
+                Console.WriteLine($"Usando columna Año: {columnaAnio}");
+                Console.WriteLine($"Usando columna Depreciación: {columnaDepreciacionAnual}");
+
+                // Preparar datos para pólizas
+                foreach (DataRow row in dtDepreciaciones.Rows)
+                {
+                    try
+                    {
+                        // Obtener año usando el nombre correcto de la columna
+                        int año = 0;
+                        if (row[columnaAnio] != DBNull.Value)
+                        {
+                            año = Convert.ToInt32(row[columnaAnio]);
+                        }
+
+                        // Obtener depreciación anual usando el nombre correcto
+                        decimal depreciacionAnual = 0;
+                        if (row[columnaDepreciacionAnual] != DBNull.Value)
+                        {
+                            string depAnualStr = row[columnaDepreciacionAnual].ToString()
+                                .Replace("Q", "").Replace("$", "").Replace(",", "").Trim();
+
+                            if (decimal.TryParse(depAnualStr, out decimal temp))
+                            {
+                                depreciacionAnual = temp;
+                            }
+                        }
+
+                        if (año > 0 && depreciacionAnual > 0)
+                        {
+                            string concepto = $"Depreciación Anual - {nombreActivo} - Año {año}";
+
+                            // Agregar al grid
+                            int index = Dgv_polizas_depreciacion.Rows.Add();
+                            Dgv_polizas_depreciacion.Rows[index].Cells["Año"].Value = año;
+                            Dgv_polizas_depreciacion.Rows[index].Cells["DepreciacionAnual"].Value = depreciacionAnual.ToString("C2");
+                            Dgv_polizas_depreciacion.Rows[index].Cells["CuentaGasto"].Value = cuentaGasto;
+                            Dgv_polizas_depreciacion.Rows[index].Cells["CuentaDepreciacion"].Value = cuentaDepreciacion;
+                            Dgv_polizas_depreciacion.Rows[index].Cells["Concepto"].Value = concepto;
+                            Dgv_polizas_depreciacion.Rows[index].Cells["Estado"].Value = "Pendiente";
+
+                            Console.WriteLine($"Año {año} preparado: {depreciacionAnual:C2}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error procesando fila: {ex.Message}");
+                        continue;
+                    }
+                }
+
+                // Actualizar información del activo en los labels
+                Lbl_activo_poliza.Text = nombreActivo;
+                Lbl_total_polizas.Text = Dgv_polizas_depreciacion.Rows.Count.ToString();
+
+                Console.WriteLine($"Datos cargados: {Dgv_polizas_depreciacion.Rows.Count} años preparados para pólizas");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar datos para pólizas: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Console.WriteLine($"Error detallado: {ex.ToString()}");
+            }
+        }
+
+        private void Btn_enviar_poliza_todo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int idActivo = ObtenerIdActivoSeleccionado();
+                if (idActivo == 0)
+                {
+                    MessageBox.Show("No hay activo seleccionado.", "Advertencia",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                DateTime fechaPoliza = Dtp_fecha_poliza.Value;
+
+                DialogResult confirmacion = MessageBox.Show(
+                    $"¿Enviar TODAS las pólizas de depreciación?\n\n" +
+                    $"Fecha de póliza: {fechaPoliza:dd/MM/yyyy}\n" +
+                    $"Total de pólizas: {Dgv_polizas_depreciacion.Rows.Count}\n\n" +
+                    $"Esta acción enviará todas las pólizas pendientes.",
+                    "Confirmar Envío Masivo",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (confirmacion != DialogResult.Yes) return;
+
+                int pólizasEnviadas = 0;
+                int pólizasConError = 0;
+
+                foreach (DataGridViewRow row in Dgv_polizas_depreciacion.Rows)
+                {
+                    if (row.Cells["Estado"].Value?.ToString() == "Pendiente")
+                    {
+                        try
+                        {
+                            int año = Convert.ToInt32(row.Cells["Año"].Value);
+                            string depreciacionAnualStr = row.Cells["DepreciacionAnual"].Value.ToString()
+                                .Replace("Q", "").Replace("$", "").Replace(",", "").Trim();
+
+                            decimal depreciacionAnual = decimal.Parse(depreciacionAnualStr);
+
+                            bool resultado = controlador.EnviarPolizaDepreciacion(idActivo, fechaPoliza, depreciacionAnual);
+
+                            if (resultado)
+                            {
+                                row.Cells["Estado"].Value = "Enviada";
+                                pólizasEnviadas++;
+                            }
+                            else
+                            {
+                                pólizasConError++;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error enviando póliza para año {row.Cells["Año"].Value}: {ex.Message}");
+                            pólizasConError++;
+                        }
+                    }
+                }
+
+                MessageBox.Show(
+                    $"Proceso de envío masivo completado:\n\n" +
+                    $"Pólizas enviadas: {pólizasEnviadas}\n" +
+                    $"Pólizas con error: {pólizasConError}\n" +
+                    $"Fecha utilizada: {fechaPoliza:dd/MM/yyyy}",
+                    "Envío Masivo Completado",
+                    MessageBoxButtons.OK,
+                    pólizasConError > 0 ? MessageBoxIcon.Warning : MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error en envío masivo: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
