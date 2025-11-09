@@ -786,11 +786,13 @@ namespace Capa_modelo
             }
             catch (Exception ex)
             {
-                // Si no hay datos, retornar DataTable vacío
-                dt.Columns.Add("Año", typeof(int));
-                dt.Columns.Add("ValorEnLibros", typeof(string));
-                dt.Columns.Add("DepreciacionAnual", typeof(string));
-                dt.Columns.Add("DepreciacionAcumulada", typeof(string));
+                // **CORRECCIÓN: Crear columnas con los nombres REALES de la tabla**
+                dt.Columns.Add("Cmp_Anio", typeof(int));
+                dt.Columns.Add("Cmp_Valor_En_Libros", typeof(string));
+                dt.Columns.Add("Cmp_Depreciacion_Anual", typeof(string));
+                dt.Columns.Add("Cmp_Depreciacion_Acumulada", typeof(string));
+
+                Console.WriteLine($"Error al obtener depreciaciones: {ex.Message}");
             }
             return dt;
         }

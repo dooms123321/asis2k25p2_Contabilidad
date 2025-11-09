@@ -2,6 +2,7 @@
 using System.Data;
 using System.Collections.Generic;
 using Capa_modelo;
+using Capa_Controlador_Polizas;
 
 namespace Capa_controlador
 {
@@ -205,5 +206,80 @@ namespace Capa_controlador
                 throw new Exception($"Error al buscar activos: {ex.Message}");
             }
         }
+        //Apartado para la poliza
+        private Cls_envio_poliza_depreciacion polizaService = new Cls_envio_poliza_depreciacion();
+
+        // Método actualizado en la clase Cls_Depreciacion_Controlador
+        public bool EnviarPolizaDepreciacion(int idActivo, DateTime fecha, decimal depreciacionAnual)
+        {
+            try
+            {
+                Console.WriteLine($"=== CONTROLADOR: ENVIANDO PÓLIZA ===");
+
+                // Este método debe estar implementado en tu controlador
+                var polizaService = new Cls_envio_poliza_depreciacion();
+
+                // **ACTUALIZACIÓN: Usar el método mejorado que sigue las instrucciones**
+                bool resultado = polizaService.EnviarPolizaDepreciacion(idActivo, fecha, depreciacionAnual);
+
+                if (resultado)
+                {
+                    Console.WriteLine($" Póliza enviada correctamente desde controlador");
+                }
+                else
+                {
+                    Console.WriteLine($" Error al enviar póliza desde controlador");
+                }
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($" Error en controlador al enviar póliza: {ex.Message}");
+                throw new Exception($"Error al enviar póliza: {ex.Message}");
+            }
+        }
+
+        public object ObtenerActivoCompleto(int idActivo)
+        {
+            try
+            {
+                // Este método debe devolver un objeto anónimo o específico, no del modelo
+                var activo = dao.fun_ObtenerDatosActivo(idActivo);
+                if (activo != null)
+                {
+                    return new
+                    {
+                        sCuentaGastoDepreciacion = activo.sCuentaGastoDepreciacion,
+                        sCuentaDepreciacionAcumulada = activo.sCuentaDepreciacionAcumulada
+                    };
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al obtener activo completo: {ex.Message}");
+            }
+        }
+        public (string cuentaGasto, string cuentaDepreciacion) ObtenerCuentasContablesActivo(int idActivo)
+        {
+            try
+            {
+                // Usa el DAO para obtener las cuentas contables del activo
+                var activo = dao.fun_ObtenerDatosActivo(idActivo);
+                if (activo != null)
+                {
+                    return (activo.sCuentaGastoDepreciacion, activo.sCuentaDepreciacionAcumulada);
+                }
+
+                // Valores por defecto si no se encuentra el activo
+                return ("6.1.5", "1.6.1");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al obtener cuentas contables del activo: {ex.Message}");
+            }
+        }
+
     }
 }

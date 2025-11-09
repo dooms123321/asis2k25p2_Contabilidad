@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Capa_Controlador_Polizas">
+      <HintPath>..\..\..\Polizas Locales\Polizas_LocalesMVC\Capa_Controlador_Polizas\bin\Debug\Capa_Controlador_Polizas.dll</HintPath>
+    </Reference>
     <Reference Include="Capa_modelo">
       <HintPath>..\Capa_modelo\bin\Debug\Capa_modelo.dll</HintPath>
     </Reference>
@@ -45,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cls_Depreciacion_Controlador.cs" />
+    <Compile Include="Cls_envio_poliza_depreciacion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
