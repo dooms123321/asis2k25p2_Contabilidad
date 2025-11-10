@@ -32,6 +32,8 @@ namespace Capa_Vista_CierreContable
             this.Dgv_Cuentas = new System.Windows.Forms.DataGridView();
             this.Cbo_periodo = new System.Windows.Forms.ComboBox();
             this.Gbp_datos = new System.Windows.Forms.GroupBox();
+            this.Cbo_actualizacion = new System.Windows.Forms.ComboBox();
+            this.Lbl_actualizacion = new System.Windows.Forms.Label();
             this.Dtp_fecha_cierre = new System.Windows.Forms.DateTimePicker();
             this.Dtp_Fecha_Hasta = new System.Windows.Forms.DateTimePicker();
             this.Dtp_fecha_desde = new System.Windows.Forms.DateTimePicker();
@@ -78,6 +80,8 @@ namespace Capa_Vista_CierreContable
             // 
             // Gbp_datos
             // 
+            this.Gbp_datos.Controls.Add(this.Cbo_actualizacion);
+            this.Gbp_datos.Controls.Add(this.Lbl_actualizacion);
             this.Gbp_datos.Controls.Add(this.Dtp_fecha_cierre);
             this.Gbp_datos.Controls.Add(this.Dtp_Fecha_Hasta);
             this.Gbp_datos.Controls.Add(this.Dtp_fecha_desde);
@@ -88,10 +92,29 @@ namespace Capa_Vista_CierreContable
             this.Gbp_datos.Controls.Add(this.Cbo_periodo);
             this.Gbp_datos.Location = new System.Drawing.Point(12, 70);
             this.Gbp_datos.Name = "Gbp_datos";
-            this.Gbp_datos.Size = new System.Drawing.Size(800, 116);
+            this.Gbp_datos.Size = new System.Drawing.Size(956, 116);
             this.Gbp_datos.TabIndex = 2;
             this.Gbp_datos.TabStop = false;
             this.Gbp_datos.Enter += new System.EventHandler(this.Gbp_datos_Enter);
+            // 
+            // Cbo_actualizacion
+            // 
+            this.Cbo_actualizacion.FormattingEnabled = true;
+            this.Cbo_actualizacion.Location = new System.Drawing.Point(817, 27);
+            this.Cbo_actualizacion.Name = "Cbo_actualizacion";
+            this.Cbo_actualizacion.Size = new System.Drawing.Size(121, 24);
+            this.Cbo_actualizacion.TabIndex = 10;
+            this.Cbo_actualizacion.SelectedIndexChanged += new System.EventHandler(this.Cbo_actualizacion_SelectedIndexChanged);
+            // 
+            // Lbl_actualizacion
+            // 
+            this.Lbl_actualizacion.AutoSize = true;
+            this.Lbl_actualizacion.Font = new System.Drawing.Font("Rockwell", 10F);
+            this.Lbl_actualizacion.Location = new System.Drawing.Point(681, 27);
+            this.Lbl_actualizacion.Name = "Lbl_actualizacion";
+            this.Lbl_actualizacion.Size = new System.Drawing.Size(119, 20);
+            this.Lbl_actualizacion.TabIndex = 9;
+            this.Lbl_actualizacion.Text = "Actualización ";
             // 
             // Dtp_fecha_cierre
             // 
@@ -107,6 +130,7 @@ namespace Capa_Vista_CierreContable
             this.Dtp_Fecha_Hasta.Name = "Dtp_Fecha_Hasta";
             this.Dtp_Fecha_Hasta.Size = new System.Drawing.Size(200, 22);
             this.Dtp_Fecha_Hasta.TabIndex = 7;
+            this.Dtp_Fecha_Hasta.ValueChanged += new System.EventHandler(this.Dtp_Fecha_Hasta_ValueChanged);
             // 
             // Dtp_fecha_desde
             // 
@@ -239,9 +263,10 @@ namespace Capa_Vista_CierreContable
             // 
             // Btn_Guardar
             // 
+            this.Btn_Guardar.ImageKey = "(ninguno)";
             this.Btn_Guardar.Location = new System.Drawing.Point(922, 283);
             this.Btn_Guardar.Name = "Btn_Guardar";
-            this.Btn_Guardar.Size = new System.Drawing.Size(94, 39);
+            this.Btn_Guardar.Size = new System.Drawing.Size(94, 45);
             this.Btn_Guardar.TabIndex = 12;
             this.Btn_Guardar.Text = "Guardar ";
             this.Btn_Guardar.UseVisualStyleBackColor = true;
@@ -341,5 +366,7 @@ namespace Capa_Vista_CierreContable
         private System.Windows.Forms.Label Lbl_TotalDebe;
         private System.Windows.Forms.Label Lbl_TotalHaber;
         private System.Windows.Forms.Label Lbl_SaldosTotales;
+        private System.Windows.Forms.ComboBox Cbo_actualizacion;
+        private System.Windows.Forms.Label Lbl_actualizacion;
     }
 }
