@@ -78,8 +78,6 @@ namespace Capa_Vista_Seguridad
                 { MenuOpciones.Catalogos, catálogosToolStripMenuItem },
                 { MenuOpciones.Procesos, procesosToolStripMenuItem },
                 { MenuOpciones.Herramientas, herramientasToolStripMenuItem },
-                { MenuOpciones.Asignaciones, asignacionesToolStripMenuItem },
-                { MenuOpciones.Modulos, modulosToolStripMenuItem }
             };
         }
 
@@ -108,10 +106,6 @@ namespace Capa_Vista_Seguridad
             Dictionary<int, ToolStripMenuItem> mapaCatalogos = new Dictionary<int, ToolStripMenuItem>
             {
                 {2401, cuentasToolStripMenuItem1},
-                {302, usuariosToolStripMenuItem},
-                {303, perfilesToolStripMenuItem},
-                {304, modulosToolStripMenuItem},
-                {305, Btn_Aplicacion}
                 
             };
 
@@ -122,9 +116,7 @@ namespace Capa_Vista_Seguridad
 
             Dictionary<int, ToolStripMenuItem> mapaAsignaciones = new Dictionary<int, ToolStripMenuItem>
             {
-                {306, asignacionDeAplicacionAUsuarioToolStripMenuItem},
-                {307, asignacionDeAplicacionAPerfilesToolStripMenuItem},
-                {308, asignacionPerfilesToolStripMenuItem}
+
             };
 
             // 1. DESHABILITA TODOS LOS SUBMENÚS ANTES DE HABILITAR PERMISOS
@@ -162,18 +154,18 @@ namespace Capa_Vista_Seguridad
                         mapaCatalogos[idAplicacion].Enabled = true;
                     if (mapaProcesos.ContainsKey(idAplicacion))
                         mapaProcesos[idAplicacion].Enabled = true;
-                    if (mapaAsignaciones.ContainsKey(idAplicacion))
-                        mapaAsignaciones[idAplicacion].Enabled = true;
+                    //if (mapaAsignaciones.ContainsKey(idAplicacion))
+                      //  mapaAsignaciones[idAplicacion].Enabled = true;
                 }
             }
 
             // 4. Habilita menús principales solo si algún submenú está habilitado
             menuItems[MenuOpciones.Catalogos].Enabled = mapaCatalogos.Values.Any(m => m.Enabled);
             menuItems[MenuOpciones.Procesos].Enabled = mapaProcesos.Values.Any(m => m.Enabled);
-            menuItems[MenuOpciones.Asignaciones].Enabled = mapaAsignaciones.Values.Any(m => m.Enabled);
+            //menuItems[MenuOpciones.Asignaciones].Enabled = mapaAsignaciones.Values.Any(m => m.Enabled);
 
             // Modulos siempre habilitar si tiene algún permiso del módulo 4
-            menuItems[MenuOpciones.Modulos].Enabled = mapaCatalogos.ContainsKey(304) && mapaCatalogos[304].Enabled;
+            //menuItems[MenuOpciones.Modulos].Enabled = mapaCatalogos.ContainsKey(304) && mapaCatalogos[304].Enabled;
         }
 
         // --- El resto de tus métodos siguen igual ---
@@ -192,83 +184,10 @@ namespace Capa_Vista_Seguridad
             childForm.Text = "Ventana " + iIChildFormNumber++;
             childForm.Show();
         }
-        private void empleadosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CerrarFormulariosHijos();
-            Frm_Empleados formEmpleado = new Frm_Empleados();
-            formEmpleado.MdiParent = this;
-            formEmpleado.Show();
-        }
-        private void cuentasToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            CerrarFormulariosHijos();
-            Frm_Empleados formEmpleado = new Frm_Empleados();
-            formEmpleado.MdiParent = this;
-            formEmpleado.Show();
-        }
-        private void perfilesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CerrarFormulariosHijos();
-            Frm_Perfiles perfiles = new Frm_Perfiles();
-            perfiles.MdiParent = this;
-            perfiles.Show();
-        }
-        private void perfilesToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            CerrarFormulariosHijos();
-            Frm_Perfiles perfiles = new Frm_Perfiles();
-            perfiles.MdiParent = this;
-            perfiles.Show();
-        }
-        private void modulosDeCatalogoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CerrarFormulariosHijos();
-            Frm_Modulo formModulo = new Frm_Modulo();
-            formModulo.MdiParent = this;
-            formModulo.Show();
-        }
-        private void modulosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CerrarFormulariosHijos();
-            Frm_Modulo modulo = new Frm_Modulo();
-            modulo.MdiParent = this;
-            modulo.Show();
-        }
-        private void usuariosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CerrarFormulariosHijos();
-            Frm_Usuario frm = new Frm_Usuario();
-            frm.MdiParent = this;
-            frm.Show();
-        }
-        private void Btn_Bitacora_Click(object sender, EventArgs e)
-        {
-            CerrarFormulariosHijos();
-            Frm_Bitacora frm = new Frm_Bitacora();
-            frm.MdiParent = this;
-            frm.Show();
-        }
-        private void asignacionDeAplicacionAUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CerrarFormulariosHijos();
-            Frm_asignacion_aplicacion_usuario asig_app_user = new Frm_asignacion_aplicacion_usuario();
-            asig_app_user.MdiParent = this;
-            asig_app_user.Show();
-        }
-        private void asignacionPerfilesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CerrarFormulariosHijos();
-            Frm_asignacion_perfil_usuario asig_perfil = new Frm_asignacion_perfil_usuario();
-            asig_perfil.MdiParent = this;
-            asig_perfil.Show();
-        }
-        private void Btn_Aplicacion_Click_1(object sender, EventArgs e)
-        {
-            CerrarFormulariosHijos();
-            FrmAplicacion formAplicacion = new FrmAplicacion();
-            formAplicacion.MdiParent = this;
-            formAplicacion.Show();
-        }
+
+
+
+        
         private void cambiarContraseñaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Frm_cambiar_contrasena ventana = new Frm_cambiar_contrasena(Capa_Controlador_Seguridad.Cls_Usuario_Conectado.iIdUsuario);
@@ -333,13 +252,7 @@ namespace Capa_Vista_Seguridad
         }
         private void btn_aplicacion_Click(object sender, EventArgs e) { }
         private void asignacionesToolStripMenuItem_Click(object sender, EventArgs e) { }
-        private void asignacionDeAplicacionAPerfilesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CerrarFormulariosHijos();
-            Frm_Permisos_Perfiles asig_app_user = new Frm_Permisos_Perfiles();
-            asig_app_user.MdiParent = this;
-            asig_app_user.Show();
-        }
+
 
         private void Pic_Cerrar_Click(object sender, EventArgs e)
         {
@@ -428,6 +341,35 @@ namespace Capa_Vista_Seguridad
             Frm_EstadoDeFlujoDeEfectivo frmCierre = new Frm_EstadoDeFlujoDeEfectivo();
             frmCierre.MdiParent = this;
             frmCierre.Show();
+        }
+
+        private void actualizarSaldosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CerrarFormulariosHijos();
+            Frm_ActualizarSaldos frmActualizarSaldos = new Frm_ActualizarSaldos();
+            frmActualizarSaldos.MdiParent = this;
+            frmActualizarSaldos.Show();
+        }
+
+        private void cierrePolizasMesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CerrarFormulariosHijos();
+            Frm_CierreMes frmCerrarMes = new Frm_CierreMes();
+            frmCerrarMes.MdiParent = this;
+            frmCerrarMes.Show();
+        }
+
+        private void cierrePolizasAnualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CerrarFormulariosHijos();
+            Frm_CierreAño frmCerrarAnio = new Frm_CierreAño();
+            frmCerrarAnio.MdiParent = this;
+            frmCerrarAnio.Show();
+        }
+
+        private void cuentasToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
