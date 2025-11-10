@@ -7,6 +7,7 @@ using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+//autor: Kenph Luna 9959-22-6326
 
 namespace Capa_Modelo_Polizas
 {
@@ -358,7 +359,7 @@ namespace Capa_Modelo_Polizas
                     bool huboCambios = true;
                     int iteraciones = 0;
 
-                    while (huboCambios && iteraciones < 50) // seguridad para jerarquías profundas
+                    while (huboCambios && iteraciones < 50) 
                     {
                         huboCambios = false;
                         using (OdbcCommand cmdPropagar = new OdbcCommand(cSQL.sPropagarSaldosJerarquico, cConn, cTrans))
@@ -369,7 +370,7 @@ namespace Capa_Modelo_Polizas
                         iteraciones++;
                     }
 
-                    //marcar pólizas activas como actualizadas 2
+                    //marcar pólizas activas como actualizadas 
                     using (OdbcCommand cmdMarcar = new OdbcCommand(cSQL.sMarcarPolizasActualizadas_EnLinea, cConn, cTrans))
                     {
                         cmdMarcar.ExecuteNonQuery();
@@ -444,11 +445,11 @@ namespace Capa_Modelo_Polizas
                 using (OdbcConnection cConn = cConexion.AbrirConexion())
                 using (OdbcTransaction cTrans = cConn.BeginTransaction())
                 {
-                    //Reiniciar saldos del catálogo
+                    //reiniciar saldos 
                     using (OdbcCommand cmdReset = new OdbcCommand(cSQL.sResetearSaldos, cConn, cTrans))
                         cmdReset.ExecuteNonQuery();
 
-                    //Calcular saldos solo del rango de fechas solicitado (solo pólizas activas o actualizadas)
+                    //calcular saldos solo del rango de fechas 
                     using (OdbcCommand cmdAct = new OdbcCommand(cSQL.sActualizarSaldosPorRango, cConn, cTrans))
                     {
                         cmdAct.Parameters.Add("p1", OdbcType.Date).Value = fechaInicio.Date;
@@ -456,7 +457,7 @@ namespace Capa_Modelo_Polizas
                         cmdAct.ExecuteNonQuery();
                     }
 
-                    //Propagar saldos desde hijas → madres, sin límite de niveles
+                    //Propagar saldos
                     bool huboCambios = true;
                     int iteraciones = 0;
 
@@ -471,7 +472,7 @@ namespace Capa_Modelo_Polizas
                         iteraciones++;
                     }
 
-                    //Marcar pólizas actualizadas (estado = 2)
+                    //Marcar pólizas actualizadas 
                     using (OdbcCommand cmdUpd = new OdbcCommand(cSQL.sMarcarPolizasActualizadas, cConn, cTrans))
                     {
                         cmdUpd.Parameters.Add("p1", OdbcType.Date).Value = fechaInicio.Date;
@@ -570,9 +571,8 @@ namespace Capa_Modelo_Polizas
             return dtPeriodo;
         }
 
-        //cambiar modo de operacion
 
-        // Crea/activa el período del mes actual si no existe, y desactiva los demás.
+        // Creacrea y activa el período del mes actual si no existe, y desactiva los demás.
         public int AsegurarPeriodoActivo(DateTime hoy)
         {
             int idPeriodo = 0;
@@ -586,7 +586,7 @@ namespace Capa_Modelo_Polizas
             {
                 try
                 {
-                    // Verificar si existe (año, mes)
+                    // Verificar si existe año y mes
                     using (var cmdSel = new OdbcCommand(cSQL.sSelectPeriodoPorMes, cConn, trx))
                     {
                         cmdSel.Parameters.Add("p1", OdbcType.Int).Value = anio;

@@ -33,7 +33,7 @@ namespace Capa_Vista_Polizas
 
                 string mesSeleccionado = Cbo_MesContable.SelectedItem.ToString();
 
-                // cnfirmación 
+                // confirmación 
                 DialogResult dr = MessageBox.Show(
                     $"¿Está seguro de cerrar el mes contable de {mesSeleccionado}?\n\n" +
                     "Esta acción marcará todas las pólizas activas de ese mes como 'Actualizadas (estado = 2)' " +

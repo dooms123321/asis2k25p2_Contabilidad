@@ -23,8 +23,8 @@ namespace Capa_Vista_Polizas
         private DataTable dtDetalle = new DataTable();
 
         // variables de edición de filas del detalle
-        private int iFilaSeleccionada = -1;  // indice de la fila seleccionada
-        private bool bEditandoFila = false;  // indica que se edita una fila
+        private int iFilaSeleccionada = -1; 
+        private bool bEditandoFila = false;  
 
         //variable para habilitar modo edicion
         private bool bModoEdicionGeneral = false; // si se está editando toda la póliza
@@ -69,14 +69,14 @@ namespace Capa_Vista_Polizas
             }
             else if (sModo == "editar")
             {
-                Txt_IdPoliza.Enabled = false; // bloquear id también
+                Txt_IdPoliza.Enabled = false; // bloquear id
                 CargarEncabezadoExistente();
                 ModoEdicion();
                 CargarDetallePolizaExistente();
             }
             else // lectura
             {
-                Txt_IdPoliza.Enabled = false; // bloquear id también
+                Txt_IdPoliza.Enabled = false; // bloquear id
                 CargarEncabezadoExistente();
                 ModoLectura();
                 CargarDetallePolizaExistente();
@@ -134,7 +134,6 @@ namespace Capa_Vista_Polizas
             Btn_Cancelar.Enabled = true;
             Btn_Salir.Enabled = true;
 
-            Btn_Grabar.Text = "Grabar cambios";
             Btn_Grabar.Enabled = true;
 
             bModoEdicionGeneral = true;
@@ -245,6 +244,7 @@ namespace Capa_Vista_Polizas
         {
             try
             {
+
                 if (Cmb_CodigoCuenta.SelectedIndex == -1 ||Cmb_Tipo.SelectedIndex == -1 ||
                 string.IsNullOrWhiteSpace(Txt_Valor.Text))
                 {
@@ -253,7 +253,6 @@ namespace Capa_Vista_Polizas
                     return;
                 }
 
-                
                 if (!decimal.TryParse(Txt_Valor.Text.Trim(), out decimal dValor) || dValor <= 0)
                 {
                     MessageBox.Show("El valor debe ser numérico y mayor a cero.",
@@ -317,7 +316,7 @@ namespace Capa_Vista_Polizas
 
                 if (sModo == "insertar")
                 {
-                    // ID por mes/año con tu llave compuesta
+                    // ID por mes y año 
                     iIdPoliza = cControlador.ObtenerSiguienteIdEncabezado(dFecha);
                     Txt_IdPoliza.Text = iIdPoliza.ToString();
 
