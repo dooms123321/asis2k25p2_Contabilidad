@@ -253,5 +253,11 @@ namespace Capa_Vista_CierreContable
         {
             
         }
+
+        private void Btn_salir_Click(object sender, EventArgs e)
+        {
+
+            this.Close();
+        }
     }
 }
