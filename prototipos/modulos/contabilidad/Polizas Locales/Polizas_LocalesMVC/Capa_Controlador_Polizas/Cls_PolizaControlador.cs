@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -122,13 +123,26 @@ namespace Capa_Controlador_Polizas
         //validacion para que un encabezado sea editable
         private bool EsEditable(int iIdPoliza, DateTime dFecha)
         {
-            DataTable dt = cPolizaDAO.ConsultarEncabezados();
-            DataRow[] rows = dt.Select($"Codigo = {iIdPoliza} AND Fecha = #{dFecha:yyyy-MM-dd}#");
-            if (rows.Length == 0) return false;
+            try
+            {
+                DataTable dt = cPolizaDAO.ConsultarEncabezados();
+                DataRow[] rows = dt.Select($"Codigo = {iIdPoliza} AND Fecha = #{dFecha:yyyy-MM-dd}#");
+                if (rows.Length == 0) return false;
 
-            bool bEstado = Convert.ToBoolean(rows[0]["Estado"]);
-            return bEstado;
+                int iEstado = Convert.ToInt32(rows[0]["EstadoCodigo"]);
+
+                //permite eliminar y modificar si la póliza está activa o actualizada
+                return (iEstado == 1 || iEstado == 2);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al verificar estado de la póliza: " + ex.Message,
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
         }
+
+
 
         //validar campos de encabezado
         private bool ValidarEncabezado(DateTime dFecha, string sConcepto)
@@ -140,18 +154,44 @@ namespace Capa_Controlador_Polizas
                 return false;
             }
 
+            //evita caracteres especiales
+            if (!Regex.IsMatch(sConcepto, @"^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,-]+$"))
+            {
+                MessageBox.Show("El concepto contiene caracteres inválidos. Solo se permiten letras, números, espacios y signos de puntuación básicos.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
             if (dFecha > DateTime.Now)
             {
                 MessageBox.Show("La fecha no puede ser mayor a la actual.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
+
             return true;
         }
 
-        //validaciones de detalles
-        private bool ValidarDetalles(List<(string sCodigoCuenta, bool bTipo, decimal dValor)> lDetalles)
+
+        private bool ValidarDatosPoliza(string sConcepto, List<(string sCodigoCuenta, bool bTipo, decimal dValor)> lDetalles)
         {
+            //validacion concepto
+            if (string.IsNullOrWhiteSpace(sConcepto))
+            {
+                MessageBox.Show("El concepto de la póliza no puede estar vacío.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            //caracteres especiales
+            if (!Regex.IsMatch(sConcepto, @"^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,-]+$"))
+            {
+                MessageBox.Show("El concepto contiene caracteres inválidos. Solo se permiten letras, números, espacios y signos básicos.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            //validacion detalles
             if (lDetalles == null || lDetalles.Count == 0)
             {
                 MessageBox.Show("Debe ingresar al menos una cuenta de detalle.",
@@ -168,29 +208,37 @@ namespace Capa_Controlador_Polizas
                     return false;
                 }
 
+                if (!Regex.IsMatch(det.sCodigoCuenta, @"^[A-Za-z0-9._-]+$"))
+                {
+                    MessageBox.Show($"El código de cuenta '{det.sCodigoCuenta}' contiene caracteres inválidos.",
+                                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
                 if (det.dValor <= 0)
                 {
-                    MessageBox.Show($"La cuenta '{det.sCodigoCuenta}' tiene un valor inválido.",
+                    MessageBox.Show($"La cuenta '{det.sCodigoCuenta}' tiene un valor inválido. Debe ser mayor a 0.",
                                     "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
             }
 
+            // balances
             decimal dCargos = lDetalles.Where(x => x.bTipo).Sum(x => x.dValor);
             decimal dAbonos = lDetalles.Where(x => !x.bTipo).Sum(x => x.dValor);
+            decimal diferencia = Math.Abs(dCargos - dAbonos);
 
-            if (dCargos != dAbonos)
+            // prohibe insert si no esta cuadrada
+            if (diferencia != 0)
             {
-                DialogResult dr = MessageBox.Show(
-                    $"La póliza no está cuadrada.\nCargos: {dCargos}\nAbonos: {dAbonos}\n\n¿Desea continuar de todas formas?",
-                    "Advertencia de Balance",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-                if (dr == DialogResult.No) return false;
+                MessageBox.Show($"La póliza no está cuadrada.\n\nCargos: {dCargos}\nAbonos: {dAbonos}\nDiferencia: {diferencia}\n\nDebe cuadrar la póliza antes de guardar.",
+                                "Error de Balance", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
 
             return true;
         }
+
 
         private void RefrescarModoActual()
         {
@@ -218,11 +266,11 @@ namespace Capa_Controlador_Polizas
                 RefrescarModoActual();
 
                 if (!ValidarEncabezado(dFecha, sConcepto)) return false;
-                if (!ValidarDetalles(lDetalles)) return false;
+                if (!ValidarDatosPoliza(sConcepto, lDetalles)) return false;
                 if (!ValidarSoloCuentasDetalle(lDetalles)) return false;
 
-                bool exito = cPolizaDAO.InsertarPoliza(dFecha, sConcepto, lDetalles);
-                if (!exito)
+                int iIdGenerado = cPolizaDAO.InsertarPoliza(dFecha, sConcepto, lDetalles);
+                if (iIdGenerado <= 0)
                 {
                     MessageBox.Show("Error al insertar la póliza. No se realizaron cambios.",
                                     "Error de inserción", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -235,7 +283,7 @@ namespace Capa_Controlador_Polizas
                 {
                     try
                     {
-                        if (cPolizaDAO.ActualizarSaldosContables())
+                        if (cPolizaDAO.ActualizarSaldosPorPoliza(iIdGenerado, dFecha))
                         {
                             MessageBox.Show("Póliza insertada y saldos contables actualizados (modo En línea).",
                                             "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -284,8 +332,9 @@ namespace Capa_Controlador_Polizas
                 }
 
                 if (!ValidarEncabezado(dFecha, sConcepto)) return false;
-                if (!ValidarDetalles(lDetalles)) return false;
+                if (!ValidarDatosPoliza(sConcepto, lDetalles)) return false;
                 if (!ValidarSoloCuentasDetalle(lDetalles)) return false;
+
 
                 bool exito = cPolizaDAO.ActualizarPoliza(iIdPoliza, dFecha, sConcepto, lDetalles);
                 if (!exito)
@@ -295,20 +344,14 @@ namespace Capa_Controlador_Polizas
                     return false;
                 }
 
-                Console.WriteLine($"[{DateTime.Now}] Póliza {iIdPoliza} actualizada correctamente. Concepto: {sConcepto}");
-
                 if (modoActual == ModoActualizacion.EnLinea)
                 {
-                    if (cPolizaDAO.ActualizarSaldosContables())
-                    {
+                    if (cPolizaDAO.ActualizarSaldosPorPoliza(iIdPoliza, dFecha))
                         MessageBox.Show("Póliza actualizada y saldos contables recalculados (modo En línea).",
                                         "Actualización Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
                     else
-                    {
                         MessageBox.Show("Póliza actualizada, pero no se pudieron recalcular los saldos.",
                                         "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
                 }
                 else
                 {
@@ -325,6 +368,7 @@ namespace Capa_Controlador_Polizas
                 return false;
             }
         }
+
 
 
 
@@ -346,7 +390,17 @@ namespace Capa_Controlador_Polizas
             if (exito)
             {
                 if (modoActual == ModoActualizacion.EnLinea)
-                    cPolizaDAO.ActualizarSaldosContables();
+                {
+                    try
+                    {
+                        cPolizaDAO.ActualizarSaldosContables();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Póliza eliminada, pero ocurrió un error al recalcular saldos: " + ex.Message,
+                                        "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
 
                 MessageBox.Show("Póliza eliminada correctamente.",
                                 "Eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -354,6 +408,8 @@ namespace Capa_Controlador_Polizas
 
             return exito;
         }
+
+
 
         //eliminar un detalle específico
         public bool EliminarDetalle(int iIdPoliza, DateTime dFecha, string sCodigoCuenta)
@@ -380,7 +436,7 @@ namespace Capa_Controlador_Polizas
             if (exito)
             {
                 if (modoActual == ModoActualizacion.EnLinea)
-                    cPolizaDAO.ActualizarSaldosContables();
+                    cPolizaDAO.ActualizarSaldosPorPoliza(iIdPoliza, dFecha);
 
                 MessageBox.Show("Detalle eliminado correctamente.",
                                 "Eliminación de Detalle", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -388,6 +444,7 @@ namespace Capa_Controlador_Polizas
 
             return exito;
         }
+
 
         //---- consultas varias
         //consultar encabezados para dgv
@@ -421,114 +478,74 @@ namespace Capa_Controlador_Polizas
             return cPolizaDAO.ObtenerDiferencial(iIdPoliza, dFecha);
         }
 
-        public void ActualizarSaldosManualmente()
-        {
-            if (cPolizaDAO.ActualizarSaldosContables())
-                MessageBox.Show("Saldos contables actualizados correctamente (modo Batch).",
-                                "Actualización de Saldos", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else
-                MessageBox.Show("No se pudieron actualizar los saldos contables.",
-                                "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
-
         //cerrar mes contable
-        public bool CerrarMesContable(DateTime fechaFin)
+        public (bool Exito, string Mensaje) CerrarMesContable(DateTime fechaFin)
         {
             try
             {
-                // Asegurar que el período actual exista y esté activo
                 cPolizaDAO.AsegurarPeriodoActivo(DateTime.Now);
 
                 if (GetModoActual() != ModoActualizacion.Batch)
-                {
-                    MessageBox.Show("El cierre mensual solo puede realizarse en modo Batch.",
-                                    "Restricción de Modo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-
-                DialogResult confirmar = MessageBox.Show(
-                    $"¿Desea cerrar el mes contable actual ({fechaFin:MMMM yyyy})?\n\n" +
-                    "Esta acción inactivará todas las pólizas activas hasta esta fecha y recalculará los saldos contables.",
-                    "Confirmación de Cierre Mensual", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                if (confirmar == DialogResult.No)
-                    return false;
+                    return (false, "El cierre mensual solo puede realizarse en modo Batch.");
 
                 int registros = cPolizaDAO.CerrarMesContable(fechaFin);
 
                 if (registros > 0)
                 {
                     cPolizaDAO.ActualizarSaldosContables();
-                    MessageBox.Show($"Mes contable cerrado correctamente.\n" +
-                                    $"Se inactivaron {registros} pólizas hasta {fechaFin:dd/MM/yyyy}.",
-                                    "Cierre Contable", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return true;
+                    return (true, $"Mes contable cerrado correctamente.\nSe actualizaron {registros} pólizas del mes actual.");
                 }
                 else
-                {
-                    MessageBox.Show("No se encontraron pólizas activas para cerrar en el mes actual.",
-                                    "Cierre Contable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return false;
-                }
+                    return (false, "No se encontraron pólizas activas para cerrar en el mes actual.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cerrar mes contable: " + ex.Message,
-                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                return (false, "Error al cerrar mes contable: " + ex.Message);
             }
         }
 
 
         //cerrar año contable
-        public bool CerrarAnioContable(DateTime fechaFin)
+        public (bool Exito, string Mensaje) CerrarAnioContable(DateTime fechaFin)
         {
             try
             {
                 cPolizaDAO.AsegurarPeriodoActivo(DateTime.Now);
-                // Verificar modo contable
+
                 if (GetModoActual() != ModoActualizacion.Batch)
-                {
-                    MessageBox.Show("El cierre anual solo puede realizarse en modo Batch.",
-                                    "Restricción de Modo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
+                    return (false, "El cierre anual solo puede realizarse en modo Batch.");
 
-                // Confirmar acción
-                DialogResult confirmar = MessageBox.Show(
-                    $"¿Desea cerrar el año contable {fechaFin.Year}?\n\n" +
-                    "Esta acción inactivará todas las pólizas activas del año y recalculará los saldos finales.",
-                    "Confirmación de Cierre Anual", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                if (confirmar == DialogResult.No)
-                    return false;
-
-                // Ejecutar cierre
                 int registros = cPolizaDAO.CerrarAnioContable(fechaFin);
 
                 if (registros > 0)
                 {
-                    // Recalcular saldos solo una vez
                     cPolizaDAO.ActualizarSaldosContables();
-
-                    MessageBox.Show($" Año contable {fechaFin.Year} cerrado correctamente.\n" +
-                                    $"Se inactivaron {registros} pólizas activas del año.",
-                                    "Cierre Anual", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    return true;
+                    return (true, $"Año contable {fechaFin.Year} cerrado correctamente.\n" +
+                                  $"Se marcaron {registros} pólizas como 'actualizadas' (estado = 2).");
                 }
                 else
                 {
-                    MessageBox.Show($" No se encontraron pólizas activas del año {fechaFin.Year} para cerrar.",
-                                    "Cierre Anual", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return false;
+                    return (false, $"No se encontraron pólizas activas del año {fechaFin.Year} para cerrar.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(" Error al cerrar año contable: " + ex.Message,
-                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                return (false, "Error al cerrar año contable: " + ex.Message);
+            }
+        }
+
+
+        //obtener periodo actual
+        public DataTable ObtenerPeriodoActual()
+        {
+            try
+            {
+                cPolizaDAO.AsegurarPeriodoActivo(DateTime.Now);
+                return cPolizaDAO.ObtenerPeriodoActual();
+            }
+            catch
+            {
+                return new DataTable();
             }
         }
 
@@ -545,6 +562,64 @@ namespace Capa_Controlador_Polizas
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
+        public bool ActualizarSaldosPorRango(DateTime fechaInicio, DateTime fechaFin)
+        {
+            try
+            {
+                RefrescarModoActual();
+
+                // Validacion fechas correctas
+                if (fechaFin < fechaInicio)
+                {
+                    MessageBox.Show("La fecha final no puede ser menor que la inicial.",
+                                    "Error de fechas", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                // Validación modo actual
+                if (GetModoActual() != ModoActualizacion.Batch)
+                {
+                    MessageBox.Show("La actualización manual solo puede realizarse en modo Batch.",
+                                    "Modo no permitido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                // Validación pertenece al periodo activo
+                if (!cPolizaDAO.ExistePeriodoActivo(fechaInicio, fechaFin))
+                {
+                    MessageBox.Show("Las fechas seleccionadas no pertenecen al período contable activo.",
+                                    "Validación de período", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+                //ejecuta actualizacion
+                bool exito = cPolizaDAO.ActualizarSaldosPorRango(fechaInicio, fechaFin);
+                if (exito)
+                {
+                    MessageBox.Show(
+                        $"Saldos actualizados correctamente del {fechaInicio:dd/MM/yyyy} al {fechaFin:dd/MM/yyyy}.\n" +
+                        "Las pólizas de ese rango fueron marcadas como 'actualizadas' (estado = 2).",
+                        "Actualización de Saldos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("No se pudieron actualizar los saldos contables en el rango indicado.",
+                                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+                return exito;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar saldos por rango: " + ex.Message,
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+
 
 
     }
