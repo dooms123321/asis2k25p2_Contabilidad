@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Data;
 using Capa_controlador;
+using System.Drawing;
 
 namespace Capa_vista
 {
@@ -28,6 +29,8 @@ namespace Capa_vista
             ConfigurarGridDepreciacion();
             ConfigurarTabPolizas();
             Dtp_fecha_poliza.Value = DateTime.Now;
+            Txt_activo_fijo.KeyPress += Txt_activo_fijo_KeyPress;
+            Txt_descripcion.KeyPress += Txt_descripcion_KeyPress;
         }
 
         private void ConfigurarGridDepreciacion()
@@ -75,6 +78,7 @@ namespace Capa_vista
 
             Tbc_calculo_activo_fijo.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
         }
+
         private void VerDatosActivoEnBD(int idActivo)
         {
             try
@@ -325,9 +329,6 @@ namespace Capa_vista
             Lbl_resultado.Text = "---";
         }
 
-        // Evento del botón Calcular
-        // Evento del botón Calcular
-        // Evento del botón Calcular
         private void Btn_calcular_activo_fijo_Click(object sender, EventArgs e)
         {
             int idActivo = 0;
@@ -413,8 +414,6 @@ namespace Capa_vista
             }
         }
 
-        // Evento del botón Guardar Cálculo
-        // Evento del botón Guardar Cálculo
         private void Btn_guardar_calculo_Click(object sender, EventArgs e)
         {
             int idActivo = 0;
@@ -496,14 +495,13 @@ namespace Capa_vista
             }
         }
 
-        // Evento del botón Limpiar
         private void Btn_limpial_calculo_Click(object sender, EventArgs e)
         {
             LimpiarCamposDepreciacion();
             Cbo_seleccion_activo.SelectedIndex = 0;
         }
 
-        // MÉTODOS ORIGINALES DE LA PESTAÑA DE REGISTRO (NO DUPLICAR)
+        // MÉTODOS ORIGINALES DE LA PESTAÑA DE REGISTRO
         private void CargarGruposActivos()
         {
             try
@@ -584,6 +582,35 @@ namespace Capa_vista
                 return false;
             }
 
+            // Validar costo de adquisición
+            if (string.IsNullOrEmpty(Txt_costo_adquisicion.Text.Trim()) ||
+                Txt_costo_adquisicion.Text == "0.00" ||
+                Txt_costo_adquisicion.Text == "0")
+            {
+                MessageBox.Show("El costo de adquisición es requerido y debe ser mayor a cero", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Txt_costo_adquisicion.Focus();
+                return false;
+            }
+
+            // Validar valor residual
+            if (string.IsNullOrEmpty(Txt_adquisicion.Text.Trim()))
+            {
+                MessageBox.Show("El valor residual es requerido", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Txt_adquisicion.Focus();
+                return false;
+            }
+
+            // Validar vida útil
+            if (string.IsNullOrEmpty(Txt_vida_util.Text.Trim()))
+            {
+                MessageBox.Show("La vida útil es requerida", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Txt_vida_util.Focus();
+                return false;
+            }
+
             // Validar cuentas contables
             if (Cbo_cuenta_activo.SelectedIndex == -1)
             {
@@ -616,8 +643,8 @@ namespace Capa_vista
         {
             Txt_activo_fijo.Clear();
             Txt_descripcion.Clear();
-            Txt_costo_adquisicion.Clear();
-            Txt_adquisicion.Clear();
+            Txt_costo_adquisicion.Text = "0.00";
+            Txt_adquisicion.Text = "0.00";
             Txt_vida_util.Clear();
             Cbo_grupo.SelectedIndex = -1;
 
@@ -636,14 +663,18 @@ namespace Capa_vista
             LimpiarCampos();
         }
 
+        // VERSIÓN SIMPLIFICADA PARA INGRESO DE MONTOS
         private void Txt_costo_adquisicion_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            // Permitir solo números, punto decimal y teclas de control
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
                 e.Handled = true;
+                return;
             }
 
-            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            // Validar que solo haya un punto decimal
+            if (e.KeyChar == '.' && ((TextBox)sender).Text.IndexOf('.') > -1)
             {
                 e.Handled = true;
             }
@@ -651,19 +682,12 @@ namespace Capa_vista
 
         private void Txt_adquisicion_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
-            {
-                e.Handled = true;
-            }
-
-            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
-            {
-                e.Handled = true;
-            }
+            Txt_costo_adquisicion_KeyPress(sender, e);
         }
 
         private void Txt_vida_util_KeyPress(object sender, KeyPressEventArgs e)
         {
+            // Solo números enteros
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
@@ -742,13 +766,52 @@ namespace Capa_vista
                 return;
             }
 
+            // Convertir valores a decimal
+            decimal costoAdquisicion, valorResidual;
+            try
+            {
+                costoAdquisicion = Convert.ToDecimal(Txt_costo_adquisicion.Text);
+                valorResidual = Convert.ToDecimal(Txt_adquisicion.Text);
+
+                // Validaciones adicionales
+                if (costoAdquisicion <= 0)
+                {
+                    MessageBox.Show("El costo de adquisición debe ser mayor a cero.", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Txt_costo_adquisicion.Focus();
+                    return;
+                }
+
+                if (valorResidual < 0)
+                {
+                    MessageBox.Show("El valor residual no puede ser negativo.", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Txt_adquisicion.Focus();
+                    return;
+                }
+
+                if (valorResidual >= costoAdquisicion)
+                {
+                    MessageBox.Show("El valor residual no puede ser mayor o igual al costo de adquisición.", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Txt_adquisicion.Focus();
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error en los valores numéricos: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             bool resultado = controlador.GuardarNuevoActivo(
                 Txt_activo_fijo.Text.Trim(),
                 Txt_descripcion.Text.Trim(),
                 Cbo_grupo.SelectedItem?.ToString() ?? "",
                 fecha,
-                decimal.Parse(Txt_costo_adquisicion.Text),
-                decimal.Parse(Txt_adquisicion.Text),
+                costoAdquisicion,
+                valorResidual,
                 int.Parse(Txt_vida_util.Text),
                 cuentaActivo,
                 cuentaDepreciacion,
@@ -804,7 +867,7 @@ namespace Capa_vista
                 }
             }
         }
-        
+
         private void Btn_buscar_activo_Click(object sender, EventArgs e)
         {
             // Simplemente actualiza la lista de activos en el ComboBox
@@ -815,11 +878,9 @@ namespace Capa_vista
 
         private void BuscarActivos()
         {
-            
+
         }
 
-
-        
         private void ActualizarListasActivos()
         {
             try
@@ -835,6 +896,7 @@ namespace Capa_vista
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (Tbc_calculo_activo_fijo.SelectedTab == tabPage2)
@@ -866,100 +928,6 @@ namespace Capa_vista
                 Console.WriteLine("No hay activo seleccionado");
             }
         }
-        private void ProbarCalculoDirecto()
-        {
-            try
-            {
-                // Probar con un ID fijo para debugging
-                int idActivo = 1; // El ID de Toyota que viste en los logs
-                Console.WriteLine("=== PRUEBA DIRECTA DE CÁLCULO ===");
-
-                DataTable dt = controlador.CalcularDepreciacionLineal(idActivo);
-                Console.WriteLine($"Resultado: {dt.Rows.Count} filas calculadas");
-
-                foreach (DataRow row in dt.Rows)
-                {
-                    Console.WriteLine($"Año {row["Año"]}: {row["ValorEnLibros"]} | {row["DepreciacionAnual"]} | {row["DepreciacionAcumulada"]}");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error en prueba directa: {ex.Message}");
-            }
-        }
-        private void EnviarPolizaDepreciacionAnual()
-        {
-            try
-            {
-                // 1. OBTENER ID DEL ACTIVO SELECCIONADO (usando tu lógica existente)
-                int idActivo = ObtenerIdActivoSeleccionado();
-
-                if (idActivo == 0)
-                {
-                    MessageBox.Show("Por favor seleccione un activo primero.", "Advertencia",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // 2. OBTENER DEPRECIACIÓN ANUAL (usando tus cálculos existentes)
-                var controlador = new Cls_Depreciacion_Controlador();
-                DataTable dtDepreciacion = controlador.CalcularDepreciacionLineal(idActivo);
-
-                if (dtDepreciacion.Rows.Count == 0)
-                {
-                    MessageBox.Show("No hay datos de depreciación calculados. Calcule primero.", "Advertencia",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // 3. OBTENER DEPRECIACIÓN DEL PRIMER AÑO (o la que necesites)
-                decimal depreciacionAnual = 0;
-                if (decimal.TryParse(dtDepreciacion.Rows[0]["DepreciacionAnual"].ToString()
-                                    .Replace("Q", "").Replace("$", "").Replace(",", ""),
-                                    out decimal temp))
-                {
-                    depreciacionAnual = temp;
-                }
-
-                if (depreciacionAnual <= 0)
-                {
-                    MessageBox.Show("La depreciación anual es cero o no se pudo obtener.", "Error",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                // 4. DEFINIR FECHA (normalmente fin de año)
-                DateTime fechaPoliza = new DateTime(DateTime.Now.Year, 12, 31);
-
-                // 5. CONFIRMAR ENVÍO
-                DialogResult confirmacion = MessageBox.Show(
-                    $"¿Enviar póliza de depreciación anual?\n\n" +
-                    $"Activo: {Cbo_seleccion_activo.Text}\n" +
-                    $"Fecha: {fechaPoliza:dd/MM/yyyy}\n" +
-                    $"Depreciación Anual: {depreciacionAnual:C}\n\n" +
-                    $"Esta póliza se registrará en el sistema contable.",
-                    "Confirmar Envío de Póliza",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-
-                if (confirmacion != DialogResult.Yes) return;
-
-                // 6. ENVIAR PÓLIZA
-                var envioPoliza = new Cls_envio_poliza_depreciacion();
-                bool resultado = envioPoliza.EnviarPolizaDepreciacion(idActivo, fechaPoliza, depreciacionAnual);
-
-                if (resultado)
-                {
-                    // Opcional: Cambiar a pestaña de pólizas
-                    Tbc_calculo_activo_fijo.SelectedTab = tabPage3;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al enviar póliza: {ex.Message}", "Error",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         private int ObtenerIdActivoSeleccionado()
         {
@@ -983,7 +951,7 @@ namespace Capa_vista
 
             return idActivo;
         }
-        //Configuradcion para polizas
+
         private void ConfigurarTabPolizas()
         {
             ConfigurarGridPolizas();
@@ -991,6 +959,7 @@ namespace Capa_vista
             Dtp_fecha_poliza.Value = DateTime.Now;
             Console.WriteLine("Tab de pólizas configurada correctamente");
         }
+
         private void ConfigurarGridPolizas()
         {
             try
@@ -1020,6 +989,7 @@ namespace Capa_vista
                 Console.WriteLine($"Error configurando grid de pólizas: {ex.Message}");
             }
         }
+
         private void Btn_actualiazr_poliza_depre_Click(object sender, EventArgs e)
         {
             int idActivo = ObtenerIdActivoSeleccionado();
@@ -1035,6 +1005,7 @@ namespace Capa_vista
                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
         private void Tbc_calculo_activo_fijo_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (Tbc_calculo_activo_fijo.SelectedTab == tabPage3) // Pestaña de pólizas
@@ -1042,7 +1013,7 @@ namespace Capa_vista
                 int idActivo = ObtenerIdActivoSeleccionado();
                 if (idActivo > 0)
                 {
-                    CargarDatosParaPolizas(idActivo);  // ← ESTE MÉTODO YA ESTÁ IMPLEMENTADO
+                    CargarDatosParaPolizas(idActivo);
                 }
                 else
                 {
@@ -1094,7 +1065,7 @@ namespace Capa_vista
 
                 string nombreActivo = datosActivo[0];
 
-                // *** CAMBIO PRINCIPAL: Obtener fecha desde el DateTimePicker ***
+                // Obtener fecha desde el DateTimePicker
                 DateTime fechaPoliza = Dtp_fecha_poliza.Value;
 
                 // Mostrar confirmación con la fecha seleccionada
@@ -1133,6 +1104,7 @@ namespace Capa_vista
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void CargarDatosParaPolizas(int idActivo)
         {
             try
@@ -1142,34 +1114,39 @@ namespace Capa_vista
                 // Obtener datos del activo a través del controlador
                 string[] datosActivo = controlador.ObtenerDatosActivo(idActivo);
 
-                if (datosActivo == null || datosActivo.Length < 3)
+                if (datosActivo == null || datosActivo.Length < 5)
                 {
-                    MessageBox.Show("No se pudo obtener información del activo seleccionado.", "Error",
+                    MessageBox.Show("No se pudo obtener información completa del activo seleccionado.", "Error",
                                   MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
                 string nombreActivo = datosActivo[0];
                 string grupoActivo = datosActivo[1];
+                string costoAdquisicion = datosActivo[2];
+                string valorResidual = datosActivo[3];
+                string vidaUtil = datosActivo[4];
+
+                Console.WriteLine($"Datos obtenidos del activo:");
+                Console.WriteLine($"  Nombre: {nombreActivo}");
+                Console.WriteLine($"  Grupo: {grupoActivo}");
+                Console.WriteLine($"  Costo: {costoAdquisicion}");
+                Console.WriteLine($"  Valor Residual: {valorResidual}");
+                Console.WriteLine($"  Vida Útil: {vidaUtil}");
 
                 // Obtener depreciaciones calculadas
                 DataTable dtDepreciaciones = controlador.ObtenerDepreciacionesExistentes(idActivo);
-
-                // **DEBUG: Verificar las columnas del DataTable**
-                Console.WriteLine($"Columnas en dtDepreciaciones:");
-                foreach (DataColumn col in dtDepreciaciones.Columns)
-                {
-                    Console.WriteLine($"  - {col.ColumnName} ({col.DataType})");
-                }
 
                 if (dtDepreciaciones.Rows.Count == 0)
                 {
                     MessageBox.Show("No hay depreciaciones calculadas para este activo.", "Información",
                                   MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Limpiar labels si no hay datos
+                    LimpiarLabelsPoliza();
                     return;
                 }
 
-                // Obtener cuentas contables del activo usando el nuevo método
+                // Obtener cuentas contables del activo
                 var cuentas = controlador.ObtenerCuentasContablesActivo(idActivo);
                 string cuentaGasto = cuentas.cuentaGasto;
                 string cuentaDepreciacion = cuentas.cuentaDepreciacion;
@@ -1177,19 +1154,16 @@ namespace Capa_vista
                 // Limpiar datos anteriores
                 Dgv_polizas_depreciacion.Rows.Clear();
 
-                // **CORRECCIÓN: Usar los nombres correctos de las columnas**
-                string columnaAnio = "Cmp_Anio"; // Nombre real en la tabla
-                string columnaDepreciacionAnual = "Cmp_Depreciacion_Anual"; // Nombre real en la tabla
-
-                Console.WriteLine($"Usando columna Año: {columnaAnio}");
-                Console.WriteLine($"Usando columna Depreciación: {columnaDepreciacionAnual}");
+                // Usar los nombres correctos de las columnas
+                string columnaAnio = "Cmp_Anio";
+                string columnaDepreciacionAnual = "Cmp_Depreciacion_Anual";
 
                 // Preparar datos para pólizas
                 foreach (DataRow row in dtDepreciaciones.Rows)
                 {
                     try
                     {
-                        // Obtener año usando el nombre correcto de la columna
+                        // Obtener año usando el nombre correcto
                         int año = 0;
                         if (row[columnaAnio] != DBNull.Value)
                         {
@@ -1221,8 +1195,6 @@ namespace Capa_vista
                             Dgv_polizas_depreciacion.Rows[index].Cells["CuentaDepreciacion"].Value = cuentaDepreciacion;
                             Dgv_polizas_depreciacion.Rows[index].Cells["Concepto"].Value = concepto;
                             Dgv_polizas_depreciacion.Rows[index].Cells["Estado"].Value = "Pendiente";
-
-                            Console.WriteLine($"Año {año} preparado: {depreciacionAnual:C2}");
                         }
                     }
                     catch (Exception ex)
@@ -1232,18 +1204,35 @@ namespace Capa_vista
                     }
                 }
 
-                // Actualizar información del activo en los labels
+                // Asignar valores correctos a los labels
                 Lbl_activo_poliza.Text = nombreActivo;
-                Lbl_total_polizas.Text = Dgv_polizas_depreciacion.Rows.Count.ToString();
+                Lbl_total_polizas.Text = dtDepreciaciones.Rows.Count.ToString();
+                Lbl_info_total.Text = costoAdquisicion;
+                Lbl_vida_util_poliza.Text = vidaUtil + " años";
 
-                Console.WriteLine($"Datos cargados: {Dgv_polizas_depreciacion.Rows.Count} años preparados para pólizas");
+                Console.WriteLine($"Labels actualizados:");
+                Console.WriteLine($"  Activo: {Lbl_activo_poliza.Text}");
+                Console.WriteLine($"  Total pólizas: {Lbl_total_polizas.Text}");
+                Console.WriteLine($"  Costo: {Lbl_info_total.Text}");
+                Console.WriteLine($"  Vida útil: {Lbl_vida_util_poliza.Text}");
+
+                Console.WriteLine($"Datos cargados: {dtDepreciaciones.Rows.Count} años preparados para pólizas");
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al cargar datos para pólizas: {ex.Message}", "Error",
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Console.WriteLine($"Error detallado: {ex.ToString()}");
+                LimpiarLabelsPoliza();
             }
+        }
+
+        private void LimpiarLabelsPoliza()
+        {
+            Lbl_activo_poliza.Text = "---";
+            Lbl_total_polizas.Text = "---";
+            Lbl_info_total.Text = "---";
+            Lbl_vida_util_poliza.Text = "---";
         }
 
         private void Btn_enviar_poliza_todo_Click(object sender, EventArgs e)
@@ -1321,5 +1310,111 @@ namespace Capa_vista
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void Tbc_calculo_activo_fijo_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            // Método existente
+        }
+        private void Txt_activo_fijo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir teclas de control (backspace, delete, etc.)
+            if (char.IsControl(e.KeyChar))
+            {
+                return;
+            }
+
+            // Permitir letras, espacios, acentos y caracteres especiales comunes
+            if (char.IsLetter(e.KeyChar) ||
+                e.KeyChar == ' ' ||
+                e.KeyChar == '.' ||
+                e.KeyChar == ',' ||
+                e.KeyChar == '-' ||
+                e.KeyChar == '_' ||
+                e.KeyChar == 'á' || e.KeyChar == 'é' || e.KeyChar == 'í' || e.KeyChar == 'ó' || e.KeyChar == 'ú' ||
+                e.KeyChar == 'Á' || e.KeyChar == 'É' || e.KeyChar == 'Í' || e.KeyChar == 'Ó' || e.KeyChar == 'Ú' ||
+                e.KeyChar == 'ñ' || e.KeyChar == 'Ñ')
+            {
+                return;
+            }
+
+            // No permitir números ni otros caracteres
+            e.Handled = true;
+        }
+        private void Txt_descripcion_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir teclas de control (backspace, delete, etc.)
+            if (char.IsControl(e.KeyChar))
+            {
+                return;
+            }
+
+            // Permitir letras, números, espacios y caracteres especiales comunes en descripciones
+            if (char.IsLetterOrDigit(e.KeyChar) ||
+                e.KeyChar == ' ' ||
+                e.KeyChar == '.' ||
+                e.KeyChar == ',' ||
+                e.KeyChar == '-' ||
+                e.KeyChar == '_' ||
+                e.KeyChar == ':' ||
+                e.KeyChar == ';' ||
+                e.KeyChar == '(' ||
+                e.KeyChar == ')' ||
+                e.KeyChar == 'á' || e.KeyChar == 'é' || e.KeyChar == 'í' || e.KeyChar == 'ó' || e.KeyChar == 'ú' ||
+                e.KeyChar == 'Á' || e.KeyChar == 'É' || e.KeyChar == 'Í' || e.KeyChar == 'Ó' || e.KeyChar == 'Ú' ||
+                e.KeyChar == 'ñ' || e.KeyChar == 'Ñ')
+            {
+                return;
+            }
+
+            // No permitir otros caracteres especiales
+            e.Handled = true;
+        }
+        private void Txt_activo_fijo_Leave(object sender, EventArgs e)
+        {
+            LimpiarTextoNoPermitido(Txt_activo_fijo, false);
+        }
+
+        private void Txt_descripcion_Leave(object sender, EventArgs e)
+        {
+            LimpiarTextoNoPermitido(Txt_descripcion, true);
+        }
+
+        private void LimpiarTextoNoPermitido(TextBox textBox, bool permitirNumeros)
+        {
+            if (string.IsNullOrEmpty(textBox.Text))
+                return;
+
+            string textoLimpio = "";
+            foreach (char c in textBox.Text)
+            {
+                if (char.IsLetter(c) ||
+                    c == ' ' ||
+                    c == '.' ||
+                    c == ',' ||
+                    c == '-' ||
+                    c == '_' ||
+                    c == ':' ||
+                    c == ';' ||
+                    c == '(' ||
+                    c == ')' ||
+                    c == 'á' || c == 'é' || c == 'í' || c == 'ó' || c == 'ú' ||
+                    c == 'Á' || c == 'É' || c == 'Í' || c == 'Ó' || c == 'Ú' ||
+                    c == 'ñ' || c == 'Ñ' ||
+                    (permitirNumeros && char.IsDigit(c)))
+                {
+                    textoLimpio += c;
+                }
+            }
+
+            if (textBox.Text != textoLimpio)
+            {
+                textBox.Text = textoLimpio;
+                MessageBox.Show("Se han removido caracteres no permitidos", "Validación",
+                              MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+
     }
+
 }
