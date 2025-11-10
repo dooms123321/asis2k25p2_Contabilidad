@@ -43,7 +43,7 @@ namespace Capa_Modelo_Polizas
 
 
         // insertar poliza completa de forma transaccional
-        public bool InsertarPoliza(DateTime dFecha, string sConcepto, List<(string sCodigoCuenta, bool bTipo, decimal dValor)> lDetalles)
+        public int InsertarPoliza(DateTime dFecha, string sConcepto, List<(string sCodigoCuenta, bool bTipo, decimal dValor)> lDetalles)
         {
             using (OdbcConnection cConn = cConexion.AbrirConexion())
             using (OdbcTransaction cTrans = cConn.BeginTransaction())
@@ -70,7 +70,7 @@ namespace Capa_Modelo_Polizas
                             cCmdDet.Parameters.Add("p1", OdbcType.Int).Value = iIdGenerado;
                             cCmdDet.Parameters.Add("p2", OdbcType.Date).Value = dFecha.Date;
                             cCmdDet.Parameters.Add("p3", OdbcType.VarChar, 20).Value = det.sCodigoCuenta;
-                            cCmdDet.Parameters.Add("p4", OdbcType.Bit).Value = det.bTipo;
+                            cCmdDet.Parameters.Add("p4", OdbcType.TinyInt).Value = det.bTipo ? 1 : 0;
                             cCmdDet.Parameters.Add("p5", OdbcType.Double).Value = Convert.ToDouble(det.dValor);
                             cCmdDet.ExecuteNonQuery();
                         }
@@ -87,7 +87,7 @@ namespace Capa_Modelo_Polizas
                     }
 
                     cTrans.Commit();
-                    return true;
+                    return iIdGenerado;
                 }
                 catch (Exception ex)
                 {
@@ -133,7 +133,7 @@ namespace Capa_Modelo_Polizas
                             cCmdDet.Parameters.Add("p1", OdbcType.Int).Value = iIdPoliza;
                             cCmdDet.Parameters.Add("p2", OdbcType.Date).Value = dFecha.Date;
                             cCmdDet.Parameters.Add("p3", OdbcType.VarChar, 20).Value = det.sCodigoCuenta;
-                            cCmdDet.Parameters.Add("p4", OdbcType.Bit).Value = det.bTipo;
+                            cCmdDet.Parameters.Add("p4", OdbcType.TinyInt).Value = det.bTipo ? 1 : 0;
                             cCmdDet.Parameters.Add("p5", OdbcType.Double).Value = Convert.ToDouble(det.dValor);
                             cCmdDet.ExecuteNonQuery();
                         }
@@ -237,13 +237,15 @@ namespace Capa_Modelo_Polizas
                 {
                     da.Fill(dtDatos);
                 }
+
+                return dtDatos;
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al consultar encabezados: " + ex.Message);
             }
-            return dtDatos;
         }
+
 
         //consultar detalle
         public DataTable ConsultarDetalle(int iIdPoliza, DateTime dFecha)
@@ -328,7 +330,7 @@ namespace Capa_Modelo_Polizas
             }
         }
 
-        // Obtener diferencial cargo menos abono
+        // obtener diferencial cargo menos abono
         public decimal ObtenerDiferencial(int iIdPoliza, DateTime dFecha)
         {
             decimal dCargos = ObtenerTotalCargos(iIdPoliza, dFecha);
@@ -336,7 +338,7 @@ namespace Capa_Modelo_Polizas
             return dCargos - dAbonos;
         }
 
-        //metodo para actualizar saldos contables
+        //metodo para actualizar saldos contables en linea
         public bool ActualizarSaldosContables()
         {
             try
@@ -352,15 +354,28 @@ namespace Capa_Modelo_Polizas
                     using (OdbcCommand cmdAct = new OdbcCommand(cSQL.sActualizarSaldos, cConn, cTrans))
                         cmdAct.ExecuteNonQuery();
 
-                    // propagar saldos hacia cuentas madre 
-                    for (int nivel = 0; nivel < 5; nivel++) // 5 niveles jerárquicos
+                    //propagar jerarquicamente hasta no encontrar más cuentas madre
+                    bool huboCambios = true;
+                    int iteraciones = 0;
+
+                    while (huboCambios && iteraciones < 50) // seguridad para jerarquías profundas
                     {
-                        using (OdbcCommand cmdPropagar = new OdbcCommand(cSQL.sPropagarSaldos, cConn, cTrans))
+                        huboCambios = false;
+                        using (OdbcCommand cmdPropagar = new OdbcCommand(cSQL.sPropagarSaldosJerarquico, cConn, cTrans))
                         {
-                            cmdPropagar.ExecuteNonQuery();
+                            int filas = cmdPropagar.ExecuteNonQuery();
+                            if (filas > 0) huboCambios = true;
                         }
+                        iteraciones++;
                     }
 
+                    //marcar pólizas activas como actualizadas 2
+                    using (OdbcCommand cmdMarcar = new OdbcCommand(cSQL.sMarcarPolizasActualizadas_EnLinea, cConn, cTrans))
+                    {
+                        cmdMarcar.ExecuteNonQuery();
+                    }
+
+                    //confirmar transacción
                     cTrans.Commit();
                     return true;
                 }
@@ -370,6 +385,133 @@ namespace Capa_Modelo_Polizas
                 throw new Exception("Error al actualizar saldos contables: " + ex.Message);
             }
         }
+
+        public bool ActualizarSaldosPorPoliza(int iIdPoliza, DateTime dFecha)
+        {
+            try
+            {
+                using (OdbcConnection cConn = cConexion.AbrirConexion())
+                using (OdbcTransaction cTrans = cConn.BeginTransaction())
+                {
+                    // Recalcular solo las cuentas afectadas
+                    using (OdbcCommand cmd = new OdbcCommand(cSQL.sActualizarSaldosPorPoliza, cConn, cTrans))
+                    {
+                        cmd.Parameters.Add("p1", OdbcType.Int).Value = iIdPoliza;
+                        cmd.Parameters.Add("p2", OdbcType.Date).Value = dFecha.Date;
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // Propagar jerárquicamente saldos a cuentas madre
+                    bool huboCambios = true;
+                    int iteraciones = 0;
+
+                    while (huboCambios && iteraciones < 50)
+                    {
+                        huboCambios = false;
+                        using (OdbcCommand cmdPropagar = new OdbcCommand(cSQL.sPropagarSaldosJerarquico, cConn, cTrans))
+                        {
+                            int filas = cmdPropagar.ExecuteNonQuery();
+                            if (filas > 0) huboCambios = true;
+                        }
+                        iteraciones++;
+                    }
+
+                    // Marcar solo esa póliza como actualizada
+                    using (OdbcCommand cmdMarcar = new OdbcCommand(cSQL.sMarcarPolizaActualizada, cConn, cTrans))
+                    {
+                        cmdMarcar.Parameters.Add("p1", OdbcType.Int).Value = iIdPoliza;
+                        cmdMarcar.Parameters.Add("p2", OdbcType.Date).Value = dFecha.Date;
+                        cmdMarcar.ExecuteNonQuery();
+                    }
+
+                    cTrans.Commit();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al actualizar saldos de la póliza: " + ex.Message);
+            }
+        }
+
+
+
+
+        public bool ActualizarSaldosPorRango(DateTime fechaInicio, DateTime fechaFin)
+        {
+            try
+            {
+                using (OdbcConnection cConn = cConexion.AbrirConexion())
+                using (OdbcTransaction cTrans = cConn.BeginTransaction())
+                {
+                    //Reiniciar saldos del catálogo
+                    using (OdbcCommand cmdReset = new OdbcCommand(cSQL.sResetearSaldos, cConn, cTrans))
+                        cmdReset.ExecuteNonQuery();
+
+                    //Calcular saldos solo del rango de fechas solicitado (solo pólizas activas o actualizadas)
+                    using (OdbcCommand cmdAct = new OdbcCommand(cSQL.sActualizarSaldosPorRango, cConn, cTrans))
+                    {
+                        cmdAct.Parameters.Add("p1", OdbcType.Date).Value = fechaInicio.Date;
+                        cmdAct.Parameters.Add("p2", OdbcType.Date).Value = fechaFin.Date;
+                        cmdAct.ExecuteNonQuery();
+                    }
+
+                    //Propagar saldos desde hijas → madres, sin límite de niveles
+                    bool huboCambios = true;
+                    int iteraciones = 0;
+
+                    while (huboCambios && iteraciones < 50) // evita bucle infinito
+                    {
+                        huboCambios = false;
+                        using (OdbcCommand cmdPropagar = new OdbcCommand(cSQL.sPropagarSaldosJerarquico, cConn, cTrans))
+                        {
+                            int filas = cmdPropagar.ExecuteNonQuery();
+                            if (filas > 0) huboCambios = true;
+                        }
+                        iteraciones++;
+                    }
+
+                    //Marcar pólizas actualizadas (estado = 2)
+                    using (OdbcCommand cmdUpd = new OdbcCommand(cSQL.sMarcarPolizasActualizadas, cConn, cTrans))
+                    {
+                        cmdUpd.Parameters.Add("p1", OdbcType.Date).Value = fechaInicio.Date;
+                        cmdUpd.Parameters.Add("p2", OdbcType.Date).Value = fechaFin.Date;
+                        cmdUpd.ExecuteNonQuery();
+                    }
+
+                    cTrans.Commit();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al actualizar saldos contables por rango: " + ex.Message);
+            }
+        }
+
+        //para validacion de rangos entre fechas al actualizar saldos en batch
+        public bool ExistePeriodoActivo(DateTime fechaInicio, DateTime fechaFin)
+        {
+            try
+            {
+                using (OdbcConnection cConn = cConexion.AbrirConexion())
+                using (OdbcCommand cmd = new OdbcCommand(cSQL.sVerificarPeriodoActivo, cConn))
+                {
+                    cmd.Parameters.Add("p1", OdbcType.Date).Value = fechaInicio.Date;
+                    cmd.Parameters.Add("p2", OdbcType.Date).Value = fechaFin.Date;
+
+                    object result = cmd.ExecuteScalar();
+                    return Convert.ToInt32(result ?? 0) > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al verificar período activo: " + ex.Message);
+            }
+        }
+
+
+
 
 
 
@@ -390,6 +532,7 @@ namespace Capa_Modelo_Polizas
                 throw new Exception("Error al cerrar mes contable: " + ex.Message);
             }
         }
+
 
         public int CerrarAnioContable(DateTime fechaFin)
         {
@@ -443,28 +586,20 @@ namespace Capa_Modelo_Polizas
             {
                 try
                 {
-                    // 1) ¿Existe el período (año,mes)?
-                    using (var cmdSel = new OdbcCommand(
-                        @"SELECT Pk_Id_Periodo 
-                      FROM Tbl_PeriodosContables 
-                      WHERE Cmp_Anio = ? AND Cmp_Mes = ? 
-                      LIMIT 1;", cConn, trx))
+                    // Verificar si existe (año, mes)
+                    using (var cmdSel = new OdbcCommand(cSQL.sSelectPeriodoPorMes, cConn, trx))
                     {
                         cmdSel.Parameters.Add("p1", OdbcType.Int).Value = anio;
                         cmdSel.Parameters.Add("p2", OdbcType.TinyInt).Value = mes;
-
                         var obj = cmdSel.ExecuteScalar();
                         if (obj != null && obj != DBNull.Value)
                             idPeriodo = Convert.ToInt32(obj);
                     }
 
+                    // insertar si no existe
                     if (idPeriodo == 0)
                     {
-                        // 2) Insertar el período actual (por defecto modo Batch = 0)
-                        using (var cmdIns = new OdbcCommand(
-                            @"INSERT INTO Tbl_PeriodosContables
-                          (Cmp_Anio, Cmp_Mes, Cmp_FechaInicio, Cmp_FechaFin, Cmp_Estado, Cmp_ModoActualizacion)
-                          VALUES (?,?,?,?,1,0);", cConn, trx))
+                        using (var cmdIns = new OdbcCommand(cSQL.sInsertarPeriodo, cConn, trx))
                         {
                             cmdIns.Parameters.Add("p1", OdbcType.Int).Value = anio;
                             cmdIns.Parameters.Add("p2", OdbcType.TinyInt).Value = mes;
@@ -473,19 +608,15 @@ namespace Capa_Modelo_Polizas
                             cmdIns.ExecuteNonQuery();
                         }
 
-                        // Id recién creado
                         using (var cmdId = new OdbcCommand("SELECT LAST_INSERT_ID();", cConn, trx))
                             idPeriodo = Convert.ToInt32(cmdId.ExecuteScalar());
                     }
 
-                    // 3) Desactivar todos y activar solo el actual (USANDO PK)
-                    using (var cmdOff = new OdbcCommand(
-                        "UPDATE Tbl_PeriodosContables SET Cmp_Estado = 0;", cConn, trx))
-                    {
+                    // desactivar otros y activar este
+                    using (var cmdOff = new OdbcCommand(cSQL.sDesactivarPeriodos, cConn, trx))
                         cmdOff.ExecuteNonQuery();
-                    }
-                    using (var cmdOn = new OdbcCommand(
-                        "UPDATE Tbl_PeriodosContables SET Cmp_Estado = 1 WHERE Pk_Id_Periodo = ?;", cConn, trx))
+
+                    using (var cmdOn = new OdbcCommand(cSQL.sActivarPeriodo, cConn, trx))
                     {
                         cmdOn.Parameters.Add("p1", OdbcType.Int).Value = idPeriodo;
                         cmdOn.ExecuteNonQuery();
@@ -501,6 +632,7 @@ namespace Capa_Modelo_Polizas
                 }
             }
         }
+
         public bool CambiarModoOperacion(bool bModoEnLinea)
         {
             try
@@ -510,8 +642,7 @@ namespace Capa_Modelo_Polizas
                     idPeriodo = AsegurarPeriodoActivo(DateTime.Now);
 
                 using (var cConn = cConexion.AbrirConexion())
-                using (var cmd = new OdbcCommand(
-                    "UPDATE Tbl_PeriodosContables SET Cmp_ModoActualizacion = ? WHERE Pk_Id_Periodo = ?;", cConn))
+                using (var cmd = new OdbcCommand(cSQL.sActualizarModoOperacionDiferente, cConn))
                 {
                     cmd.Parameters.Add("p1", OdbcType.TinyInt).Value = bModoEnLinea ? 1 : 0;
                     cmd.Parameters.Add("p2", OdbcType.Int).Value = idPeriodo;
@@ -524,13 +655,13 @@ namespace Capa_Modelo_Polizas
             }
         }
 
+
         public int ObtenerIdPeriodoActivo()
         {
             try
             {
                 using (var cConn = cConexion.AbrirConexion())
-                using (var cmd = new OdbcCommand(
-                    "SELECT Pk_Id_Periodo FROM Tbl_PeriodosContables WHERE Cmp_Estado = 1 LIMIT 1;", cConn))
+                using (var cmd = new OdbcCommand(cSQL.sSelectPeriodoActivo, cConn))
                 {
                     var o = cmd.ExecuteScalar();
                     return (o == null || o == DBNull.Value) ? 0 : Convert.ToInt32(o);
@@ -550,16 +681,17 @@ namespace Capa_Modelo_Polizas
             try
             {
                 using (var cConn = cConexion.AbrirConexion())
-                using (var cmd = new OdbcCommand(
-                    "SELECT Cmp_ModoActualizacion FROM Tbl_PeriodosContables WHERE Cmp_Estado = 1 LIMIT 1;", cConn))
+                using (var cmd = new OdbcCommand(cSQL.sObtenerModoOperacion, cConn))
                 {
                     var o = cmd.ExecuteScalar();
+
+                    // Si no hay período activo, crear uno
                     if (o == null || o == DBNull.Value)
                     {
-                        // Si no hay, lo creamos/activamos y reintentamos
                         AsegurarPeriodoActivo(DateTime.Now);
                         o = cmd.ExecuteScalar();
                     }
+
                     return Convert.ToInt32(o) == 1;
                 }
             }
@@ -568,59 +700,6 @@ namespace Capa_Modelo_Polizas
                 throw new Exception("Error al obtener modo de operación: " + ex.Message);
             }
         }
-
-
-        // versión interna
-        private int AsegurarPeriodoActivo_EnTransaccion(OdbcConnection cConn, OdbcTransaction trx, DateTime fecha)
-        {
-            int idPeriodo = 0;
-            int anio = fecha.Year;
-            int mes = fecha.Month;
-            DateTime ini = new DateTime(anio, mes, 1);
-            DateTime fin = new DateTime(anio, mes, DateTime.DaysInMonth(anio, mes));
-
-            using (var cmdSel = new OdbcCommand(
-                @"SELECT Pk_Id_Periodo FROM Tbl_PeriodosContables 
-              WHERE Cmp_Anio = ? AND Cmp_Mes = ? LIMIT 1;", cConn, trx))
-            {
-                cmdSel.Parameters.Add("p1", OdbcType.Int).Value = anio;
-                cmdSel.Parameters.Add("p2", OdbcType.TinyInt).Value = mes;
-
-                var o = cmdSel.ExecuteScalar();
-                if (o != null && o != DBNull.Value)
-                    idPeriodo = Convert.ToInt32(o);
-            }
-
-            if (idPeriodo == 0)
-            {
-                using (var cmdIns = new OdbcCommand(
-                    @"INSERT INTO Tbl_PeriodosContables
-                  (Cmp_Anio, Cmp_Mes, Cmp_FechaInicio, Cmp_FechaFin, Cmp_Estado, Cmp_ModoActualizacion)
-                  VALUES (?,?,?,?,1,0);", cConn, trx))
-                {
-                    cmdIns.Parameters.Add("p1", OdbcType.Int).Value = anio;
-                    cmdIns.Parameters.Add("p2", OdbcType.TinyInt).Value = mes;
-                    cmdIns.Parameters.Add("p3", OdbcType.Date).Value = ini;
-                    cmdIns.Parameters.Add("p4", OdbcType.Date).Value = fin;
-                    cmdIns.ExecuteNonQuery();
-                }
-                using (var cmdId = new OdbcCommand("SELECT LAST_INSERT_ID();", cConn, trx))
-                    idPeriodo = Convert.ToInt32(cmdId.ExecuteScalar());
-            }
-
-            using (var cmdOff = new OdbcCommand("UPDATE Tbl_PeriodosContables SET Cmp_Estado = 0;", cConn, trx))
-                cmdOff.ExecuteNonQuery();
-            using (var cmdOn = new OdbcCommand("UPDATE Tbl_PeriodosContables SET Cmp_Estado = 1 WHERE Pk_Id_Periodo = ?;", cConn, trx))
-            {
-                cmdOn.Parameters.Add("p1", OdbcType.Int).Value = idPeriodo;
-                cmdOn.ExecuteNonQuery();
-            }
-
-            return idPeriodo;
-        }
-
-
-
 
     }
 }

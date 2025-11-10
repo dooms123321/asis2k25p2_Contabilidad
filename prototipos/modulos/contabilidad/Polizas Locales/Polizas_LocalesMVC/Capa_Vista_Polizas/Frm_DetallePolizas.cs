@@ -59,10 +59,10 @@ namespace Capa_Vista_Polizas
 
             if (sModo == "insertar")
             {
-                // Genera el siguiente ID automáticamente con la fecha actual
-                int siguienteId = cControlador.ObtenerSiguienteIdEncabezado(DateTime.Now);
-                iIdPoliza = siguienteId;
-                Txt_IdPoliza.Text = siguienteId.ToString();
+                //genera el siguiente ID automáticamente con la fecha actual
+                int isiguienteId = cControlador.ObtenerSiguienteIdEncabezado(DateTime.Now);
+                iIdPoliza = isiguienteId;
+                Txt_IdPoliza.Text = isiguienteId.ToString();
                 Txt_IdPoliza.Enabled = false; // bloquear campo
 
                 ModoInsercion();
@@ -109,7 +109,7 @@ namespace Capa_Vista_Polizas
 
         private void ModoInsercion()
         {
-            Btn_Ingresar.Enabled = true;
+            Btn_Ingresar.Enabled = false;
             Btn_Editar.Enabled = false;
             Btn_Grabar.Enabled = true;
             Btn_Cancelar.Enabled = true;
@@ -128,7 +128,7 @@ namespace Capa_Vista_Polizas
             Txt_Concepto.Enabled = true;
 
             // Ajustar botones
-            Btn_Ingresar.Enabled = true;
+            Btn_Ingresar.Enabled = false;
             Btn_Editar.Enabled = true;
             Btn_Quitar.Enabled = true;
             Btn_Cancelar.Enabled = true;
@@ -150,7 +150,10 @@ namespace Capa_Vista_Polizas
             Btn_Ingresar.Enabled = false;
             Btn_Editar.Enabled = false;
             Btn_Grabar.Enabled = false;
+            Btn_Cancelar.Enabled = false;
+            Btn_Refrescar.Enabled = false; 
             Btn_Quitar.Enabled = false;
+            Btn_Aceptar.Enabled = false;  
             Btn_Salir.Enabled = true;
         }
 
@@ -242,65 +245,45 @@ namespace Capa_Vista_Polizas
         {
             try
             {
-                //Validaciones básicas 
-                if (Cmb_CodigoCuenta.SelectedIndex == -1 ||
-                    Cmb_Tipo.SelectedIndex == -1 ||
-                    string.IsNullOrWhiteSpace(Txt_Valor.Text))
+                if (Cmb_CodigoCuenta.SelectedIndex == -1 ||Cmb_Tipo.SelectedIndex == -1 ||
+                string.IsNullOrWhiteSpace(Txt_Valor.Text))
                 {
-                    MessageBox.Show("Debe completar Código de Cuenta, Tipo y Valor.", "Advertencia",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Debe completar todos los campos antes de agregar un detalle.",
+                                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                if (!decimal.TryParse(Txt_Valor.Text.Trim(),
-                                      NumberStyles.Number,
-                                      CultureInfo.InvariantCulture,
-                                      out decimal dValor) || dValor <= 0)
+                
+                if (!decimal.TryParse(Txt_Valor.Text.Trim(), out decimal dValor) || dValor <= 0)
                 {
-                    MessageBox.Show("El valor debe ser numérico y mayor a cero.", "Advertencia",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El valor debe ser numérico y mayor a cero.",
+                                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                //Cuenta válida
-                string sCodigo = Cmb_CodigoCuenta.SelectedValue?.ToString();
-                if (string.IsNullOrWhiteSpace(sCodigo))
-                {
-                    MessageBox.Show("Debe seleccionar una cuenta válida.", "Advertencia",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
+                string sCodigo = Cmb_CodigoCuenta.SelectedValue.ToString();
                 string sNombre = Cmb_CodigoCuenta.Text;
                 bool bTipo = Cmb_Tipo.SelectedItem.ToString() == "Cargo";
                 string sTipo = bTipo ? "Cargo" : "Abono";
 
-                //Evitar duplicados exactos (misma cuenta y mismo tipo)
                 bool existe = lDetalles.Any(x => x.sCodigoCuenta == sCodigo && x.bTipo == bTipo);
                 if (existe)
                 {
                     if (MessageBox.Show("Ya existe un renglón con esa cuenta y ese tipo.\n¿Desea agregar otro igualmente?",
-                                        "Posible duplicado",
-                                        MessageBoxButtons.YesNo,
-                                        MessageBoxIcon.Question) == DialogResult.No)
+                                        "Duplicado detectado", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                         return;
                 }
 
-                //agregar a DataTable y a la lista que se enviará al controlador
+                // Agregar
                 dtDetalle.Rows.Add(sCodigo, sNombre, sTipo, dValor);
                 lDetalles.Add((sCodigo, bTipo, dValor));
-
-                //limpiar y recalcular
-                Cmb_CodigoCuenta.SelectedIndex = -1;
-                Cmb_Tipo.SelectedIndex = -1;
                 Txt_Valor.Clear();
-                Dgv_DetallePoliza.ClearSelection();
                 ActualizarTotales();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al agregar detalle: " + ex.Message, "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al agregar detalle: " + ex.Message,
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -411,7 +394,10 @@ namespace Capa_Vista_Polizas
 
         private void Btn_Ingresar_Click(object sender, EventArgs e)
         {
-
+            Btn_Editar.Enabled = true;
+            Btn_Grabar.Enabled = true;
+            Btn_Cancelar.Enabled = true;
+            Btn_Ingresar.Enabled = false;
         }
 
         private void Btn_Editar_Click(object sender, EventArgs e)
@@ -527,6 +513,24 @@ namespace Capa_Vista_Polizas
         private void Frm_DetallePolizas_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void Btn_Salir_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Btn_Refrescar_Click(object sender, EventArgs e)
+        {
+            CargarDetallePolizaExistente();
+        }
+
+        private void Btn_Cancelar_Click(object sender, EventArgs e)
+        {
+            Btn_Ingresar.Enabled = true;
+            Btn_Editar.Enabled = false;
+            Btn_Grabar.Enabled = false;
+            Btn_Cancelar.Enabled = false;
         }
     }
 }

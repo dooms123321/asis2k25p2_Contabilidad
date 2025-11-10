@@ -45,13 +45,22 @@ namespace Capa_Modelo_Polizas
         // Consultar encabezados
         public string sConsultarEncabezados = @"
         SELECT 
-            Pk_EncCodigo_Poliza AS Codigo,
-            Pk_Fecha_Poliza AS Fecha,
-            Cmp_Concepto_Poliza AS Concepto,
-            Cmp_Valor_Poliza AS Valor,
-            Cmp_Estado_Poliza AS Estado
-        FROM Tbl_EncabezadoPoliza
-        ORDER BY Pk_Fecha_Poliza DESC, Pk_EncCodigo_Poliza DESC;";
+            e.Pk_EncCodigo_Poliza AS Codigo,
+            e.Pk_Fecha_Poliza AS Fecha,
+            e.Cmp_Concepto_Poliza AS Concepto,
+            FORMAT(e.Cmp_Valor_Poliza, 2) AS Valor,
+            e.Cmp_Estado_Poliza AS EstadoCodigo,
+            CASE 
+                WHEN e.Cmp_Estado_Poliza = 0 THEN 'Inactivo'
+                WHEN e.Cmp_Estado_Poliza = 1 THEN 'Activo'
+                WHEN e.Cmp_Estado_Poliza = 2 THEN 'Actualizado'
+                ELSE 'Desconocido'
+            END AS Estado
+        FROM Tbl_EncabezadoPoliza e
+        ORDER BY e.Pk_Fecha_Poliza DESC, e.Pk_EncCodigo_Poliza DESC;";
+
+
+
 
         // Actualizar total del encabezado segun detalles
         public string sActualizarTotalEncabezado = @"
@@ -124,6 +133,7 @@ namespace Capa_Modelo_Polizas
           Cmp_CtaAbonoActual = 0,
           Cmp_CtaSaldoActual = Cmp_CtaSaldoInicial;";
 
+        //lo hace modo en linea
         public string sActualizarSaldos = @"
         UPDATE Tbl_Catalogo_Cuentas c
         JOIN (
@@ -142,7 +152,37 @@ namespace Capa_Modelo_Polizas
               ELSE (c.Cmp_CtaSaldoInicial - d.TotalCargos + d.TotalAbonos)
             END;";
 
-        public string sPropagarSaldos = @"
+
+        //solo modo batch y entre fechas
+        public string sActualizarSaldosPorRango = @"
+        UPDATE Tbl_Catalogo_Cuentas c
+        JOIN (
+          SELECT 
+            d.PkFk_Codigo_Cuenta,
+            SUM(CASE WHEN d.Cmp_Tipo_Poliza = 1 THEN d.Cmp_Valor_Poliza ELSE 0 END) AS TotalCargos,
+            SUM(CASE WHEN d.Cmp_Tipo_Poliza = 0 THEN d.Cmp_Valor_Poliza ELSE 0 END) AS TotalAbonos
+          FROM Tbl_DetallePoliza d
+          INNER JOIN Tbl_EncabezadoPoliza e
+              ON e.Pk_EncCodigo_Poliza = d.PkFk_EncCodigo_Poliza 
+             AND e.Pk_Fecha_Poliza = d.PkFk_Fecha_Poliza
+          WHERE e.Pk_Fecha_Poliza BETWEEN ? AND ?
+            AND e.Cmp_Estado_Poliza IN (1, 2)
+          GROUP BY d.PkFk_Codigo_Cuenta
+        ) s ON c.Pk_Codigo_Cuenta = s.PkFk_Codigo_Cuenta
+        SET 
+          c.Cmp_CtaCargoActual = s.TotalCargos,
+          c.Cmp_CtaAbonoActual = s.TotalAbonos,
+          c.Cmp_CtaSaldoActual =
+            CASE 
+              WHEN c.Cmp_CtaNaturaleza = 1 THEN (c.Cmp_CtaSaldoInicial + s.TotalCargos - s.TotalAbonos)
+              ELSE (c.Cmp_CtaSaldoInicial - s.TotalCargos + s.TotalAbonos)
+            END;";
+
+
+
+
+        //propagar saldos
+        public string sPropagarSaldosJerarquico = @"
         UPDATE Tbl_Catalogo_Cuentas madre
         JOIN (
             SELECT Cmp_CtaMadre, SUM(Cmp_CtaSaldoActual) AS SumaHijas
@@ -152,18 +192,76 @@ namespace Capa_Modelo_Polizas
         ) hijas ON madre.Pk_Codigo_Cuenta = hijas.Cmp_CtaMadre
         SET madre.Cmp_CtaSaldoActual = hijas.SumaHijas;";
 
+        //solo para una poliza
+        public string sMarcarPolizaActualizada = @"
+        UPDATE Tbl_EncabezadoPoliza
+        SET Cmp_Estado_Poliza = 2
+        WHERE Pk_EncCodigo_Poliza = ? 
+          AND Pk_Fecha_Poliza = ?
+          AND Cmp_Estado_Poliza = 1;";
+
+
+        //update polizas como actualizadas modo batch
+        public string sMarcarPolizasActualizadas = @"
+        UPDATE Tbl_EncabezadoPoliza
+        SET Cmp_Estado_Poliza = 2
+        WHERE Pk_Fecha_Poliza BETWEEN ? AND ?
+          AND Cmp_Estado_Poliza = 1;";
+
+        // actualiza estado de pólizas a actualizadas en modo EnLinea
+        public string sMarcarPolizasActualizadas_EnLinea = @"
+        UPDATE Tbl_EncabezadoPoliza
+        SET Cmp_Estado_Poliza = 2
+        WHERE Cmp_Estado_Poliza = 1;";
+
+
+
+        public string sActualizarSaldosPorPoliza = @"
+        UPDATE Tbl_Catalogo_Cuentas c
+        JOIN (
+          SELECT 
+            PkFk_Codigo_Cuenta,
+            SUM(CASE WHEN Cmp_Tipo_Poliza = 1 THEN Cmp_Valor_Poliza ELSE 0 END) AS TotalCargos,
+            SUM(CASE WHEN Cmp_Tipo_Poliza = 0 THEN Cmp_Valor_Poliza ELSE 0 END) AS TotalAbonos
+          FROM Tbl_DetallePoliza
+          WHERE PkFk_EncCodigo_Poliza = ? AND PkFk_Fecha_Poliza = ?
+          GROUP BY PkFk_Codigo_Cuenta
+        ) d ON c.Pk_Codigo_Cuenta = d.PkFk_Codigo_Cuenta
+        SET 
+          c.Cmp_CtaCargoActual = c.Cmp_CtaCargoActual + d.TotalCargos,
+          c.Cmp_CtaAbonoActual = c.Cmp_CtaAbonoActual + d.TotalAbonos,
+          c.Cmp_CtaSaldoActual = 
+            CASE 
+              WHEN c.Cmp_CtaNaturaleza = 1 THEN (c.Cmp_CtaSaldoActual + d.TotalCargos - d.TotalAbonos)
+              ELSE (c.Cmp_CtaSaldoActual - d.TotalCargos + d.TotalAbonos)
+            END;";
+
+
+
+
+
+        //verifica si las fechas estan dentro del periodo activo
+        public string sVerificarPeriodoActivo = @"
+        SELECT COUNT(*) 
+        FROM Tbl_PeriodosContables
+        WHERE Cmp_Estado = 1
+          AND ? BETWEEN Cmp_FechaInicio AND Cmp_FechaFin
+          AND ? BETWEEN Cmp_FechaInicio AND Cmp_FechaFin;";
+
+
         // cierre contable - anual o mensual -
 
         // Cierre mensual
         public string sCerrarMesContable = @"
         UPDATE Tbl_EncabezadoPoliza
-        SET Cmp_Estado_Poliza = 0
-        WHERE Pk_Fecha_Poliza <= ? 
+        SET Cmp_Estado_Poliza = 2
+        WHERE DATE_FORMAT(Pk_Fecha_Poliza, '%Y-%m') = DATE_FORMAT(?, '%Y-%m')
           AND Cmp_Estado_Poliza = 1;";
+
 
         public string sCerrarAnioContable = @"
         UPDATE Tbl_EncabezadoPoliza
-        SET Cmp_Estado_Poliza = 0
+        SET Cmp_Estado_Poliza = 2
         WHERE YEAR(Pk_Fecha_Poliza) = YEAR(?)
           AND Cmp_Estado_Poliza = 1;";
 
@@ -180,12 +278,48 @@ namespace Capa_Modelo_Polizas
             SET Cmp_ModoActualizacion = ?
             WHERE Cmp_Estado = 1;";
 
-          // Obtiene el modo actual (único período activo)
+        public string sActualizarModoOperacionDiferente = @"
+            UPDATE Tbl_PeriodosContables 
+            SET Cmp_ModoActualizacion = ? 
+            WHERE Pk_Id_Periodo = ?;";
+
+
+        // Obtiene el modo actual (único período activo)
         public string sObtenerModoOperacion = @"
             SELECT Cmp_ModoActualizacion
             FROM Tbl_PeriodosContables
             WHERE Cmp_Estado = 1
             LIMIT 1;";
+
+        public string sSelectPeriodoActivo = @"
+        SELECT Pk_Id_Periodo 
+        FROM Tbl_PeriodosContables 
+        WHERE Cmp_Estado = 1 
+        LIMIT 1;";
+
+        public string sSelectPeriodoPorMes = @"
+        SELECT Pk_Id_Periodo 
+        FROM Tbl_PeriodosContables 
+        WHERE Cmp_Anio = ? AND Cmp_Mes = ? 
+        LIMIT 1;";
+
+        public string sInsertarPeriodo = @"
+        INSERT INTO Tbl_PeriodosContables
+        (Cmp_Anio, Cmp_Mes, Cmp_FechaInicio, Cmp_FechaFin, Cmp_Estado, Cmp_ModoActualizacion)
+        VALUES (?,?,?,?,1,0);";
+
+        public string sDesactivarPeriodos = @"
+        UPDATE Tbl_PeriodosContables 
+        SET Cmp_Estado = 0;";
+
+        public string sActivarPeriodo = @"
+        UPDATE Tbl_PeriodosContables 
+        SET Cmp_Estado = 1 
+        WHERE Pk_Id_Periodo = ?;";
+
+
+
+
 
     }
 

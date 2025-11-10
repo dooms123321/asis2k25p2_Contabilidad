@@ -40,17 +40,11 @@ namespace Capa_Vista_Polizas
             {
                 Lbl_ModoActual.Text = "Modo actual: En línea (automático)";
                 Lbl_ModoActual.ForeColor = Color.DarkGreen;
-                Btn_ActualizarSaldos.Visible = false;
-                Btn_CierreMes.Visible = false;
-                Btn_CierreAnio.Visible = false;
             }
             else
             {
                 Lbl_ModoActual.Text = "Modo actual: Batch (manual)";
                 Lbl_ModoActual.ForeColor = Color.DarkOrange;
-                Btn_ActualizarSaldos.Visible = true;
-                Btn_CierreMes.Visible = true;
-                Btn_CierreAnio.Visible = true;
             }
         }
 
@@ -67,45 +61,86 @@ namespace Capa_Vista_Polizas
             Btn_Salir.Enabled = true;
         }
 
-        private void HabilitarModoEdicion()
-        {
-            Btn_Ingresar.Enabled = false;
-            Btn_Editar.Enabled = true;
-            Btn_Borrar.Enabled = true;
-            Btn_Refrescar.Enabled = true;
-            Btn_Imprimir.Enabled = false;
-            Btn_Filtrar.Enabled = false;
-            Btn_Todos.Enabled = false;
-            Btn_Salir.Enabled = true;
-        }
-
-        private void HabilitarModoConsulta()
-        {
-            Btn_Ingresar.Enabled = true;
-            Btn_Editar.Enabled = true;
-            Btn_Borrar.Enabled = true;
-            Btn_Refrescar.Enabled = true;
-            Btn_Imprimir.Enabled = true;
-            Btn_Filtrar.Enabled = true;
-            Btn_Todos.Enabled = true;
-            Btn_Salir.Enabled = true;
-        }
-       
-
         //cargar encabezados en el dgv
         private void CargarEncabezados()
         {
             try
             {
+                // Cargar los encabezados desde el controlador
                 Dgv_EncabezadoPolizas.DataSource = cControlador.ObtenerEncabezados();
+
+                // Ocultar columna de código numérico de estado
+                if (Dgv_EncabezadoPolizas.Columns.Contains("EstadoCodigo"))
+                {
+                    Dgv_EncabezadoPolizas.Columns["EstadoCodigo"].Visible = false;
+                }
+
+                // Ajustar formato general
                 Dgv_EncabezadoPolizas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                Dgv_EncabezadoPolizas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                Dgv_EncabezadoPolizas.MultiSelect = false;
+                Dgv_EncabezadoPolizas.ReadOnly = true;
                 Dgv_EncabezadoPolizas.ClearSelection();
+
+                // Formato visual de encabezados
+                Dgv_EncabezadoPolizas.EnableHeadersVisualStyles = false;
+                Dgv_EncabezadoPolizas.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(0, 70, 140);
+                Dgv_EncabezadoPolizas.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                Dgv_EncabezadoPolizas.ColumnHeadersDefaultCellStyle.Font = new Font("Rockwell", 10F, FontStyle.Bold);
+                Dgv_EncabezadoPolizas.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                // Alinear columnas por tipo
+                if (Dgv_EncabezadoPolizas.Columns.Contains("Valor"))
+                {
+                    Dgv_EncabezadoPolizas.Columns["Valor"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                    Dgv_EncabezadoPolizas.Columns["Valor"].DefaultCellStyle.Format = "N2";
+                }
+
+                if (Dgv_EncabezadoPolizas.Columns.Contains("Fecha"))
+                {
+                    Dgv_EncabezadoPolizas.Columns["Fecha"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    Dgv_EncabezadoPolizas.Columns["Fecha"].DefaultCellStyle.Format = "dd/MM/yyyy";
+                }
+
+                // Suscribir evento para colorear filas
+                Dgv_EncabezadoPolizas.CellFormatting -= Dgv_EncabezadoPolizas_CellFormatting;
+                Dgv_EncabezadoPolizas.CellFormatting += Dgv_EncabezadoPolizas_CellFormatting;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar encabezados: " + ex.Message);
             }
         }
+
+        private void Dgv_EncabezadoPolizas_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (Dgv_EncabezadoPolizas.Columns[e.ColumnIndex].HeaderText == "Estado" && e.Value != null)
+            {
+                string estado = e.Value.ToString();
+
+                switch (estado)
+                {
+                    case "Inactivo":
+                        e.CellStyle.BackColor = Color.LightGray;
+                        e.CellStyle.ForeColor = Color.Black;
+                        e.CellStyle.Font = new Font("Rockwell", 10F, FontStyle.Italic);
+                        break;
+
+                    case "Activo":
+                        e.CellStyle.BackColor = Color.LightGreen;
+                        e.CellStyle.ForeColor = Color.Black;
+                        e.CellStyle.Font = new Font("Rockwell", 10F, FontStyle.Bold);
+                        break;
+
+                    case "Actualizado":
+                        e.CellStyle.BackColor = Color.LightBlue;
+                        e.CellStyle.ForeColor = Color.Black;
+                        e.CellStyle.Font = new Font("Rockwell", 10F, FontStyle.Bold);
+                        break;
+                }
+            }
+        }
+
 
         private void Btn_Cancelar_Click(object sender, EventArgs e)
         {
@@ -117,6 +152,9 @@ namespace Capa_Vista_Polizas
         {
             try
             {
+                if (Dgv_EncabezadoPolizas.Rows.Count == 0 || e.RowIndex < 0)
+                    return;
+
                 if (e.RowIndex >= 0)
                 {
                     int iIdPoliza = Convert.ToInt32(Dgv_EncabezadoPolizas.Rows[e.RowIndex].Cells["Codigo"].Value);
@@ -225,19 +263,6 @@ namespace Capa_Vista_Polizas
             this.Close();
         }
 
-        private void Btn_ActualizarSaldos_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                cControlador.ActualizarSaldosManualmente();
-                CargarEncabezados();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al actualizar saldos manualmente: " + ex.Message);
-            }
-        }
-
         private void Btn_CambiarModo_Click(object sender, EventArgs e)
         {
             try
@@ -250,94 +275,6 @@ namespace Capa_Vista_Polizas
                 MessageBox.Show("Error al cambiar modo contable: " + ex.Message);
             }
         }
-
-        private void Btn_CierreMes_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("¿Desea cerrar el mes contable actual?", "Confirmar Cierre Mensual",
-         MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-                return;
-
-            try
-            {
-                // Verificar modo contable
-                if (cControlador.GetModoActual() != Cls_PolizaControlador.ModoActualizacion.Batch)
-                {
-                    MessageBox.Show("El cierre mensual solo puede realizarse en modo Batch.",
-                                    "Restricción de Modo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                // Verificar si hay pólizas activas este mes
-                DataTable dtPolizas = cControlador.ObtenerEncabezados();
-                int mesActual = DateTime.Now.Month;
-                bool existenActivas = dtPolizas.AsEnumerable()
-                    .Any(row => Convert.ToDateTime(row["Fecha"]).Month == mesActual &&
-                                Convert.ToBoolean(row["Estado"]) == true);
-
-                if (!existenActivas)
-                {
-                    MessageBox.Show("No existen pólizas activas en el mes actual para cerrar.",
-                                    "Cierre Mensual", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-
-                // Cerrar mes
-                DateTime fechaFin = DateTime.Now;
-                bool cerrado = cControlador.CerrarMesContable(fechaFin);
-
-                if (cerrado)
-                    CargarEncabezados();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cerrar mes contable: " + ex.Message);
-            }
-        }
-
-        private void Btn_CierreAnio_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                DialogResult confirmar = MessageBox.Show(
-                    $"¿Está seguro de cerrar el año contable {DateTime.Now.Year}?\n\n" +
-                    "Esta acción inactivará todas las pólizas activas y recalculará los saldos finales.",
-                    "Confirmar Cierre Anual", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                if (confirmar == DialogResult.No) return;
-
-                // Validar modo contable
-                if (cControlador.GetModoActual() != Cls_PolizaControlador.ModoActualizacion.Batch)
-                {
-                    MessageBox.Show("El cierre anual solo puede realizarse en modo Batch.",
-                                    "Restricción de Modo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                // Verificar si hay pólizas activas este año
-                DataTable dtPolizas = cControlador.ObtenerEncabezados();
-                int anioActual = DateTime.Now.Year;
-                bool existenActivas = dtPolizas.AsEnumerable()
-                    .Any(row => Convert.ToDateTime(row["Fecha"]).Year == anioActual &&
-                                Convert.ToBoolean(row["Estado"]) == true);
-
-                if (!existenActivas)
-                {
-                    MessageBox.Show("No existen pólizas activas en el año actual para cerrar.",
-                                    "Cierre Anual", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-
-                // Ejecutar cierre
-                DateTime fechaFin = DateTime.Now;
-                bool cerrado = cControlador.CerrarAnioContable(fechaFin);
-                if (cerrado) CargarEncabezados();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cerrar año contable: " + ex.Message);
-            }
-        }
-
 
         private void Btn_SincronizarModo_Click(object sender, EventArgs e)
         {
@@ -353,8 +290,5 @@ namespace Capa_Vista_Polizas
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
-
     }
 }
