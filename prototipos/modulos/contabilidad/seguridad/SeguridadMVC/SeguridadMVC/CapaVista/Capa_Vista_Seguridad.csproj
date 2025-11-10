@@ -71,89 +71,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Frm_Permisos_Perfiles.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_Permisos_Perfiles.Designer.cs">
-      <DependentUpon>Frm_Permisos_Perfiles.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_Reporte_aplicacion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_Reporte_aplicacion.Designer.cs">
-      <DependentUpon>Frm_Reporte_aplicacion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_Reporte_Bitacoras.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_Reporte_Bitacoras.Designer.cs">
-      <DependentUpon>Frm_Reporte_Bitacoras.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_Reporte_Empleado.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_Reporte_Empleado.Designer.cs">
-      <DependentUpon>Frm_Reporte_Empleado.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_Reporte_modulos.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_Reporte_modulos.Designer.cs">
-      <DependentUpon>Frm_Reporte_modulos.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_Reporte_perfiles.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_Reporte_perfiles.Designer.cs">
-      <DependentUpon>Frm_Reporte_perfiles.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_Reporte_Usuario.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_Reporte_Usuario.Designer.cs">
-      <DependentUpon>Frm_Reporte_Usuario.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_Aplicacion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_Aplicacion.Designer.cs">
-      <DependentUpon>Frm_Aplicacion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_asignacion_aplicacion_usuario.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_asignacion_aplicacion_usuario.designer.cs">
-      <DependentUpon>Frm_asignacion_aplicacion_usuario.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_asignacion_perfil_usuario.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_asignacion_perfil_usuario.designer.cs">
-      <DependentUpon>Frm_asignacion_perfil_usuario.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_Empleados.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_Empleados.Designer.cs">
-      <DependentUpon>Frm_Empleados.cs</DependentUpon>
-    </Compile>
     <Compile Include="Frm_Login.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Frm_Login.Designer.cs">
       <DependentUpon>Frm_Login.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_Modulo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_Modulo.Designer.cs">
-      <DependentUpon>Frm_Modulo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_Perfiles.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_Perfiles.designer.cs">
-      <DependentUpon>Frm_Perfiles.cs</DependentUpon>
     </Compile>
     <Compile Include="Frm_Principal.cs">
       <SubType>Form</SubType>
@@ -179,18 +101,6 @@
     <Compile Include="Frm_Slash.Designer.cs">
       <DependentUpon>Frm_Slash.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frm_Usuario.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_Usuario.Designer.cs">
-      <DependentUpon>Frm_Usuario.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_Bitacora.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_Bitacora.Designer.cs">
-      <DependentUpon>Frm_Bitacora.cs</DependentUpon>
-    </Compile>
     <Compile Include="Frm_cambiar_contrasena.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -203,85 +113,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Reporte_aplicacion.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reporte_aplicacion.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reporte_bitacoras.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reporte_bitacoras.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reporte_empleado.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reporte_empleado.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reporte_modulo.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reporte_modulo.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reporte_perfiles.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reporte_perfiles.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reporte_usuario.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reporte_usuario.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Frm_Permisos_Perfiles.resx">
-      <DependentUpon>Frm_Permisos_Perfiles.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Reporte_aplicacion.resx">
-      <DependentUpon>Frm_Reporte_aplicacion.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Reporte_Bitacoras.resx">
-      <DependentUpon>Frm_Reporte_Bitacoras.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Reporte_Empleado.resx">
-      <DependentUpon>Frm_Reporte_Empleado.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Reporte_modulos.resx">
-      <DependentUpon>Frm_Reporte_modulos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Reporte_perfiles.resx">
-      <DependentUpon>Frm_Reporte_perfiles.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Reporte_Usuario.resx">
-      <DependentUpon>Frm_Reporte_Usuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Aplicacion.resx">
-      <DependentUpon>Frm_Aplicacion.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_asignacion_aplicacion_usuario.resx">
-      <DependentUpon>Frm_asignacion_aplicacion_usuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_asignacion_perfil_usuario.resx">
-      <DependentUpon>Frm_asignacion_perfil_usuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Empleados.resx">
-      <DependentUpon>Frm_Empleados.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Frm_Login.resx">
       <DependentUpon>Frm_Login.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Modulo.resx">
-      <DependentUpon>Frm_Modulo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Perfiles.resx">
-      <DependentUpon>Frm_Perfiles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_Principal.resx">
       <DependentUpon>Frm_Principal.cs</DependentUpon>
@@ -295,42 +130,12 @@
     <EmbeddedResource Include="Frm_Slash.resx">
       <DependentUpon>Frm_Slash.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Usuario.resx">
-      <DependentUpon>Frm_Usuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Bitacora.resx">
-      <DependentUpon>Frm_Bitacora.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Frm_cambiar_contrasena.resx">
       <DependentUpon>Frm_cambiar_contrasena.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reporte_aplicacion.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>Reporte_aplicacion.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reporte_bitacoras.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>Reporte_bitacoras.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reporte_empleado.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>Reporte_empleado.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reporte_modulo.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>Reporte_modulo.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reporte_perfiles.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>Reporte_perfiles.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reporte_usuario.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>Reporte_usuario.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
