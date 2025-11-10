@@ -32,6 +32,8 @@ namespace Capa_Vista_CierreContable
             this.Dgv_Cuentas = new System.Windows.Forms.DataGridView();
             this.Cbo_periodo = new System.Windows.Forms.ComboBox();
             this.Gbp_datos = new System.Windows.Forms.GroupBox();
+            this.Cbo_actualizacion = new System.Windows.Forms.ComboBox();
+            this.Lbl_actualizacion = new System.Windows.Forms.Label();
             this.Dtp_fecha_cierre = new System.Windows.Forms.DateTimePicker();
             this.Dtp_Fecha_Hasta = new System.Windows.Forms.DateTimePicker();
             this.Dtp_fecha_desde = new System.Windows.Forms.DateTimePicker();
@@ -43,8 +45,6 @@ namespace Capa_Vista_CierreContable
             this.Lbl_Debe = new System.Windows.Forms.Label();
             this.Lbl_cierre_contable = new System.Windows.Forms.Label();
             this.Lbl_haber = new System.Windows.Forms.Label();
-            this.Lbl_observaciones = new System.Windows.Forms.Label();
-            this.Rtb_observaciones = new System.Windows.Forms.RichTextBox();
             this.Btn_cargar = new System.Windows.Forms.Button();
             this.Btn_imprimir = new System.Windows.Forms.Button();
             this.Btn_Guardar = new System.Windows.Forms.Button();
@@ -78,6 +78,8 @@ namespace Capa_Vista_CierreContable
             // 
             // Gbp_datos
             // 
+            this.Gbp_datos.Controls.Add(this.Cbo_actualizacion);
+            this.Gbp_datos.Controls.Add(this.Lbl_actualizacion);
             this.Gbp_datos.Controls.Add(this.Dtp_fecha_cierre);
             this.Gbp_datos.Controls.Add(this.Dtp_Fecha_Hasta);
             this.Gbp_datos.Controls.Add(this.Dtp_fecha_desde);
@@ -88,10 +90,29 @@ namespace Capa_Vista_CierreContable
             this.Gbp_datos.Controls.Add(this.Cbo_periodo);
             this.Gbp_datos.Location = new System.Drawing.Point(12, 70);
             this.Gbp_datos.Name = "Gbp_datos";
-            this.Gbp_datos.Size = new System.Drawing.Size(800, 116);
+            this.Gbp_datos.Size = new System.Drawing.Size(956, 116);
             this.Gbp_datos.TabIndex = 2;
             this.Gbp_datos.TabStop = false;
             this.Gbp_datos.Enter += new System.EventHandler(this.Gbp_datos_Enter);
+            // 
+            // Cbo_actualizacion
+            // 
+            this.Cbo_actualizacion.FormattingEnabled = true;
+            this.Cbo_actualizacion.Location = new System.Drawing.Point(817, 27);
+            this.Cbo_actualizacion.Name = "Cbo_actualizacion";
+            this.Cbo_actualizacion.Size = new System.Drawing.Size(121, 24);
+            this.Cbo_actualizacion.TabIndex = 10;
+            this.Cbo_actualizacion.SelectedIndexChanged += new System.EventHandler(this.Cbo_actualizacion_SelectedIndexChanged);
+            // 
+            // Lbl_actualizacion
+            // 
+            this.Lbl_actualizacion.AutoSize = true;
+            this.Lbl_actualizacion.Font = new System.Drawing.Font("Rockwell", 10F);
+            this.Lbl_actualizacion.Location = new System.Drawing.Point(681, 27);
+            this.Lbl_actualizacion.Name = "Lbl_actualizacion";
+            this.Lbl_actualizacion.Size = new System.Drawing.Size(119, 20);
+            this.Lbl_actualizacion.TabIndex = 9;
+            this.Lbl_actualizacion.Text = "Actualización ";
             // 
             // Dtp_fecha_cierre
             // 
@@ -107,6 +128,7 @@ namespace Capa_Vista_CierreContable
             this.Dtp_Fecha_Hasta.Name = "Dtp_Fecha_Hasta";
             this.Dtp_Fecha_Hasta.Size = new System.Drawing.Size(200, 22);
             this.Dtp_Fecha_Hasta.TabIndex = 7;
+            this.Dtp_Fecha_Hasta.ValueChanged += new System.EventHandler(this.Dtp_Fecha_Hasta_ValueChanged);
             // 
             // Dtp_fecha_desde
             // 
@@ -161,7 +183,7 @@ namespace Capa_Vista_CierreContable
             // 
             this.Lbl_saldos_totales.AutoSize = true;
             this.Lbl_saldos_totales.Font = new System.Drawing.Font("Rockwell", 10F);
-            this.Lbl_saldos_totales.Location = new System.Drawing.Point(575, 453);
+            this.Lbl_saldos_totales.Location = new System.Drawing.Point(577, 471);
             this.Lbl_saldos_totales.Name = "Lbl_saldos_totales";
             this.Lbl_saldos_totales.Size = new System.Drawing.Size(126, 20);
             this.Lbl_saldos_totales.TabIndex = 3;
@@ -172,7 +194,7 @@ namespace Capa_Vista_CierreContable
             // 
             this.Lbl_Debe.AutoSize = true;
             this.Lbl_Debe.Font = new System.Drawing.Font("Rockwell", 10F);
-            this.Lbl_Debe.Location = new System.Drawing.Point(30, 453);
+            this.Lbl_Debe.Location = new System.Drawing.Point(30, 477);
             this.Lbl_Debe.Name = "Lbl_Debe";
             this.Lbl_Debe.Size = new System.Drawing.Size(99, 20);
             this.Lbl_Debe.TabIndex = 4;
@@ -193,30 +215,11 @@ namespace Capa_Vista_CierreContable
             // 
             this.Lbl_haber.AutoSize = true;
             this.Lbl_haber.Font = new System.Drawing.Font("Rockwell", 10F);
-            this.Lbl_haber.Location = new System.Drawing.Point(311, 452);
+            this.Lbl_haber.Location = new System.Drawing.Point(311, 474);
             this.Lbl_haber.Name = "Lbl_haber";
             this.Lbl_haber.Size = new System.Drawing.Size(109, 20);
             this.Lbl_haber.TabIndex = 6;
             this.Lbl_haber.Text = "Total  Haber:";
-            // 
-            // Lbl_observaciones
-            // 
-            this.Lbl_observaciones.AutoSize = true;
-            this.Lbl_observaciones.Font = new System.Drawing.Font("Rockwell", 10F);
-            this.Lbl_observaciones.Location = new System.Drawing.Point(60, 551);
-            this.Lbl_observaciones.Name = "Lbl_observaciones";
-            this.Lbl_observaciones.Size = new System.Drawing.Size(109, 20);
-            this.Lbl_observaciones.TabIndex = 7;
-            this.Lbl_observaciones.Text = "Descripcion:";
-            this.Lbl_observaciones.Click += new System.EventHandler(this.Lbl_observaciones_Click);
-            // 
-            // Rtb_observaciones
-            // 
-            this.Rtb_observaciones.Location = new System.Drawing.Point(229, 524);
-            this.Rtb_observaciones.Name = "Rtb_observaciones";
-            this.Rtb_observaciones.Size = new System.Drawing.Size(559, 82);
-            this.Rtb_observaciones.TabIndex = 9;
-            this.Rtb_observaciones.Text = "";
             // 
             // Btn_cargar
             // 
@@ -239,9 +242,10 @@ namespace Capa_Vista_CierreContable
             // 
             // Btn_Guardar
             // 
+            this.Btn_Guardar.ImageKey = "(ninguno)";
             this.Btn_Guardar.Location = new System.Drawing.Point(922, 283);
             this.Btn_Guardar.Name = "Btn_Guardar";
-            this.Btn_Guardar.Size = new System.Drawing.Size(94, 39);
+            this.Btn_Guardar.Size = new System.Drawing.Size(94, 45);
             this.Btn_Guardar.TabIndex = 12;
             this.Btn_Guardar.Text = "Guardar ";
             this.Btn_Guardar.UseVisualStyleBackColor = true;
@@ -255,11 +259,12 @@ namespace Capa_Vista_CierreContable
             this.Btn_salir.TabIndex = 14;
             this.Btn_salir.Text = "Salir";
             this.Btn_salir.UseVisualStyleBackColor = true;
+            this.Btn_salir.Click += new System.EventHandler(this.Btn_salir_Click);
             // 
             // Lbl_TotalDebe
             // 
             this.Lbl_TotalDebe.AutoSize = true;
-            this.Lbl_TotalDebe.Location = new System.Drawing.Point(194, 456);
+            this.Lbl_TotalDebe.Location = new System.Drawing.Point(195, 477);
             this.Lbl_TotalDebe.Name = "Lbl_TotalDebe";
             this.Lbl_TotalDebe.Size = new System.Drawing.Size(49, 17);
             this.Lbl_TotalDebe.TabIndex = 15;
@@ -268,7 +273,7 @@ namespace Capa_Vista_CierreContable
             // Lbl_TotalHaber
             // 
             this.Lbl_TotalHaber.AutoSize = true;
-            this.Lbl_TotalHaber.Location = new System.Drawing.Point(474, 455);
+            this.Lbl_TotalHaber.Location = new System.Drawing.Point(473, 474);
             this.Lbl_TotalHaber.Name = "Lbl_TotalHaber";
             this.Lbl_TotalHaber.Size = new System.Drawing.Size(49, 17);
             this.Lbl_TotalHaber.TabIndex = 16;
@@ -278,7 +283,7 @@ namespace Capa_Vista_CierreContable
             // Lbl_SaldosTotales
             // 
             this.Lbl_SaldosTotales.AutoSize = true;
-            this.Lbl_SaldosTotales.Location = new System.Drawing.Point(743, 454);
+            this.Lbl_SaldosTotales.Location = new System.Drawing.Point(749, 471);
             this.Lbl_SaldosTotales.Name = "Lbl_SaldosTotales";
             this.Lbl_SaldosTotales.Size = new System.Drawing.Size(49, 17);
             this.Lbl_SaldosTotales.TabIndex = 17;
@@ -288,7 +293,7 @@ namespace Capa_Vista_CierreContable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1104, 632);
+            this.ClientSize = new System.Drawing.Size(1104, 539);
             this.Controls.Add(this.Lbl_SaldosTotales);
             this.Controls.Add(this.Lbl_TotalHaber);
             this.Controls.Add(this.Lbl_TotalDebe);
@@ -296,8 +301,6 @@ namespace Capa_Vista_CierreContable
             this.Controls.Add(this.Btn_Guardar);
             this.Controls.Add(this.Btn_imprimir);
             this.Controls.Add(this.Btn_cargar);
-            this.Controls.Add(this.Rtb_observaciones);
-            this.Controls.Add(this.Lbl_observaciones);
             this.Controls.Add(this.Lbl_haber);
             this.Controls.Add(this.Lbl_cierre_contable);
             this.Controls.Add(this.Lbl_Debe);
@@ -332,8 +335,6 @@ namespace Capa_Vista_CierreContable
         private System.Windows.Forms.DateTimePicker Dtp_fecha_cierre;
         private System.Windows.Forms.DateTimePicker Dtp_Fecha_Hasta;
         private System.Windows.Forms.Label Lbl_haber;
-        private System.Windows.Forms.Label Lbl_observaciones;
-        private System.Windows.Forms.RichTextBox Rtb_observaciones;
         private System.Windows.Forms.Button Btn_cargar;
         private System.Windows.Forms.Button Btn_imprimir;
         private System.Windows.Forms.Button Btn_Guardar;
@@ -341,5 +342,7 @@ namespace Capa_Vista_CierreContable
         private System.Windows.Forms.Label Lbl_TotalDebe;
         private System.Windows.Forms.Label Lbl_TotalHaber;
         private System.Windows.Forms.Label Lbl_SaldosTotales;
+        private System.Windows.Forms.ComboBox Cbo_actualizacion;
+        private System.Windows.Forms.Label Lbl_actualizacion;
     }
 }
