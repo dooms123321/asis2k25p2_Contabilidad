@@ -9,20 +9,20 @@ namespace Capa_Modelo_Polizas
 {
     internal class Cls_Conexion
     {
-        private static readonly string dsn = "DSN=Bd_Contabilidad;";
+        private static readonly string sDsn = "DSN=Bd_Hoteleria;";
 
         //abre la conexion
         public OdbcConnection AbrirConexion()
         {
             try
             {
-                OdbcConnection conexion = new OdbcConnection(dsn);
+                OdbcConnection conexion = new OdbcConnection(sDsn);
                 conexion.Open();
                 return conexion;
             }
             catch (OdbcException ex)
             {
-                throw new Exception("Error al conectar con la base de datos ODBC (Bd_Contabilidad): " + ex.Message);
+                throw new Exception("Error al conectar con la base de datos ODBC (Bd_Hoteleria): " + ex.Message);
             }
         }
 
