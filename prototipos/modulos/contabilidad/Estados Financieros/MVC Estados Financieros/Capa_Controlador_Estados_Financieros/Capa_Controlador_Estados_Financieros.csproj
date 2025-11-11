@@ -48,6 +48,10 @@
     <Compile Include="Cls_BalanceGeneral_Controlador.cs" />
     <Compile Include="Cls_EstadoDeResultados_Controlador.cs" />
     <Compile Include="Cls_FlujoDeEfectivo_Controlador.cs" />
+    <Compile Include="Cls_Reporte_BalanceGeneral_Controlador.cs" />
+    <Compile Include="Cls_Reporte_BalanceSaldos_Controlador.cs" />
+    <Compile Include="Cls_Reporte_EstadoResultados_Controlador.cs" />
+    <Compile Include="Cls_Reporte_FlujoEfectivo_Controlador.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

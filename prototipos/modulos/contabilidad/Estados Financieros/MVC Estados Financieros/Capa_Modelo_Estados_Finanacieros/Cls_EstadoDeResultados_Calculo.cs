@@ -1,105 +1,133 @@
-﻿// Inicio de código de Arón Ricardo Esquit Silva   0901-22-13036   30/10/2025
+﻿// =====================================================================================
+// Inicio de código de Arón Ricardo Esquit Silva   0901-22-13036   10/11/2025
+// Descripción: Clase de cálculo del Estado de Resultados (actual e histórico)
+// =====================================================================================
 
 using System;
 using System.Data;
+using System.Linq;
 
 namespace Capa_Modelo_Estados_Financieros
 {
-    public class Cls_EstadoDeResultados_Calculo
+    public class Cls_EstadoResultados_Calculo
     {
-        private readonly Cls_EstadoDeResultados_Dao gDao = new Cls_EstadoDeResultados_Dao();
+        private readonly Cls_EstadoResultados_Dao gDao = new Cls_EstadoResultados_Dao();
 
-        public DataTable fun_calcular_estado_resultados()
+        // ---------------------------------------------------------------------------------
+        // Método: fun_calcular_estado_resultados
+        // Calcula el estado de resultados (modo actual)
+        // ---------------------------------------------------------------------------------
+        public DataTable fun_calcular_estado_resultados(int iNivel)
         {
-            DataTable dts_Base = gDao.fun_consultar_estado_resultados();
-            DataTable dts_Resultado = new DataTable();
+            DataTable dts_Resultados = gDao.fun_consultar_estado_resultados(3);
+            if (dts_Resultados.Rows.Count == 0)
+                return dts_Resultados;
 
-            // Columnas estándar
-            dts_Resultado.Columns.Add("Codigo");
-            dts_Resultado.Columns.Add("Nombre");
-            dts_Resultado.Columns.Add("Tipo");
-            dts_Resultado.Columns.Add("Valor", typeof(decimal));
+            DataTable dts_Acumulado = Fun_Acumular_Saldos(dts_Resultados);
+            return Fun_Filtrar_Por_Nivel(dts_Acumulado, iNivel);
+        }
 
-            // Acumuladores
-            decimal totalIngresos = 0, totalCostos = 0, totalGastosOp = 0, totalGastosFin = 0, totalISR = 0;
+        // ---------------------------------------------------------------------------------
+        // Método: fun_calcular_estado_resultados_historico
+        // Calcula el estado de resultados (modo histórico)
+        // ---------------------------------------------------------------------------------
+        public DataTable fun_calcular_estado_resultados_historico(int iNivel, int iAnio, int iMes)
+        {
+            DataTable dts_Resultados = gDao.fun_consultar_estado_resultados_historico(3, iAnio, iMes);
+            if (dts_Resultados.Rows.Count == 0)
+                return dts_Resultados;
 
-            // SECCIÓN 1: INGRESOS
-            var ingresos = dts_Base.Select("Codigo LIKE '4%'");
-            if (ingresos.Length > 0)
+            DataTable dts_Acumulado = Fun_Acumular_Saldos(dts_Resultados);
+            return Fun_Filtrar_Por_Nivel(dts_Acumulado, iNivel);
+        }
+
+        // ---------------------------------------------------------------------------------
+        // Método: fun_calcular_utilidad_neta
+        // Calcula la utilidad neta del ejercicio actual
+        // ---------------------------------------------------------------------------------
+        public decimal fun_calcular_utilidad_neta()
+        {
+            return gDao.fun_calcular_utilidad_neta();
+        }
+
+        // ---------------------------------------------------------------------------------
+        // Método: fun_calcular_utilidad_neta_historico
+        // Calcula la utilidad neta del ejercicio histórico
+        // ---------------------------------------------------------------------------------
+        public decimal fun_calcular_utilidad_neta_historico(int iAnio, int iMes)
+        {
+            return gDao.fun_calcular_utilidad_neta_historico(iAnio, iMes);
+        }
+
+        // ---------------------------------------------------------------------------------
+        // Método: fun_obtener_tipo_resultado
+        // Determina si el resultado es utilidad, pérdida o neutro
+        // ---------------------------------------------------------------------------------
+        public string fun_obtener_tipo_resultado(decimal deUtilidadNeta)
+        {
+            if (deUtilidadNeta > 0)
+                return "UTILIDAD NETA";
+            else if (deUtilidadNeta < 0)
+                return "PERDIDA NETA";
+            else
+                return "RESULTADO NEUTRO";
+        }
+
+        // ---------------------------------------------------------------------------------
+        // Método privado: Fun_Acumular_Saldos
+        // Acumula los saldos de subcuentas en sus cuentas madre
+        // ---------------------------------------------------------------------------------
+        private DataTable Fun_Acumular_Saldos(DataTable dts_Resultados)
+        {
+            DataTable dts_Acumulado = dts_Resultados.Copy();
+
+            var cuentasOrdenadas = dts_Resultados.AsEnumerable()
+                .Select(r => r.Field<string>("Codigo"))
+                .OrderByDescending(c => c.Split('.').Length)
+                .ToList();
+
+            foreach (string cuenta in cuentasOrdenadas)
             {
-                dts_Resultado.Rows.Add(null, "INGRESOS", "", 0);
-                foreach (DataRow fila in ingresos)
+                string[] partes = cuenta.Split('.');
+                for (int i = partes.Length - 1; i > 0; i--)
                 {
-                    decimal valor = Convert.ToDecimal(fila["Valor"]);
-                    dts_Resultado.Rows.Add(fila["Codigo"], fila["Nombre"], "Ingreso", valor);
-                    totalIngresos += valor;
+                    string madre = string.Join(".", partes.Take(i));
+
+                    DataRow sub = dts_Resultados.AsEnumerable()
+                        .FirstOrDefault(r => r.Field<string>("Codigo") == cuenta);
+
+                    DataRow madreFila = dts_Acumulado.AsEnumerable()
+                        .FirstOrDefault(r => r.Field<string>("Codigo") == madre);
+
+                    if (sub != null && madreFila != null)
+                    {
+                        decimal deSaldoSub = Convert.ToDecimal(sub["Saldo"]);
+                        decimal deSaldoMadre = Convert.ToDecimal(madreFila["Saldo"]);
+                        madreFila["Saldo"] = deSaldoMadre + deSaldoSub;
+                    }
                 }
-                dts_Resultado.Rows.Add(null, "Total Ingresos", "", totalIngresos);
             }
 
-            // SECCIÓN 2: COSTOS
-            var costos = dts_Base.Select("Codigo LIKE '5%'");
-            if (costos.Length > 0)
+            return dts_Acumulado;
+        }
+
+        // ---------------------------------------------------------------------------------
+        // Método privado: Fun_Filtrar_Por_Nivel
+        // Retorna solo las cuentas que pertenecen al nivel seleccionado
+        // ---------------------------------------------------------------------------------
+        private DataTable Fun_Filtrar_Por_Nivel(DataTable dts_Acumulado, int iNivel)
+        {
+            DataTable dts_Filtrado = dts_Acumulado.Clone();
+            foreach (DataRow fila in dts_Acumulado.Rows)
             {
-                dts_Resultado.Rows.Add(null, "COSTOS", "", 0);
-                foreach (DataRow fila in costos)
-                {
-                    decimal valor = Convert.ToDecimal(fila["Valor"]);
-                    dts_Resultado.Rows.Add(fila["Codigo"], fila["Nombre"], "Costo", valor);
-                    totalCostos += valor;
-                }
-                dts_Resultado.Rows.Add(null, "Total Costos", "", totalCostos);
+                int nivelCuenta = fila.Field<string>("Codigo").Split('.').Length;
+                if (nivelCuenta <= iNivel)
+                    dts_Filtrado.ImportRow(fila);
             }
-
-            // SECCIÓN 3: GASTOS OPERATIVOS (6.1.x)
-            var gastosOp = dts_Base.Select("Codigo LIKE '6.1%'");
-            if (gastosOp.Length > 0)
-            {
-                dts_Resultado.Rows.Add(null, "GASTOS OPERATIVOS", "", 0);
-                foreach (DataRow fila in gastosOp)
-                {
-                    decimal valor = Convert.ToDecimal(fila["Valor"]);
-                    dts_Resultado.Rows.Add(fila["Codigo"], fila["Nombre"], "Gasto Operativo", valor);
-                    totalGastosOp += valor;
-                }
-                dts_Resultado.Rows.Add(null, "Total Gastos Operativos", "", totalGastosOp);
-            }
-
-            // SECCIÓN 4: GASTOS FINANCIEROS (6.2.x)
-            var gastosFin = dts_Base.Select("Codigo LIKE '6.2%'");
-            if (gastosFin.Length > 0)
-            {
-                dts_Resultado.Rows.Add(null, "GASTOS FINANCIEROS", "", 0);
-                foreach (DataRow fila in gastosFin)
-                {
-                    decimal valor = Convert.ToDecimal(fila["Valor"]);
-                    dts_Resultado.Rows.Add(fila["Codigo"], fila["Nombre"], "Gasto Financiero", valor);
-                    totalGastosFin += valor;
-                }
-                dts_Resultado.Rows.Add(null, "Total Gastos Financieros", "", totalGastosFin);
-            }
-
-            // SECCIÓN 5: GASTO POR ISR (6.3.x)
-            var gastoISR = dts_Base.Select("Codigo LIKE '6.3%'");
-            if (gastoISR.Length > 0)
-            {
-                dts_Resultado.Rows.Add(null, "GASTO POR ISR", "", 0);
-                foreach (DataRow fila in gastoISR)
-                {
-                    decimal valor = Convert.ToDecimal(fila["Valor"]);
-                    dts_Resultado.Rows.Add(fila["Codigo"], fila["Nombre"], "Gasto ISR", valor);
-                    totalISR += valor;
-                }
-                dts_Resultado.Rows.Add(null, "Total Gastos Financieros y Fiscales", "", totalISR);
-            }
-
-            // CÁLCULO FINAL: UTILIDAD O PÉRDIDA NETA
-            decimal utilidadNeta = totalIngresos - (totalCostos + totalGastosOp + totalGastosFin + totalISR);
-            string nombreResultado = utilidadNeta >= 0 ? "UTILIDAD NETA" : "PÉRDIDA NETA";
-
-            dts_Resultado.Rows.Add(null, nombreResultado, "Resultado", utilidadNeta);
-
-            return dts_Resultado;
+            return dts_Filtrado;
         }
     }
 }
+
+// Fin de código de Arón Ricardo Esquit Silva
+// =====================================================================================
