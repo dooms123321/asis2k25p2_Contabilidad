@@ -42,7 +42,8 @@ namespace Capa_Vista_Estados_Financieros
         // Flujo de Efectivo
         private void Tsm_FlujoEfectivo_Click(object sender, EventArgs e)
         {
-            AbrirFormulario(new Frm_EstadoDeFlujoDeEfectivo());
+            AbrirFormulario(new Frm_Flujo_Efectivo());
+
         }
     }
 }

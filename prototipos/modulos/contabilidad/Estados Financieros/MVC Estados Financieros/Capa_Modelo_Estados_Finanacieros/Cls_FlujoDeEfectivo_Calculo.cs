@@ -1,151 +1,216 @@
-﻿// Inicio de código de Arón Ricardo Esquit Silva   0901-22-13036   31/10/2025
+﻿// =====================================================================================
+// Inicio de código de Arón Ricardo Esquit Silva   0901-22-13036   09/11/2025
+// Descripción: Clase de cálculo para el Estado de Flujo de Efectivo (método directo)
+// Proyecto: QUANTUM S.A. - Módulo CTA (Contabilidad)
+// =====================================================================================
 
 using System;
 using System.Data;
+using System.Globalization;
 
 namespace Capa_Modelo_Estados_Financieros
 {
-    public class Cls_FlujoDeEfectivo_Calculo
+    public class Cls_FlujoEfectivo_Calculo
     {
-        private readonly Cls_FlujoDeEfectivo_Dao gDao = new Cls_FlujoDeEfectivo_Dao();
+        private readonly Cls_FlujoEfectivo_Dao gDao = new Cls_FlujoEfectivo_Dao();
 
+        // ---------------------------------------------------------------------------------
+        // Método: fun_calcular_flujo_efectivo
+        // Descripción:
+        // Obtiene los datos del flujo desde el DAO y genera los totales y el resultado neto.
+        // ---------------------------------------------------------------------------------
         public DataTable fun_calcular_flujo_efectivo()
         {
-            DataTable dts_Base = gDao.fun_consultar_flujo_efectivo();
-            DataTable dts_Resultado = new DataTable();
+            DataTable dtsBase = gDao.fun_consultar_flujo_efectivo();
 
-            // Columnas estándar
-            dts_Resultado.Columns.Add("Codigo");
-            dts_Resultado.Columns.Add("Nombre");
-            dts_Resultado.Columns.Add("Actividad");
-            dts_Resultado.Columns.Add("Entrada", typeof(decimal));
-            dts_Resultado.Columns.Add("Salida", typeof(decimal));
+            // Crear tabla resultado con estructura uniforme
+            DataTable dtsResultado = new DataTable();
+            dtsResultado.Columns.Add("Cuenta");
+            dtsResultado.Columns.Add("Nombre");
+            dtsResultado.Columns.Add("Entrada", typeof(string));
+            dtsResultado.Columns.Add("Salida", typeof(string));
 
-            // Acumuladores
-            decimal totalOperativaE = 0, totalOperativaS = 0;
-            decimal totalInversionE = 0, totalInversionS = 0;
-            decimal totalFinanciacionE = 0, totalFinanciacionS = 0;
-            decimal totalNoClasificadaE = 0, totalNoClasificadaS = 0;
+            decimal totalEntradas = 0;
+            decimal totalSalidas = 0;
 
-            // --- No clasificadas ---
-            var noClasificadas = dts_Base.Select("TipoActividad = 'No clasificada'");
-            if (noClasificadas.Length > 0)
+            // Procesar filas base y calcular totales
+            foreach (DataRow fila in dtsBase.Rows)
             {
-                dts_Resultado.Rows.Add(null, "CUENTAS NO CLASIFICADAS", null, 0, 0);
+                string cuenta = fila["Cuenta"].ToString();
+                string nombre = fila["Nombre"].ToString();
 
-                foreach (DataRow fila in noClasificadas)
-                {
-                    decimal entrada = Convert.ToDecimal(fila["Entrada"]);
-                    decimal salida = Convert.ToDecimal(fila["Salida"]);
+                string entradaStr = fila["Entrada"]?.ToString()?.Replace("Q", "").Replace(",", "").Trim();
+                string salidaStr = fila["Salida"]?.ToString()?.Replace("Q", "").Replace(",", "").Trim();
 
-                    dts_Resultado.Rows.Add(
-                        fila["Codigo"],
-                        fila["Nombre"],
-                        "No clasificada",
-                        entrada,
-                        salida
-                    );
+                decimal entrada = 0;
+                decimal salida = 0;
 
-                    totalNoClasificadaE += entrada;
-                    totalNoClasificadaS += salida;
-                }
+                if (decimal.TryParse(entradaStr, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal ent))
+                    entrada = ent;
+                if (decimal.TryParse(salidaStr, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal sal))
+                    salida = sal;
 
-                dts_Resultado.Rows.Add(null, "", null, 0, 0);
+                totalEntradas += entrada;
+                totalSalidas += salida;
+
+                // Asignar formato correcto solo si hay monto o es cero válido
+                string entradaFmt = entrada > 0 ? $"Q{entrada:N2}" :
+                    (entradaStr == "0.00" ? "Q0.00" : "");
+                string salidaFmt = salida > 0 ? $"Q{salida:N2}" :
+                    (salidaStr == "0.00" ? "Q0.00" : "");
+
+                dtsResultado.Rows.Add(cuenta, nombre, entradaFmt, salidaFmt);
             }
 
-            // --- Actividades Operativas ---
-            var operativas = dts_Base.Select("TipoActividad = 'Operativa'");
-            if (operativas.Length > 0)
-            {
-                dts_Resultado.Rows.Add(null, "ACTIVIDADES OPERATIVAS", null, 0, 0);
+            // ---------------------------------------------------------------------------------
+            // Agregar fila: TOTAL FLUJO NETO DE EFECTIVO
+            // ---------------------------------------------------------------------------------
+            DataRow filaTotal = dtsResultado.NewRow();
+            filaTotal["Cuenta"] = "";
+            filaTotal["Nombre"] = "TOTAL FLUJO NETO DE EFECTIVO";
+            filaTotal["Entrada"] = $"Q{totalEntradas:N2}";
+            filaTotal["Salida"] = $"Q{totalSalidas:N2}";
+            dtsResultado.Rows.Add(filaTotal);
 
-                foreach (DataRow fila in operativas)
-                {
-                    decimal entrada = Convert.ToDecimal(fila["Entrada"]);
-                    decimal salida = Convert.ToDecimal(fila["Salida"]);
+            // ---------------------------------------------------------------------------------
+            // Agregar fila: AUMENTO / DISMINUCIÓN NETA DE EFECTIVO
+            // ---------------------------------------------------------------------------------
+            decimal diferencia = totalEntradas - totalSalidas;
+            string tipo = diferencia >= 0 ? "AUMENTO" : "DISMINUCIÓN";
+            string diferenciaFmt = $"Q{Math.Abs(diferencia):N2} ({tipo})";
 
-                    dts_Resultado.Rows.Add(
-                        fila["Codigo"],
-                        fila["Nombre"],
-                        "Operativa",
-                        entrada,
-                        salida
-                    );
+            DataRow filaResultado = dtsResultado.NewRow();
+            filaResultado["Cuenta"] = "";
+            filaResultado["Nombre"] = "AUMENTO / DISMINUCIÓN NETA DE EFECTIVO";
+            filaResultado["Entrada"] = "";
+            filaResultado["Salida"] = diferenciaFmt;
+            dtsResultado.Rows.Add(filaResultado);
 
-                    totalOperativaE += entrada;
-                    totalOperativaS += salida;
-                }
-
-                dts_Resultado.Rows.Add(null, "Total Actividades Operativas", null, totalOperativaE, totalOperativaS);
-            }
-
-            // --- Actividades de Inversión ---
-            var inversion = dts_Base.Select("TipoActividad = 'Inversión'");
-            if (inversion.Length > 0)
-            {
-                dts_Resultado.Rows.Add(null, "", null, 0, 0);
-                dts_Resultado.Rows.Add(null, "ACTIVIDADES DE INVERSIÓN", null, 0, 0);
-
-                foreach (DataRow fila in inversion)
-                {
-                    decimal entrada = Convert.ToDecimal(fila["Entrada"]);
-                    decimal salida = Convert.ToDecimal(fila["Salida"]);
-
-                    dts_Resultado.Rows.Add(
-                        fila["Codigo"],
-                        fila["Nombre"],
-                        "Inversión",
-                        entrada,
-                        salida
-                    );
-
-                    totalInversionE += entrada;
-                    totalInversionS += salida;
-                }
-
-                dts_Resultado.Rows.Add(null, "Total Actividades de Inversión", null, totalInversionE, totalInversionS);
-            }
-
-            // --- Actividades de Financiación ---
-            var financiacion = dts_Base.Select("TipoActividad = 'Financiación'");
-            if (financiacion.Length > 0)
-            {
-                dts_Resultado.Rows.Add(null, "", null, 0, 0);
-                dts_Resultado.Rows.Add(null, "ACTIVIDADES DE FINANCIACIÓN", null, 0, 0);
-
-                foreach (DataRow fila in financiacion)
-                {
-                    decimal entrada = Convert.ToDecimal(fila["Entrada"]);
-                    decimal salida = Convert.ToDecimal(fila["Salida"]);
-
-                    dts_Resultado.Rows.Add(
-                        fila["Codigo"],
-                        fila["Nombre"],
-                        "Financiación",
-                        entrada,
-                        salida
-                    );
-
-                    totalFinanciacionE += entrada;
-                    totalFinanciacionS += salida;
-                }
-
-                dts_Resultado.Rows.Add(null, "Total Actividades de Financiación", null, totalFinanciacionE, totalFinanciacionS);
-            }
-
-            // --- Totales finales ---
-            decimal totalEntradas = totalOperativaE + totalInversionE + totalFinanciacionE + totalNoClasificadaE;
-            decimal totalSalidas = totalOperativaS + totalInversionS + totalFinanciacionS + totalNoClasificadaS;
-            decimal flujoNeto = totalEntradas - totalSalidas;
-
-            dts_Resultado.Rows.Add(null, "", null, 0, 0);
-            dts_Resultado.Rows.Add(null, "Total Flujo Neto de Efectivo", null, totalEntradas, totalSalidas);
-
-            // --- Resultado final ---
-            string tipoResultado = flujoNeto >= 0 ? "AUMENTO NETO DE EFECTIVO" : "DISMINUCIÓN NETA DE EFECTIVO";
-            dts_Resultado.Rows.Add(null, tipoResultado, "Resultado", Math.Abs(flujoNeto), 0);
-
-            return dts_Resultado;
+            return dtsResultado;
         }
+
+
+        // ---------------------------------------------------------------------------------
+        // Método: fun_calcular_aumento_disminucion
+        // Descripción: Calcula directamente la diferencia entre total de entradas y salidas,
+        // sin depender de otra función del DAO (mismo cálculo que la tabla visible).
+        // ---------------------------------------------------------------------------------
+        public decimal fun_calcular_aumento_disminucion()
+        {
+            DataTable dtsBase = gDao.fun_consultar_flujo_efectivo();
+
+            decimal totalEntradas = 0;
+            decimal totalSalidas = 0;
+
+            foreach (DataRow fila in dtsBase.Rows)
+            {
+                decimal entrada = 0;
+                decimal salida = 0;
+
+                if (decimal.TryParse(fila["Entrada"].ToString(), out decimal ent))
+                    entrada = ent;
+
+                if (decimal.TryParse(fila["Salida"].ToString(), out decimal sal))
+                    salida = sal;
+
+                totalEntradas += entrada;
+                totalSalidas += salida;
+            }
+
+            return totalEntradas - totalSalidas;
+        }
+
+
+        // ---------------------------------------------------------------------------------
+        // Método: fun_obtener_tipo_resultado
+        // Descripción: Determina si el flujo neto fue aumento o disminución.
+        // ---------------------------------------------------------------------------------
+        public string fun_obtener_tipo_resultado(decimal diferencia)
+        {
+            if (diferencia > 0)
+                return "AUMENTO";
+            else if (diferencia < 0)
+                return "DISMINUCIÓN";
+            else
+                return "NEUTRO";
+        }
+
+        // ---------------------------------------------------------------------------------
+        // Método: fun_calcular_flujo_efectivo_historico
+        // Descripción:
+        // Obtiene los datos históricos del flujo de efectivo filtrados por año y mes.
+        // Mantiene la misma estructura visual y de totales que el modo actual.
+        // ---------------------------------------------------------------------------------
+        public DataTable fun_calcular_flujo_efectivo_historico(int iAnio, int iMes)
+        {
+            DataTable dtsBase = gDao.fun_consultar_flujo_efectivo_historico(iAnio, iMes);
+
+            // Crear tabla resultado con estructura uniforme
+            DataTable dtsResultado = new DataTable();
+            dtsResultado.Columns.Add("Cuenta");
+            dtsResultado.Columns.Add("Nombre");
+            dtsResultado.Columns.Add("Entrada", typeof(string));
+            dtsResultado.Columns.Add("Salida", typeof(string));
+
+            decimal totalEntradas = 0;
+            decimal totalSalidas = 0;
+
+            foreach (DataRow fila in dtsBase.Rows)
+            {
+                string cuenta = fila["Cuenta"].ToString();
+                string nombre = fila["Nombre"].ToString();
+
+                string entradaStr = fila["Entrada"]?.ToString()?.Replace("Q", "").Replace(",", "").Trim();
+                string salidaStr = fila["Salida"]?.ToString()?.Replace("Q", "").Replace(",", "").Trim();
+
+                decimal entrada = 0;
+                decimal salida = 0;
+
+                if (decimal.TryParse(entradaStr, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal ent))
+                    entrada = ent;
+                if (decimal.TryParse(salidaStr, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal sal))
+                    salida = sal;
+
+                totalEntradas += entrada;
+                totalSalidas += salida;
+
+                string entradaFmt = entrada > 0 ? $"Q{entrada:N2}" :
+                    (entradaStr == "0.00" ? "Q0.00" : "");
+                string salidaFmt = salida > 0 ? $"Q{salida:N2}" :
+                    (salidaStr == "0.00" ? "Q0.00" : "");
+
+                dtsResultado.Rows.Add(cuenta, nombre, entradaFmt, salidaFmt);
+            }
+
+            // ---------------------------------------------------------------------------------
+            // Agregar fila: TOTAL FLUJO NETO DE EFECTIVO
+            // ---------------------------------------------------------------------------------
+            DataRow filaTotal = dtsResultado.NewRow();
+            filaTotal["Cuenta"] = "";
+            filaTotal["Nombre"] = "TOTAL FLUJO NETO DE EFECTIVO";
+            filaTotal["Entrada"] = $"Q{totalEntradas:N2}";
+            filaTotal["Salida"] = $"Q{totalSalidas:N2}";
+            dtsResultado.Rows.Add(filaTotal);
+
+            // ---------------------------------------------------------------------------------
+            // Agregar fila: AUMENTO / DISMINUCIÓN NETA DE EFECTIVO
+            // ---------------------------------------------------------------------------------
+            decimal diferencia = totalEntradas - totalSalidas;
+            string tipo = diferencia >= 0 ? "AUMENTO" : "DISMINUCIÓN";
+            string diferenciaFmt = $"Q{Math.Abs(diferencia):N2} ({tipo})";
+
+            DataRow filaResultado = dtsResultado.NewRow();
+            filaResultado["Cuenta"] = "";
+            filaResultado["Nombre"] = "AUMENTO / DISMINUCIÓN NETA DE EFECTIVO";
+            filaResultado["Entrada"] = "";
+            filaResultado["Salida"] = diferenciaFmt;
+            dtsResultado.Rows.Add(filaResultado);
+
+            return dtsResultado;
+        }
+
     }
 }
+
+// Fin de código de Arón Ricardo Esquit Silva
+// =====================================================================================
