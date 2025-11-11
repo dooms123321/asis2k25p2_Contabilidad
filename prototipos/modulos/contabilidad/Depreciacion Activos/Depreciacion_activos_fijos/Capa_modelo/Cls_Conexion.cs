@@ -8,7 +8,7 @@ namespace Capa_modelo
         // Devuelve la cadena DSN configurada en el sistema
         public string ObtenerCadenaConexion()
         {
-            return "Dsn=Bd_Contabilidad";
+            return "Dsn=Bd_Hoteleria";
         }
 
         // Método estándar para abrir conexión con manejo de errores
