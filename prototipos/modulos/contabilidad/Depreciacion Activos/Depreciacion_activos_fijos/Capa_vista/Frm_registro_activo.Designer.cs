@@ -80,7 +80,6 @@ namespace Capa_vista
             this.Cbo_seleccion_activo = new System.Windows.Forms.ComboBox();
             this.Lbl_seleccion = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.Dtp_fecha_poliza = new System.Windows.Forms.DateTimePicker();
             this.Gpb_detalle_poliza_activo = new System.Windows.Forms.GroupBox();
             this.Lbl_vida_util_poliza = new System.Windows.Forms.Label();
             this.Lbl_info_total = new System.Windows.Forms.Label();
@@ -90,6 +89,7 @@ namespace Capa_vista
             this.LblCostoAdquisicion = new System.Windows.Forms.Label();
             this.Lbl_TotalPoliza = new System.Windows.Forms.Label();
             this.Lbl_ActivoPoliza = new System.Windows.Forms.Label();
+            this.Dtp_fecha_poliza = new System.Windows.Forms.DateTimePicker();
             this.Btn_enviar_poliza_todo = new System.Windows.Forms.Button();
             this.Dgv_polizas_depreciacion = new System.Windows.Forms.DataGridView();
             this.Btn_actualiazr_poliza_depre = new System.Windows.Forms.Button();
@@ -114,7 +114,7 @@ namespace Capa_vista
             // 
             // Gpb_activo
             // 
-            this.Gpb_activo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(97)))), ((int)(((byte)(0)))));
+            this.Gpb_activo.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Gpb_activo.Controls.Add(this.Txt_fecha_adquisicion);
             this.Gpb_activo.Controls.Add(this.label1);
             this.Gpb_activo.Controls.Add(this.Lbl_estado_activo);
@@ -173,7 +173,7 @@ namespace Capa_vista
             // Rdb_inactivo
             // 
             this.Rdb_inactivo.AutoSize = true;
-            this.Rdb_inactivo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(130)))), ((int)(((byte)(10)))));
+            this.Rdb_inactivo.BackColor = System.Drawing.Color.White;
             this.Rdb_inactivo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Rdb_inactivo.Location = new System.Drawing.Point(1074, 288);
             this.Rdb_inactivo.Name = "Rdb_inactivo";
@@ -186,7 +186,7 @@ namespace Capa_vista
             // Rdb_activo
             // 
             this.Rdb_activo.AutoSize = true;
-            this.Rdb_activo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(130)))), ((int)(((byte)(10)))));
+            this.Rdb_activo.BackColor = System.Drawing.Color.White;
             this.Rdb_activo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Rdb_activo.Location = new System.Drawing.Point(975, 288);
             this.Rdb_activo.Name = "Rdb_activo";
@@ -317,7 +317,7 @@ namespace Capa_vista
             // 
             // Gpb_cuentas_Activo
             // 
-            this.Gpb_cuentas_Activo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(97)))), ((int)(((byte)(0)))));
+            this.Gpb_cuentas_Activo.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Gpb_cuentas_Activo.Controls.Add(this.Cbo_gastos_depreciacoin);
             this.Gpb_cuentas_Activo.Controls.Add(this.Cbo_cuenta_depreciacion);
             this.Gpb_cuentas_Activo.Controls.Add(this.Cbo_cuenta_activo);
@@ -366,7 +366,7 @@ namespace Capa_vista
             // 
             // Btn_limpiar
             // 
-            this.Btn_limpiar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(130)))), ((int)(((byte)(10)))));
+            this.Btn_limpiar.BackColor = System.Drawing.Color.Silver;
             this.Btn_limpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_limpiar.Location = new System.Drawing.Point(1048, 225);
             this.Btn_limpiar.Name = "Btn_limpiar";
@@ -377,7 +377,7 @@ namespace Capa_vista
             // 
             // Btn_guardar
             // 
-            this.Btn_guardar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(130)))), ((int)(((byte)(10)))));
+            this.Btn_guardar.BackColor = System.Drawing.Color.Silver;
             this.Btn_guardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_guardar.Location = new System.Drawing.Point(916, 225);
             this.Btn_guardar.Name = "Btn_guardar";
@@ -428,7 +428,7 @@ namespace Capa_vista
             // 
             // tabPage1
             // 
-            this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(70)))), ((int)(((byte)(0)))));
+            this.tabPage1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tabPage1.Controls.Add(this.Gpb_activo);
             this.tabPage1.Controls.Add(this.Gpb_cuentas_Activo);
             this.tabPage1.Location = new System.Drawing.Point(4, 31);
@@ -440,7 +440,7 @@ namespace Capa_vista
             // 
             // tabPage2
             // 
-            this.tabPage2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(70)))), ((int)(((byte)(0)))));
+            this.tabPage2.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.Gpb_activos_fijos_seleccion);
@@ -453,7 +453,7 @@ namespace Capa_vista
             // 
             // groupBox2
             // 
-            this.groupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(97)))), ((int)(((byte)(0)))));
+            this.groupBox2.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.groupBox2.Controls.Add(this.Btn_calcular_activo_fijo);
             this.groupBox2.Controls.Add(this.Btn_guardar_calculo);
             this.groupBox2.Controls.Add(this.Btn_limpial_calculo);
@@ -469,7 +469,7 @@ namespace Capa_vista
             // 
             // Btn_calcular_activo_fijo
             // 
-            this.Btn_calcular_activo_fijo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(130)))), ((int)(((byte)(10)))));
+            this.Btn_calcular_activo_fijo.BackColor = System.Drawing.Color.Silver;
             this.Btn_calcular_activo_fijo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_calcular_activo_fijo.Location = new System.Drawing.Point(793, 45);
             this.Btn_calcular_activo_fijo.Name = "Btn_calcular_activo_fijo";
@@ -481,7 +481,7 @@ namespace Capa_vista
             // 
             // Btn_guardar_calculo
             // 
-            this.Btn_guardar_calculo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(130)))), ((int)(((byte)(10)))));
+            this.Btn_guardar_calculo.BackColor = System.Drawing.Color.Silver;
             this.Btn_guardar_calculo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_guardar_calculo.Location = new System.Drawing.Point(971, 45);
             this.Btn_guardar_calculo.Name = "Btn_guardar_calculo";
@@ -493,7 +493,7 @@ namespace Capa_vista
             // 
             // Btn_limpial_calculo
             // 
-            this.Btn_limpial_calculo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(130)))), ((int)(((byte)(10)))));
+            this.Btn_limpial_calculo.BackColor = System.Drawing.Color.Silver;
             this.Btn_limpial_calculo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_limpial_calculo.Location = new System.Drawing.Point(662, 45);
             this.Btn_limpial_calculo.Name = "Btn_limpial_calculo";
@@ -525,7 +525,7 @@ namespace Capa_vista
             // 
             // groupBox1
             // 
-            this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(97)))), ((int)(((byte)(0)))));
+            this.groupBox1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.groupBox1.Controls.Add(this.Dgv_depreciacion_lineal);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(6, 282);
@@ -548,7 +548,7 @@ namespace Capa_vista
             // 
             // Gpb_activos_fijos_seleccion
             // 
-            this.Gpb_activos_fijos_seleccion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(97)))), ((int)(((byte)(0)))));
+            this.Gpb_activos_fijos_seleccion.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Gpb_activos_fijos_seleccion.Controls.Add(this.Btn_actualizar);
             this.Gpb_activos_fijos_seleccion.Controls.Add(this.Btn_buscar_activo);
             this.Gpb_activos_fijos_seleccion.Controls.Add(this.Gpb_costo_adquisicion);
@@ -566,7 +566,7 @@ namespace Capa_vista
             // 
             // Btn_actualizar
             // 
-            this.Btn_actualizar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(130)))), ((int)(((byte)(10)))));
+            this.Btn_actualizar.BackColor = System.Drawing.Color.Silver;
             this.Btn_actualizar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_actualizar.Location = new System.Drawing.Point(565, 30);
             this.Btn_actualizar.Name = "Btn_actualizar";
@@ -578,7 +578,7 @@ namespace Capa_vista
             // 
             // Btn_buscar_activo
             // 
-            this.Btn_buscar_activo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(130)))), ((int)(((byte)(10)))));
+            this.Btn_buscar_activo.BackColor = System.Drawing.Color.Silver;
             this.Btn_buscar_activo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_buscar_activo.Location = new System.Drawing.Point(409, 30);
             this.Btn_buscar_activo.Name = "Btn_buscar_activo";
@@ -664,13 +664,14 @@ namespace Capa_vista
             // 
             // tabPage3
             // 
-            this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(97)))), ((int)(((byte)(0)))));
+            this.tabPage3.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tabPage3.Controls.Add(this.Gpb_detalle_poliza_activo);
             this.tabPage3.Controls.Add(this.Btn_enviar_poliza_todo);
             this.tabPage3.Controls.Add(this.Dgv_polizas_depreciacion);
             this.tabPage3.Controls.Add(this.Btn_actualiazr_poliza_depre);
             this.tabPage3.Controls.Add(this.Btn_enviar_poliza);
             this.tabPage3.Controls.Add(this.label3);
+            this.tabPage3.Controls.Add(this.Dtp_fecha_poliza);
             this.tabPage3.Location = new System.Drawing.Point(4, 31);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -678,17 +679,8 @@ namespace Capa_vista
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "tabPage3";
             // 
-            // Dtp_fecha_poliza
-            // 
-            this.Dtp_fecha_poliza.CalendarMonthBackground = System.Drawing.SystemColors.ActiveBorder;
-            this.Dtp_fecha_poliza.Location = new System.Drawing.Point(682, 18);
-            this.Dtp_fecha_poliza.Name = "Dtp_fecha_poliza";
-            this.Dtp_fecha_poliza.Size = new System.Drawing.Size(413, 31);
-            this.Dtp_fecha_poliza.TabIndex = 6;
-            // 
             // Gpb_detalle_poliza_activo
             // 
-            this.Gpb_detalle_poliza_activo.Controls.Add(this.Dtp_fecha_poliza);
             this.Gpb_detalle_poliza_activo.Controls.Add(this.Lbl_vida_util_poliza);
             this.Gpb_detalle_poliza_activo.Controls.Add(this.Lbl_info_total);
             this.Gpb_detalle_poliza_activo.Controls.Add(this.Lbl_total_polizas);
@@ -707,7 +699,7 @@ namespace Capa_vista
             // Lbl_vida_util_poliza
             // 
             this.Lbl_vida_util_poliza.AutoSize = true;
-            this.Lbl_vida_util_poliza.Location = new System.Drawing.Point(228, 145);
+            this.Lbl_vida_util_poliza.Location = new System.Drawing.Point(466, 146);
             this.Lbl_vida_util_poliza.Name = "Lbl_vida_util_poliza";
             this.Lbl_vida_util_poliza.Size = new System.Drawing.Size(31, 22);
             this.Lbl_vida_util_poliza.TabIndex = 7;
@@ -716,7 +708,7 @@ namespace Capa_vista
             // Lbl_info_total
             // 
             this.Lbl_info_total.AutoSize = true;
-            this.Lbl_info_total.Location = new System.Drawing.Point(228, 112);
+            this.Lbl_info_total.Location = new System.Drawing.Point(466, 113);
             this.Lbl_info_total.Name = "Lbl_info_total";
             this.Lbl_info_total.Size = new System.Drawing.Size(31, 22);
             this.Lbl_info_total.TabIndex = 6;
@@ -725,7 +717,7 @@ namespace Capa_vista
             // Lbl_total_polizas
             // 
             this.Lbl_total_polizas.AutoSize = true;
-            this.Lbl_total_polizas.Location = new System.Drawing.Point(228, 76);
+            this.Lbl_total_polizas.Location = new System.Drawing.Point(466, 77);
             this.Lbl_total_polizas.Name = "Lbl_total_polizas";
             this.Lbl_total_polizas.Size = new System.Drawing.Size(31, 22);
             this.Lbl_total_polizas.TabIndex = 5;
@@ -734,7 +726,7 @@ namespace Capa_vista
             // Lbl_activo_poliza
             // 
             this.Lbl_activo_poliza.AutoSize = true;
-            this.Lbl_activo_poliza.Location = new System.Drawing.Point(228, 36);
+            this.Lbl_activo_poliza.Location = new System.Drawing.Point(466, 37);
             this.Lbl_activo_poliza.Name = "Lbl_activo_poliza";
             this.Lbl_activo_poliza.Size = new System.Drawing.Size(31, 22);
             this.Lbl_activo_poliza.TabIndex = 4;
@@ -743,7 +735,7 @@ namespace Capa_vista
             // LblVidaUtil
             // 
             this.LblVidaUtil.AutoSize = true;
-            this.LblVidaUtil.Location = new System.Drawing.Point(125, 145);
+            this.LblVidaUtil.Location = new System.Drawing.Point(363, 146);
             this.LblVidaUtil.Name = "LblVidaUtil";
             this.LblVidaUtil.Size = new System.Drawing.Size(97, 22);
             this.LblVidaUtil.TabIndex = 3;
@@ -752,7 +744,7 @@ namespace Capa_vista
             // LblCostoAdquisicion
             // 
             this.LblCostoAdquisicion.AutoSize = true;
-            this.LblCostoAdquisicion.Location = new System.Drawing.Point(43, 112);
+            this.LblCostoAdquisicion.Location = new System.Drawing.Point(281, 113);
             this.LblCostoAdquisicion.Name = "LblCostoAdquisicion";
             this.LblCostoAdquisicion.Size = new System.Drawing.Size(179, 22);
             this.LblCostoAdquisicion.TabIndex = 2;
@@ -761,7 +753,7 @@ namespace Capa_vista
             // Lbl_TotalPoliza
             // 
             this.Lbl_TotalPoliza.AutoSize = true;
-            this.Lbl_TotalPoliza.Location = new System.Drawing.Point(93, 76);
+            this.Lbl_TotalPoliza.Location = new System.Drawing.Point(331, 77);
             this.Lbl_TotalPoliza.Name = "Lbl_TotalPoliza";
             this.Lbl_TotalPoliza.Size = new System.Drawing.Size(129, 22);
             this.Lbl_TotalPoliza.TabIndex = 1;
@@ -770,15 +762,22 @@ namespace Capa_vista
             // Lbl_ActivoPoliza
             // 
             this.Lbl_ActivoPoliza.AutoSize = true;
-            this.Lbl_ActivoPoliza.Location = new System.Drawing.Point(148, 36);
+            this.Lbl_ActivoPoliza.Location = new System.Drawing.Point(386, 37);
             this.Lbl_ActivoPoliza.Name = "Lbl_ActivoPoliza";
             this.Lbl_ActivoPoliza.Size = new System.Drawing.Size(74, 22);
             this.Lbl_ActivoPoliza.TabIndex = 0;
             this.Lbl_ActivoPoliza.Text = "Activo:";
             // 
+            // Dtp_fecha_poliza
+            // 
+            this.Dtp_fecha_poliza.Location = new System.Drawing.Point(98, 225);
+            this.Dtp_fecha_poliza.Name = "Dtp_fecha_poliza";
+            this.Dtp_fecha_poliza.Size = new System.Drawing.Size(27, 31);
+            this.Dtp_fecha_poliza.TabIndex = 8;
+            // 
             // Btn_enviar_poliza_todo
             // 
-            this.Btn_enviar_poliza_todo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(130)))), ((int)(((byte)(10)))));
+            this.Btn_enviar_poliza_todo.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Btn_enviar_poliza_todo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_enviar_poliza_todo.Location = new System.Drawing.Point(184, 406);
             this.Btn_enviar_poliza_todo.Name = "Btn_enviar_poliza_todo";
@@ -800,7 +799,7 @@ namespace Capa_vista
             // 
             // Btn_actualiazr_poliza_depre
             // 
-            this.Btn_actualiazr_poliza_depre.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(130)))), ((int)(((byte)(10)))));
+            this.Btn_actualiazr_poliza_depre.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Btn_actualiazr_poliza_depre.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_actualiazr_poliza_depre.Location = new System.Drawing.Point(382, 406);
             this.Btn_actualiazr_poliza_depre.Name = "Btn_actualiazr_poliza_depre";
@@ -812,7 +811,7 @@ namespace Capa_vista
             // 
             // Btn_enviar_poliza
             // 
-            this.Btn_enviar_poliza.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(130)))), ((int)(((byte)(10)))));
+            this.Btn_enviar_poliza.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Btn_enviar_poliza.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_enviar_poliza.Location = new System.Drawing.Point(15, 406);
             this.Btn_enviar_poliza.Name = "Btn_enviar_poliza";
@@ -836,7 +835,7 @@ namespace Capa_vista
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(70)))), ((int)(((byte)(0)))));
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ClientSize = new System.Drawing.Size(1219, 726);
             this.Controls.Add(this.Tbc_calculo_activo_fijo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

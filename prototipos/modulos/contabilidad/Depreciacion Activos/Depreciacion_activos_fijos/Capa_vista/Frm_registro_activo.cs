@@ -13,9 +13,7 @@ namespace Capa_vista
         private Cls_envio_poliza_depreciacion polizaService = new Cls_envio_poliza_depreciacion();
         public int IdActivoSeleccionado { get; private set; }
         public string NombreActivoSeleccionado { get; private set; }
-        private int idActivoActual = 0;
-        private DateTime fechaPolizaActual;
-        private decimal depreciacionAnualActual;
+
 
         public Frm_registro_activo()
         {
