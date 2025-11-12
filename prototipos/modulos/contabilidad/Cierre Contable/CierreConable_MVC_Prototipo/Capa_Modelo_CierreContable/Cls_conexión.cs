@@ -13,7 +13,7 @@ namespace Capa_Modelo_CierreContable
         // Devuelve la cadena de conexión ODBC
         public string ObtenerCadenaConexion()
         {
-            return "Bd_Hoteleria";
+            return "Dsn=BD_Hoteleria";
         }
 
         // Abre y retorna una nueva conexión ODBC

@@ -237,8 +237,9 @@ namespace Capa_Vista_CierreContable
             this.Btn_imprimir.Name = "Btn_imprimir";
             this.Btn_imprimir.Size = new System.Drawing.Size(94, 43);
             this.Btn_imprimir.TabIndex = 11;
-            this.Btn_imprimir.Text = "Imprimir";
+            this.Btn_imprimir.Text = "Reporte";
             this.Btn_imprimir.UseVisualStyleBackColor = true;
+            this.Btn_imprimir.Click += new System.EventHandler(this.Btn_imprimir_Click);
             // 
             // Btn_Guardar
             // 
