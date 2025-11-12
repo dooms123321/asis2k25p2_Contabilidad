@@ -20,7 +20,7 @@ namespace Capa_Vista_CierreContable
         {
             InitializeComponent();
 
-            Cbo_periodo.Items.AddRange(new[] { "Anual", "Mensual"});
+            Cbo_periodo.Items.AddRange(new[] { "Anual", "Mensual" });
             Cbo_periodo.DropDownStyle = ComboBoxStyle.DropDownList;
 
 
@@ -35,7 +35,7 @@ namespace Capa_Vista_CierreContable
 
         private void Frm_CierreContable_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -104,9 +104,9 @@ namespace Capa_Vista_CierreContable
         private void Dtp_fecha_cierre_ValueChanged(object sender, EventArgs e)
         {
             Dtp_fecha_cierre.Format = DateTimePickerFormat.Short;
-          
 
-            
+
+
         }
 
         private void Dgv_Cuentas_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -118,7 +118,7 @@ namespace Capa_Vista_CierreContable
 
 
 
-      
+
 
 
         private void Btn_cargar_Click(object sender, EventArgs e)
@@ -251,7 +251,7 @@ namespace Capa_Vista_CierreContable
 
         private void Cbo_actualizacion_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void Btn_salir_Click(object sender, EventArgs e)
@@ -259,5 +259,12 @@ namespace Capa_Vista_CierreContable
 
             this.Close();
         }
+
+        private void Btn_imprimir_Click(object sender, EventArgs e)
+        {
+            Frm_reporte frm = new Frm_reporte();
+            frm.Show();
+        }
+
     }
 }
