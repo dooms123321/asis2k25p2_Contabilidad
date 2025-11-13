@@ -28,6 +28,7 @@ namespace Capa_Vista_Seguridad
             Catalogos,
             Procesos,
             Reportes,
+            GestionFinanciera,
             Herramientas,
             Asignaciones,
             Modulos
@@ -77,8 +78,26 @@ namespace Capa_Vista_Seguridad
                 { MenuOpciones.Archivo, archivoToolStripMenuItem },
                 { MenuOpciones.Catalogos, catálogosToolStripMenuItem },
                 { MenuOpciones.Procesos, procesosToolStripMenuItem },
+                { MenuOpciones.GestionFinanciera, gestiónFinancieraToolStripMenuItem },
                 { MenuOpciones.Herramientas, herramientasToolStripMenuItem },
             };
+        }
+        //Procesos
+        private void cierrePolizasMesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CerrarFormulariosHijos();
+            Frm_CierreMes frmCerrarMes = new Frm_CierreMes();
+            frmCerrarMes.MdiParent = this;
+            frmCerrarMes.Show();
+        }
+        
+        //cierre polizas anual
+        private void cierrePolizasAnualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CerrarFormulariosHijos();
+            Frm_CierreAño frmCerrarAnio = new Frm_CierreAño();
+            frmCerrarAnio.MdiParent = this;
+            frmCerrarAnio.Show();
         }
 
         public void fun_inicializar_botones_por_defecto()
@@ -99,74 +118,159 @@ namespace Capa_Vista_Seguridad
         }
 
         // 0901-20-4620 Ruben Lopez 12/10/25
-        //0901-22-9663 Brandon Hernandez 12/10/25
+        //0
+        //901-22-9663 Brandon Hernandez 12/10/25
         public void fun_habilitar_botones_por_permisos_combinados(int iIdUsuario, int iIdPerfil)
         {
-            // Diccionarios de idAplicacion -> submenú
+            // Diccionarios de idAplicacion -> submenú para Módulo 7 (Contabilidad)
+
+            // CATÁLOGOS
             Dictionary<int, ToolStripMenuItem> mapaCatalogos = new Dictionary<int, ToolStripMenuItem>
-            {
-                {2401, cuentasToolStripMenuItem1},
-                
-            };
+    {
+        {2414, cuentasToolStripMenuItem1} // Catalogo de Cuentas
+    };
 
+            // PROCESOS (solo estos tres)
             Dictionary<int, ToolStripMenuItem> mapaProcesos = new Dictionary<int, ToolStripMenuItem>
-            {
-                {309, procesosToolStripMenuItem }
-            };
+    {
+        {2402, actualizarSaldosToolStripMenuItem},   // Actualizar Saldos
+        {2403, cierrePolizasMesToolStripMenuItem},   // Cierre Mes
+        {2404, cierrePolizasAnualToolStripMenuItem}  // Cierre Año
+    };
 
-            Dictionary<int, ToolStripMenuItem> mapaAsignaciones = new Dictionary<int, ToolStripMenuItem>
-            {
-
-            };
+            // GESTIÓN FINANCIERA (los demás van aquí)
+            Dictionary<int, ToolStripMenuItem> mapaGestionFinanciera = new Dictionary<int, ToolStripMenuItem>
+    {
+            {2401, polizasLocalesToolStripMenuItem},     // Polizas Locales
+            {2405, presupustoToolStripMenuItem},        // Presupuesto - CORREGIDO
+            {2406, activosFijosToolStripMenuItem},       // Activos Fijos
+            {2407, cierreContableToolStripMenuItem},     // Cierre Contable
+            {2408, estadoDeResultadosToolStripMenuItem}, // Estado de Resultados
+            {2409, estadoDeBalancesDeToolStripMenuItem}, // Balance de Saldos
+            {2410, balanceGeneralToolStripMenuItem},     // Balance General
+            {2411, flujoDeEfectivoToolStripMenuItem},    // Flujo de Efectivo
+            {2412, estadosFinancierosToolStripMenuItem}, // Estados Financieros
+            {2413, enlacesModulosToolStripMenuItem}      // Enlaces de Modulos
+    };
 
             // 1. DESHABILITA TODOS LOS SUBMENÚS ANTES DE HABILITAR PERMISOS
             foreach (var sub in mapaCatalogos.Values) sub.Enabled = false;
             foreach (var sub in mapaProcesos.Values) sub.Enabled = false;
-            foreach (var sub in mapaAsignaciones.Values) sub.Enabled = false;
+            foreach (var sub in mapaGestionFinanciera.Values) sub.Enabled = false;
 
-            // 2. Permisos por perfil (primer filtro)
+            // 2. Permisos por perfil (primer filtro) - MÓDULO 7
             DataTable dtPermisosPerfil = controladorPermisosPerfil.datObtenerPermisosPorPerfil(iIdPerfil);
             foreach (DataRow row in dtPermisosPerfil.Rows)
             {
                 int idModulo = Convert.ToInt32(row["iFk_id_modulo"]);
                 int idAplicacion = Convert.ToInt32(row["iFk_id_aplicacion"]);
-                if (idModulo == 7 && idAplicacion >= 2401 )
+
+                // Solo módulo 7 (Contabilidad)
+                if (idModulo == 7)
                 {
                     if (mapaCatalogos.ContainsKey(idAplicacion))
                         mapaCatalogos[idAplicacion].Enabled = true;
                     if (mapaProcesos.ContainsKey(idAplicacion))
                         mapaProcesos[idAplicacion].Enabled = true;
-                    if (mapaAsignaciones.ContainsKey(idAplicacion))
-                        mapaAsignaciones[idAplicacion].Enabled = true;
+                    if (mapaGestionFinanciera.ContainsKey(idAplicacion))
+                        mapaGestionFinanciera[idAplicacion].Enabled = true;
                 }
             }
 
-            // 3. Permisos por usuario (segundo filtro - suma, nunca deshabilita)
+            // 3. Permisos por usuario (segundo filtro - suma, nunca deshabilita) - MÓDULO 7
             DataTable dtPermisosUsuario = controladorPermisos.ObtenerPermisosPorUsuario(iIdUsuario);
             foreach (DataRow row in dtPermisosUsuario.Rows)
             {
                 int idModulo = Convert.ToInt32(row["iFk_id_modulo"]);
                 int idAplicacion = Convert.ToInt32(row["iFk_id_aplicacion"]);
-                if (idModulo == 7 && idAplicacion >= 2401)
 
+                // Solo módulo 7 (Contabilidad)
+                if (idModulo == 7)
                 {
                     if (mapaCatalogos.ContainsKey(idAplicacion))
                         mapaCatalogos[idAplicacion].Enabled = true;
                     if (mapaProcesos.ContainsKey(idAplicacion))
                         mapaProcesos[idAplicacion].Enabled = true;
-                    //if (mapaAsignaciones.ContainsKey(idAplicacion))
-                      //  mapaAsignaciones[idAplicacion].Enabled = true;
+                    if (mapaGestionFinanciera.ContainsKey(idAplicacion))
+                        mapaGestionFinanciera[idAplicacion].Enabled = true;
                 }
             }
 
             // 4. Habilita menús principales solo si algún submenú está habilitado
             menuItems[MenuOpciones.Catalogos].Enabled = mapaCatalogos.Values.Any(m => m.Enabled);
             menuItems[MenuOpciones.Procesos].Enabled = mapaProcesos.Values.Any(m => m.Enabled);
-            //menuItems[MenuOpciones.Asignaciones].Enabled = mapaAsignaciones.Values.Any(m => m.Enabled);
+            menuItems[MenuOpciones.GestionFinanciera].Enabled = mapaGestionFinanciera.Values.Any(m => m.Enabled);
 
-            // Modulos siempre habilitar si tiene algún permiso del módulo 4
-            //menuItems[MenuOpciones.Modulos].Enabled = mapaCatalogos.ContainsKey(304) && mapaCatalogos[304].Enabled;
+            // Habilita el menú de Gestión Financiera si tiene algún submenú habilitado
+            gestiónFinancieraToolStripMenuItem.Enabled = mapaGestionFinanciera.Values.Any(m => m.Enabled);
         }
+        //public void fun_habilitar_botones_por_permisos_combinados(int iIdUsuario, int iIdPerfil)
+        //{
+        //    // Diccionarios de idAplicacion -> submenú
+        //    Dictionary<int, ToolStripMenuItem> mapaCatalogos = new Dictionary<int, ToolStripMenuItem>
+        //    {
+        //        {2401, cuentasToolStripMenuItem1},
+
+        //    };
+
+        //    Dictionary<int, ToolStripMenuItem> mapaProcesos = new Dictionary<int, ToolStripMenuItem>
+        //    {
+        //        {309, procesosToolStripMenuItem }
+        //    };
+
+        //    Dictionary<int, ToolStripMenuItem> mapaAsignaciones = new Dictionary<int, ToolStripMenuItem>
+        //    {
+
+        //    };
+
+        //    // 1. DESHABILITA TODOS LOS SUBMENÚS ANTES DE HABILITAR PERMISOS
+        //    foreach (var sub in mapaCatalogos.Values) sub.Enabled = false;
+        //    foreach (var sub in mapaProcesos.Values) sub.Enabled = false;
+        //    foreach (var sub in mapaAsignaciones.Values) sub.Enabled = false;
+
+        //    // 2. Permisos por perfil (primer filtro)
+        //    DataTable dtPermisosPerfil = controladorPermisosPerfil.datObtenerPermisosPorPerfil(iIdPerfil);
+        //    foreach (DataRow row in dtPermisosPerfil.Rows)
+        //    {
+        //        int idModulo = Convert.ToInt32(row["iFk_id_modulo"]);
+        //        int idAplicacion = Convert.ToInt32(row["iFk_id_aplicacion"]);
+        //        if (idModulo == 7 && idAplicacion >= 2401 )
+        //        {
+        //            if (mapaCatalogos.ContainsKey(idAplicacion))
+        //                mapaCatalogos[idAplicacion].Enabled = true;
+        //            if (mapaProcesos.ContainsKey(idAplicacion))
+        //                mapaProcesos[idAplicacion].Enabled = true;
+        //            if (mapaAsignaciones.ContainsKey(idAplicacion))
+        //                mapaAsignaciones[idAplicacion].Enabled = true;
+        //        }
+        //    }
+
+        //    // 3. Permisos por usuario (segundo filtro - suma, nunca deshabilita)
+        //    DataTable dtPermisosUsuario = controladorPermisos.ObtenerPermisosPorUsuario(iIdUsuario);
+        //    foreach (DataRow row in dtPermisosUsuario.Rows)
+        //    {
+        //        int idModulo = Convert.ToInt32(row["iFk_id_modulo"]);
+        //        int idAplicacion = Convert.ToInt32(row["iFk_id_aplicacion"]);
+        //        if (idModulo == 7 && idAplicacion >= 2401)
+
+        //        {
+        //            if (mapaCatalogos.ContainsKey(idAplicacion))
+        //                mapaCatalogos[idAplicacion].Enabled = true;
+        //            if (mapaProcesos.ContainsKey(idAplicacion))
+        //                mapaProcesos[idAplicacion].Enabled = true;
+        //            //if (mapaAsignaciones.ContainsKey(idAplicacion))
+        //              //  mapaAsignaciones[idAplicacion].Enabled = true;
+        //        }
+        //    }
+
+        //    // 4. Habilita menús principales solo si algún submenú está habilitado
+        //    menuItems[MenuOpciones.Catalogos].Enabled = mapaCatalogos.Values.Any(m => m.Enabled);
+        //    menuItems[MenuOpciones.Procesos].Enabled = mapaProcesos.Values.Any(m => m.Enabled);
+        //    //menuItems[MenuOpciones.Asignaciones].Enabled = mapaAsignaciones.Values.Any(m => m.Enabled);
+
+        //    // Modulos siempre habilitar si tiene algún permiso del módulo 4
+        //    //menuItems[MenuOpciones.Modulos].Enabled = mapaCatalogos.ContainsKey(304) && mapaCatalogos[304].Enabled;
+        //}
 
         // --- El resto de tus métodos siguen igual ---
         private void CerrarFormulariosHijos()
@@ -275,7 +379,7 @@ namespace Capa_Vista_Seguridad
 
             
         }
-
+        //Cierre contable
         private void cierreContableToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CerrarFormulariosHijos();
@@ -283,7 +387,7 @@ namespace Capa_Vista_Seguridad
             frmCierre.MdiParent = this;
             frmCierre.Show();
         }
-
+        //activos fijos
         private void activosFijosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CerrarFormulariosHijos();
@@ -305,7 +409,7 @@ namespace Capa_Vista_Seguridad
             frmCierre.MdiParent = this;
             frmCierre.Show();
         }
-
+        //estado de resultados
         private void estadoDeResultadosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CerrarFormulariosHijos();
@@ -313,7 +417,7 @@ namespace Capa_Vista_Seguridad
             frmCierre.MdiParent = this;
             frmCierre.Show();
         }
-
+        //estado de balances
         private void estadoDeBalancesDeToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -323,9 +427,7 @@ namespace Capa_Vista_Seguridad
             frmCierre.Show();
 
         }
-        
-
-
+         //balance general
         private void balanceGeneralToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -334,15 +436,15 @@ namespace Capa_Vista_Seguridad
             frmCierre.MdiParent = this;
             frmCierre.Show();
         }
-        
+        //flujo de efectivo
         private void flujoDeEfectivoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CerrarFormulariosHijos();
-            Frm_EstadoDeFlujoDeEfectivo frmCierre = new Frm_EstadoDeFlujoDeEfectivo();
+            Frm_Flujo_Efectivo frmCierre = new Frm_Flujo_Efectivo();
             frmCierre.MdiParent = this;
             frmCierre.Show();
         }
-
+        //actualizacion de saldos
         private void actualizarSaldosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CerrarFormulariosHijos();
@@ -351,25 +453,62 @@ namespace Capa_Vista_Seguridad
             frmActualizarSaldos.Show();
         }
 
-        private void cierrePolizasMesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CerrarFormulariosHijos();
-            Frm_CierreMes frmCerrarMes = new Frm_CierreMes();
-            frmCerrarMes.MdiParent = this;
-            frmCerrarMes.Show();
-        }
-
-        private void cierrePolizasAnualToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CerrarFormulariosHijos();
-            Frm_CierreAño frmCerrarAnio = new Frm_CierreAño();
-            frmCerrarAnio.MdiParent = this;
-            frmCerrarAnio.Show();
-        }
-
+        //catalogo de cuentas
         private void cuentasToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            CerrarFormulariosHijos();
+            Frm_Catalogo frm_Catalogo = new Frm_Catalogo();
+            frm_Catalogo.MdiParent = this;
+            frm_Catalogo.Show();
+        }
+        //polizas locales
+        private void polizasLocalesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            CerrarFormulariosHijos();
+            Frm_PolizasLocales frmCierre = new Frm_PolizasLocales();
+            frmCierre.MdiParent = this;
+            frmCierre.Show();
+        }
+        //actualizar saldos
+        private void actualizarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CerrarFormulariosHijos();
+            Frm_ActualizarSaldos frmCierre = new Frm_ActualizarSaldos();
+            frmCierre.MdiParent = this;
+            frmCierre.Show();
+        }
+        //cierre de mes
+        private void cierreDeMesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CerrarFormulariosHijos();
+            Frm_CierreMes frmCierre = new Frm_CierreMes();
+            frmCierre.MdiParent = this;
+            frmCierre.Show();
+        }
+        //cierre año
+        private void cierreAñoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
+            CerrarFormulariosHijos();
+            Frm_CierreAño frmCierre = new Frm_CierreAño();
+            frmCierre.MdiParent = this;
+            frmCierre.Show();
+        }
+
+        private void estadoDeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CerrarFormulariosHijos();
+            Frm_EstadosFinancieros frmCierre = new Frm_EstadosFinancieros();
+            frmCierre.MdiParent = this;
+            frmCierre.Show();
+        }
+
+        private void pruebaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CerrarFormulariosHijos();
+            Frm_Catalogo frm_Catalogo = new Frm_Catalogo();
+            frm_Catalogo.MdiParent = this;
+            frm_Catalogo.Show();
         }
     }
 }

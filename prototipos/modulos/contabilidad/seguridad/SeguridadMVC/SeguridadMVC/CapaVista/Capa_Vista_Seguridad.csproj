@@ -32,8 +32,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AxShockwaveFlashObjects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="Capa_Controlador_CierreContable, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Cierre Contable\CierreConable_MVC_Prototipo\Capa_Vista_CierreContable\bin\Debug\Capa_Controlador_CierreContable.dll</HintPath>
+    </Reference>
     <Reference Include="Capa_Controlador_Navegador">
-      <HintPath>..\..\..\..\navegador\NavegadorMVC\CapaControladorNavegador\bin\Debug\Capa_Controlador_Navegador.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\codigo\componentes\navegador\NavegadorMVC\CapaControladorNavegador\bin\Debug\Capa_Controlador_Navegador.dll</HintPath>
     </Reference>
     <Reference Include="Capa_Controlador_Seguridad">
       <HintPath>..\CapaControlador\bin\Debug\Capa_Controlador_Seguridad.dll</HintPath>
@@ -48,7 +52,7 @@
       <HintPath>..\..\..\..\Estados Financieros\MVC Estados Financieros\Capa_Vista_Estados_Financieros\bin\Debug\Capa_Vista_Estados_Financieros.dll</HintPath>
     </Reference>
     <Reference Include="Capa_Vista_Navegador">
-      <HintPath>..\..\..\..\navegador\NavegadorMVC\CapaVistaNavegador\bin\Debug\Capa_Vista_Navegador.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\codigo\componentes\navegador\NavegadorMVC\CapaVistaNavegador\bin\Debug\Capa_Vista_Navegador.dll</HintPath>
     </Reference>
     <Reference Include="Capa_Vista_Polizas">
       <HintPath>..\..\..\..\Polizas Locales\Polizas_LocalesMVC\Capa_Vista_Polizas\bin\Debug\Capa_Vista_Polizas.dll</HintPath>
@@ -71,6 +75,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Frm_Catalogo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_Catalogo.Designer.cs">
+      <DependentUpon>Frm_Catalogo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frm_Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +125,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Frm_Catalogo.resx">
+      <DependentUpon>Frm_Catalogo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Frm_Login.resx">
       <DependentUpon>Frm_Login.cs</DependentUpon>
     </EmbeddedResource>
