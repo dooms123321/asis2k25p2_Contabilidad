@@ -20,6 +20,9 @@ namespace Capa_Vista_Estados_Financieros
         {
             InitializeComponent();
 
+            groupBox2.Anchor = AnchorStyles.Top;
+            Btn_Ver_Reporte.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+
             // Configuración general
             // Configuración general del formulario
             this.WindowState = FormWindowState.Maximized;
@@ -262,64 +265,96 @@ namespace Capa_Vista_Estados_Financieros
         }
 
         // ---------------------------------------------------------------------------------
-        // Evento: Btn_Generar_Reportes_Click
-        // Genera y guarda el reporte del Estado de Resultados con nivel 3
-        // ---------------------------------------------------------------------------------
-        // =====================================================================================
-        // Autor: Arón Ricardo Esquit Silva
-        // Carné: 0901-22-13036
-        // Fecha: 11/11/2025
-        // Descripción: Vista - Genera y guarda el reporte del Estado de Resultados (niveles 1, 2, 3)
-        // =====================================================================================
-        private void Btn_Generar_Reportes_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                bool esHistorico = (Cbo_TipoOrigen.SelectedItem?.ToString() == "Histórico");
-
-                // 🔹 Obtener los datos reales desde el controlador principal
-                Cls_EstadoResultados_Controlador gControlador = new Cls_EstadoResultados_Controlador();
-                DataTable dts_Estado = new DataTable();
-
-                if (esHistorico)
-                {
-                    int iAnio = Convert.ToInt32(Nud_Anio.Value);
-                    int iMes = Convert.ToInt32(Nud_Mes.Value);
-                    dts_Estado = gControlador.Fun_Obtener_Estado_Resultados_Historico(3, iAnio, iMes);
-                }
-                else
-                {
-                    dts_Estado = gControlador.Fun_Obtener_Estado_Resultados(3);
-                }
-
-                // 🔹 Validar existencia de datos
-                if (dts_Estado == null || dts_Estado.Rows.Count == 0)
-                {
-                    MessageBox.Show("No hay datos disponibles para generar el reporte.",
-                                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-
-                // 🔹 Guardar usando el nuevo controlador de reportes
-                Cls_Reporte_EstadoResultados_Controlador gControladorReporte = new Cls_Reporte_EstadoResultados_Controlador();
-                string sResultado = gControladorReporte.Fun_Guardar_Reporte(dts_Estado, esHistorico);
-
-                MessageBox.Show(sResultado, "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al generar el reporte: " + ex.Message,
-                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        // ---------------------------------------------------------------------------------
         // Mantiene centrado el GroupBox al redimensionar la ventana
         // ---------------------------------------------------------------------------------
         private void Frm_EstadoDeResultados_Resize(object sender, EventArgs e)
         {
             groupBox1.Left = (this.ClientSize.Width - groupBox1.Width) / 2;
         }
+
+        // =====================================================================================
+        // Autor: Arón Ricardo Esquit Silva
+        // Carné: 0901-22-13036
+        // Fecha: 12/11/2025
+        // Descripción: Generación del Crystal Report del Estado de Resultados (versión final)
+        // =====================================================================================
+        private void Btn_VerReporte_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Validar que existan datos
+                if (Dgv_EstadoDeResultados.DataSource == null || Dgv_EstadoDeResultados.Rows.Count == 0)
+                {
+                    MessageBox.Show("No hay datos para mostrar en el reporte.");
+                    return;
+                }
+
+                // Crear DataTable con nombres que Crystal Report espera
+                DataTable dt = new DataTable("EstadoResultados");
+                dt.Columns.Add("Cuenta");
+                dt.Columns.Add("Nombre");
+                dt.Columns.Add("Tipo");
+                dt.Columns.Add("Saldo", typeof(string));
+
+                // Tomar los valores existentes del DataGridView
+                foreach (DataGridViewRow fila in Dgv_EstadoDeResultados.Rows)
+                {
+                    if (fila.IsNewRow) continue;
+
+                    string cuenta = fila.Cells["Codigo"].Value?.ToString() ?? "";
+                    string nombre = fila.Cells["Nombre"].Value?.ToString() ?? "";
+                    string tipo = fila.Cells["Tipo"].Value?.ToString() ?? "";
+
+                    string saldoStr = fila.Cells["Saldo"].Value?.ToString() ?? "0";
+                    saldoStr = saldoStr.Replace("Q", "").Replace(",", "").Trim();
+                    decimal.TryParse(saldoStr, out decimal saldo);
+                    saldoStr = (saldo == 0) ? "" : "Q " + saldo.ToString("#,##0.00");
+
+                    dt.Rows.Add(cuenta, nombre, tipo, saldoStr);
+                }
+
+                // Crear DataSet y asignar datos
+                DataSet ds = new DataSet();
+                ds.Tables.Add(dt);
+
+                // Crear y cargar el Crystal Report
+                Rpt_EstadoResultados rpt = new Rpt_EstadoResultados();
+                rpt.SetDataSource(ds);
+
+                rpt.SetParameterValue("TipoOrigen", Cbo_TipoOrigen.SelectedItem?.ToString() ?? "Actual");
+                rpt.SetParameterValue("Nivel", Convert.ToInt32(Nud_Nivel.Value));
+                rpt.SetParameterValue("FechaActual", DateTime.Now);
+
+                // Mostrar visor
+                Frm_VisorReporte_EstadoResultados visor = new Frm_VisorReporte_EstadoResultados();
+                visor.crystalReportViewer1.ReportSource = rpt;
+                visor.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al generar el reporte:\n" +
+                    ex.Message +
+                    "\n\nLínea donde falló:\n" +
+                    ex.StackTrace,
+                    "Error detallado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }

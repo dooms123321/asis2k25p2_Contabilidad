@@ -24,6 +24,8 @@ namespace Capa_Vista_Estados_Financieros
         {
             InitializeComponent();
 
+            groupBox2.Anchor = AnchorStyles.Top;
+            Btn_Ver_Reporte.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             this.WindowState = FormWindowState.Maximized;
             // Configuración de ventana
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -59,7 +61,6 @@ namespace Capa_Vista_Estados_Financieros
 
             // Eventos principales
             Cbo_TipoOrigen.SelectedIndexChanged += Cbo_TipoOrigen_SelectedIndexChanged;
-            Btn_Generar.Click += Btn_Generar_Click;
             Btn_Limpiar.Click += Btn_Limpiar_Click;
             Btn_Salir.Click += Btn_Salir_Click;
         }
@@ -119,6 +120,7 @@ namespace Capa_Vista_Estados_Financieros
         // ---------------------------------------------------------------------------------
         private void Btn_Generar_Click(object sender, EventArgs e)
         {
+
             int iNivel = Convert.ToInt32(Nud_Nivel.Value);
             DataTable dts_Balance = new DataTable();
 
@@ -257,78 +259,6 @@ namespace Capa_Vista_Estados_Financieros
         }
 
 
-        // =====================================================================================
-        // Autor: Arón Ricardo Esquit Silva
-        // Carné: 0901-22-13036
-        // Fecha: 11/11/2025
-        // Descripción: Vista - Genera y guarda el reporte del Balance de Saldos (niveles 1, 2, 3)
-        // =====================================================================================
-        private void Btn_Generar_Reporte_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                bool esHistorico = (Cbo_TipoOrigen.SelectedItem?.ToString() == "Histórico");
-
-                // 🔹 Obtener los datos reales desde el controlador
-                DataTable dts_Balance;
-                Cls_BalanceDeSaldos_Controlador gControlador = new Cls_BalanceDeSaldos_Controlador();
-
-                if (esHistorico)
-                {
-                    int iAnio = Convert.ToInt32(Nud_Anio.Value);
-                    int iMes = Convert.ToInt32(Nud_Mes.Value);
-                    dts_Balance = gControlador.Fun_Obtener_Balance_Saldos_Historico(3, iAnio, iMes);
-                }
-                else
-                {
-                    dts_Balance = gControlador.Fun_Obtener_Balance_Saldos(3);
-                }
-
-                // 🔹 Validar que existan datos
-                if (dts_Balance == null || dts_Balance.Rows.Count == 0)
-                {
-                    MessageBox.Show("No hay datos disponibles para generar el reporte.",
-                                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-
-                // 🔹 Convertir el DataTable a formato de guardado (el DAO espera columnas específicas)
-                DataTable dts_Reporte = new DataTable();
-                dts_Reporte.Columns.Add("Cuenta");
-                dts_Reporte.Columns.Add("Nombre");
-                dts_Reporte.Columns.Add("Debe");
-                dts_Reporte.Columns.Add("Haber");
-                dts_Reporte.Columns.Add("Saldo");
-
-                foreach (DataRow fila in dts_Balance.Rows)
-                {
-                    string sCuenta = fila["Codigo"].ToString();
-                    string sNombre = fila["Nombre"].ToString();
-                    string sDebe = fila.Table.Columns.Contains("Debe") ? fila["Debe"].ToString() : "0";
-                    string sHaber = fila.Table.Columns.Contains("Haber") ? fila["Haber"].ToString() : "0";
-
-                    // Calcular saldo si existe
-                    decimal deDebe = 0, deHaber = 0;
-                    decimal.TryParse(sDebe.Replace("Q", "").Replace(",", ""), out deDebe);
-                    decimal.TryParse(sHaber.Replace("Q", "").Replace(",", ""), out deHaber);
-                    decimal deSaldo = deDebe - deHaber;
-
-                    dts_Reporte.Rows.Add(sCuenta, sNombre, sDebe, sHaber, deSaldo.ToString("N2"));
-                }
-
-                // 🔹 Guardar usando el nuevo controlador de reportes
-                Cls_Reporte_BalanceSaldos_Controlador gControladorReporte = new Cls_Reporte_BalanceSaldos_Controlador();
-                string sResultado = gControladorReporte.Fun_Guardar_Reporte(dts_Reporte, esHistorico);
-
-                MessageBox.Show(sResultado, "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al generar el reporte: " + ex.Message,
-                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         // ---------------------------------------------------------------------------------
         // Mantiene centrado el GroupBox cuando se cambia el tamaño del formulario
         // ---------------------------------------------------------------------------------
@@ -336,6 +266,104 @@ namespace Capa_Vista_Estados_Financieros
         {
             groupBox1.Left = (this.ClientSize.Width - groupBox1.Width) / 2;
         }
+
+        private void Btn_Ver_Reporte_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Validar que el DataGridView tenga datos
+                if (Dgv_EstadoBalanceDeSaldos.DataSource == null || Dgv_EstadoBalanceDeSaldos.Rows.Count == 0)
+                {
+                    MessageBox.Show("No hay datos para mostrar en el reporte.");
+                    return;
+                }
+
+                // Crear DataTable con los nombres correctos para Crystal Report
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Cuenta");
+                dt.Columns.Add("Nombre");
+                dt.Columns.Add("Debe", typeof(string));
+                dt.Columns.Add("Haber", typeof(string));
+
+                Func<decimal?, string> formatoQ = valor =>
+                {
+                    if (valor == null) return "";
+                    return "Q " + valor.Value.ToString("#,##0.00");
+                };
+
+
+                // Llenar DataTable manualmente desde el DGV
+                foreach (DataGridViewRow fila in Dgv_EstadoBalanceDeSaldos.Rows)
+                {
+                    if (!fila.IsNewRow)
+                    {
+                        string cuenta = fila.Cells["Codigo"].Value?.ToString() ?? "";
+                        string nombre = fila.Cells["Nombre"].Value?.ToString() ?? "";
+
+                        // Limpiar símbolos y convertir a decimal
+                        string debeStr = fila.Cells["Debe"].Value?.ToString().Replace("Q", "").Replace(",", "").Trim();
+                        string haberStr = fila.Cells["Haber"].Value?.ToString().Replace("Q", "").Replace(",", "").Trim();
+
+
+                        // Manejar vacío y valores reales
+                        decimal? debeVal = null;
+                        decimal? haberVal = null;
+
+                        // Solo convertir si trae un número real
+                        if (!string.IsNullOrWhiteSpace(debeStr))
+                            debeVal = Convert.ToDecimal(debeStr);
+
+                        if (!string.IsNullOrWhiteSpace(haberStr))
+                            haberVal = Convert.ToDecimal(haberStr);
+
+                        // Formato final:
+                        // Si es null → vacío
+                        // Si es 0 → Q 0.00
+                        // Si no → Q x,xxx.xx
+                        string debeFormateado =
+                            (debeVal == null) ? "" : "Q " + debeVal.Value.ToString("#,##0.00");
+
+                        string haberFormateado =
+                            (haberVal == null) ? "" : "Q " + haberVal.Value.ToString("#,##0.00");
+
+
+                        // Agregar fila ya formateada
+                        dt.Rows.Add(
+                            cuenta,
+                            nombre,
+                            debeFormateado,
+                            haberFormateado
+                        );
+
+
+                    }
+                }
+
+                // Crear DataSet y asignar datos
+                DataSet ds = new DataSet();
+                ds.Tables.Add(dt);
+                ds.Tables[0].TableName = "BalanceSaldos"; // Igual que en tu XSD
+
+                // Crear el reporte y asignar fuente
+                Rpt_BalanceSaldos rpt = new Rpt_BalanceSaldos();
+                rpt.SetDataSource(ds);
+
+                // Parámetros
+                rpt.SetParameterValue("TipoOrigen", Cbo_TipoOrigen.SelectedItem?.ToString() ?? "Actual");
+                rpt.SetParameterValue("Nivel", Convert.ToInt32(Nud_Nivel.Value));
+                rpt.SetParameterValue("FechaActual", DateTime.Now);
+
+                // Mostrar en visor
+                Frm_VisorReporte_BalanceDeSaldos visor = new Frm_VisorReporte_BalanceDeSaldos();
+                visor.crystalReportViewer1.ReportSource = rpt;
+                visor.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar el reporte: " + ex.Message);
+            }
+        }
+
 
     }
 }
