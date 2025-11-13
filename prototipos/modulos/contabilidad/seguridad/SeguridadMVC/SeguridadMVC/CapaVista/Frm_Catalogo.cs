@@ -24,38 +24,44 @@ namespace Capa_Vista_Seguridad
                 PosY = 300,
                 ColorFondo = Color.AliceBlue,
                 TipoScrollBars = ScrollBars.Both,
-                Nombre = "dgv_empleados"
+                Nombre = "Dgv_Catalogo_De_Cuentas"
             };
 
             string[] columnas = {
-                "tbl_usuario",
-                "Pk_Id_Usuario",
-                "Fk_Id_Empleado",
-                "Cmp_Nombre_Usuario",
-                "Cmp_Contrasena_Usuario",
-                "Cmp_Intentos_Fallidos_Usuario",
-                "Cmp_Estado_Usuario",
-                "Cmp_FechaCreacion_Usuario",
-                "Cmp_Ultimo_Cambio_Contrasenea",
-                "Cmp_Pidio_Cambio_Contrasenea"
+                "tbl_catalogo_cuentas",
+                "Pk_Codigo_Cuenta",
+                "Cmp_CtaNombre",
+                "Cmp_CtaMadre",
+                "Cmp_CtaSaldoInicial",
+                "Cmp_CtaCargoMes",
+                "Cmp_CtaAbonoMes",
+                "Cmp_CtaSaldoActual",
+                "Cmp_CtaCargoActual",
+                "Cmp_CtaAbonoActual",
+                "Cmp_CtaTipo",
+                "Cmp_CtaNaturaleza"
             };
 
             string[] sEtiquetas = {
-                "Código Usuario",
-                "Código Empleado",
-                "Nombre de Usuario",
-                "Contraseña",
-                "Intentos Fallidos",
-                "Estado del Usuario",
-                "Fecha de Creación",
-                "Último Cambio de Contraseña",
-                "Solicitó Cambio de Contraseña"
+                "Codigo cuenta",
+                "Nombre cuenta",
+                "Cuenta madre",
+                "Saldo inicial",
+                "Cargo Mes",
+                "Abono Mes",
+                "Saldo actual",
+                "Cargo Actual",
+                "Abono Actul",
+                "Tipo Cuenta",
+                "Naturaleza cuenta"
             };
 
 
 
-            int id_aplicacion = 100;
+            int id_aplicacion = 2413;
+            int id_Modulo = 7;
             navegador1.IPkId_Aplicacion = id_aplicacion;
+            navegador1.IPkId_Modulo = id_Modulo;
             navegador1.configurarDataGridView(config);
             navegador1.SNombreTabla = columnas[0];
             navegador1.SAlias = columnas;
