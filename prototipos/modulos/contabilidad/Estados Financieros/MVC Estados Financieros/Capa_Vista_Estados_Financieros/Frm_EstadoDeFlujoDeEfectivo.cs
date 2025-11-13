@@ -72,8 +72,6 @@ namespace Capa_Vista_Estados_Financieros
             Lbl_Mes.Visible = esHistorico;
             Nud_Mes.Visible = esHistorico;
 
-            // 🔹 Bloquear el botón de reporte cuando sea histórico
-            Btn_Generar_Reportes.Enabled = !esHistorico;
         }
 
 
