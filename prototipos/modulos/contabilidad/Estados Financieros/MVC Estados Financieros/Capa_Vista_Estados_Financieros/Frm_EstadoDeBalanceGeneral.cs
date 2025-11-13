@@ -98,7 +98,6 @@ namespace Capa_Vista_Estados_Financieros
             Nud_Mes.Visible = esHistorico;
 
             // Bloquear o habilitar el botón de reporte
-            Btn_Generar_Reporte.Enabled = !esHistorico;
         }
 
         // -------------------------------------------------------------------------

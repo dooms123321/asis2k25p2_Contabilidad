@@ -40,7 +40,6 @@ namespace Capa_Vista_Estados_Financieros
             this.Lbl_Anio = new System.Windows.Forms.Label();
             this.Nud_Mes = new System.Windows.Forms.NumericUpDown();
             this.Nud_Anio = new System.Windows.Forms.NumericUpDown();
-            this.Btn_Generar_Reportes = new System.Windows.Forms.Button();
             this.Btn_Generar = new System.Windows.Forms.Button();
             this.Btn_Limpiar = new System.Windows.Forms.Button();
             this.Btn_Salir = new System.Windows.Forms.Button();
@@ -138,7 +137,7 @@ namespace Capa_Vista_Estados_Financieros
             // Cbo_TipoOrigen
             // 
             this.Cbo_TipoOrigen.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.Cbo_TipoOrigen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(204)))), ((int)(((byte)(153)))));
+            this.Cbo_TipoOrigen.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Cbo_TipoOrigen.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Cbo_TipoOrigen.Font = new System.Drawing.Font("Rockwell", 10.2F, System.Drawing.FontStyle.Bold);
             this.Cbo_TipoOrigen.FormattingEnabled = true;
@@ -237,33 +236,16 @@ namespace Capa_Vista_Estados_Financieros
             0,
             0});
             // 
-            // Btn_Generar_Reportes
-            // 
-            this.Btn_Generar_Reportes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.Btn_Generar_Reportes.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Btn_Generar_Reportes.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.Btn_Generar_Reportes.FlatAppearance.BorderSize = 2;
-            this.Btn_Generar_Reportes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Generar_Reportes.Font = new System.Drawing.Font("Rockwell", 10.2F, System.Drawing.FontStyle.Bold);
-            this.Btn_Generar_Reportes.Location = new System.Drawing.Point(13, 376);
-            this.Btn_Generar_Reportes.Margin = new System.Windows.Forms.Padding(4);
-            this.Btn_Generar_Reportes.Name = "Btn_Generar_Reportes";
-            this.Btn_Generar_Reportes.Size = new System.Drawing.Size(150, 55);
-            this.Btn_Generar_Reportes.TabIndex = 20;
-            this.Btn_Generar_Reportes.Text = "Capturar Cuentas ​​✉";
-            this.Btn_Generar_Reportes.UseVisualStyleBackColor = false;
-            this.Btn_Generar_Reportes.Click += new System.EventHandler(this.Btn_Ver_Reporte_Click);
-            // 
             // Btn_Generar
             // 
-            this.Btn_Generar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.Btn_Generar.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Btn_Generar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Btn_Generar.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Btn_Generar.FlatAppearance.BorderSize = 2;
             this.Btn_Generar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Generar.Font = new System.Drawing.Font("Rockwell", 10.2F, System.Drawing.FontStyle.Bold);
             this.Btn_Generar.ForeColor = System.Drawing.Color.Black;
-            this.Btn_Generar.Location = new System.Drawing.Point(13, 192);
+            this.Btn_Generar.Location = new System.Drawing.Point(13, 224);
             this.Btn_Generar.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Generar.Name = "Btn_Generar";
             this.Btn_Generar.Size = new System.Drawing.Size(150, 45);
@@ -274,13 +256,13 @@ namespace Capa_Vista_Estados_Financieros
             // 
             // Btn_Limpiar
             // 
-            this.Btn_Limpiar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.Btn_Limpiar.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Btn_Limpiar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Btn_Limpiar.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Btn_Limpiar.FlatAppearance.BorderSize = 2;
             this.Btn_Limpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Limpiar.Font = new System.Drawing.Font("Rockwell", 10.2F, System.Drawing.FontStyle.Bold);
-            this.Btn_Limpiar.Location = new System.Drawing.Point(13, 287);
+            this.Btn_Limpiar.Location = new System.Drawing.Point(13, 333);
             this.Btn_Limpiar.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Limpiar.Name = "Btn_Limpiar";
             this.Btn_Limpiar.Size = new System.Drawing.Size(150, 45);
@@ -291,14 +273,14 @@ namespace Capa_Vista_Estados_Financieros
             // 
             // Btn_Salir
             // 
-            this.Btn_Salir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.Btn_Salir.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Btn_Salir.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Btn_Salir.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Btn_Salir.FlatAppearance.BorderSize = 2;
             this.Btn_Salir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Salir.Font = new System.Drawing.Font("Rockwell", 10.2F, System.Drawing.FontStyle.Bold);
             this.Btn_Salir.ForeColor = System.Drawing.Color.Black;
-            this.Btn_Salir.Location = new System.Drawing.Point(13, 462);
+            this.Btn_Salir.Location = new System.Drawing.Point(13, 421);
             this.Btn_Salir.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Salir.Name = "Btn_Salir";
             this.Btn_Salir.Size = new System.Drawing.Size(150, 45);
@@ -326,7 +308,7 @@ namespace Capa_Vista_Estados_Financieros
             // 
             // Btn_Ver_Reporte
             // 
-            this.Btn_Ver_Reporte.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.Btn_Ver_Reporte.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Btn_Ver_Reporte.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Btn_Ver_Reporte.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Btn_Ver_Reporte.FlatAppearance.BorderSize = 2;
@@ -354,12 +336,11 @@ namespace Capa_Vista_Estados_Financieros
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.ClientSize = new System.Drawing.Size(1182, 653);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.Btn_Salir);
-            this.Controls.Add(this.Btn_Generar_Reportes);
             this.Controls.Add(this.Btn_Limpiar);
             this.Controls.Add(this.Btn_Generar);
             this.Controls.Add(this.Lbl_Diferencia);
@@ -389,7 +370,6 @@ namespace Capa_Vista_Estados_Financieros
         private System.Windows.Forms.Label Lbl_Anio;
         private System.Windows.Forms.NumericUpDown Nud_Mes;
         private System.Windows.Forms.NumericUpDown Nud_Anio;
-        private System.Windows.Forms.Button Btn_Generar_Reportes;
         private System.Windows.Forms.Button Btn_Generar;
         private System.Windows.Forms.Button Btn_Limpiar;
         private System.Windows.Forms.Button Btn_Salir;

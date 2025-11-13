@@ -83,7 +83,6 @@ namespace Capa_Vista_Estados_Financieros
             Nud_Anio.Visible = esHistorico;
             Lbl_Mes.Visible = esHistorico;
             Nud_Mes.Visible = esHistorico;
-            Btn_Generar_Reportes.Enabled = !esHistorico;
         }
 
         // ---------------------------------------------------------------------------------
@@ -343,19 +342,6 @@ namespace Capa_Vista_Estados_Financieros
                 );
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }

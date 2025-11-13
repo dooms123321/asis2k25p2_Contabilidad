@@ -110,7 +110,6 @@ namespace Capa_Vista_Estados_Financieros
             // El nivel siempre habilitado
             Nud_Nivel.Enabled = true;
 
-            Btn_Generar_Reportes.Enabled = !bEsHistorico;
 
         }
 
