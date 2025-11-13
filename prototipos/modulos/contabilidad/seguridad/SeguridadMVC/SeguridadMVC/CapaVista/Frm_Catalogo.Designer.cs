@@ -41,7 +41,7 @@ namespace Capa_Vista_Seguridad
             this.navegador1.Name = "navegador1";
             this.navegador1.SAlias = null;
             this.navegador1.SEtiquetas = null;
-            this.navegador1.Size = new System.Drawing.Size(1187, 499);
+            this.navegador1.Size = new System.Drawing.Size(1669, 499);
             this.navegador1.SNombreTabla = null;
             this.navegador1.TabIndex = 0;
             this.navegador1.Load += new System.EventHandler(this.navegador1_Load);
@@ -50,7 +50,7 @@ namespace Capa_Vista_Seguridad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1420, 524);
+            this.ClientSize = new System.Drawing.Size(1707, 692);
             this.Controls.Add(this.navegador1);
             this.Name = "Frm_Catalogo";
             this.Text = "Frm_Catalogo";

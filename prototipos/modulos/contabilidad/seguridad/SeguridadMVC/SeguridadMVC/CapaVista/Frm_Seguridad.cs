@@ -142,7 +142,7 @@ namespace Capa_Vista_Seguridad
             Dictionary<int, ToolStripMenuItem> mapaGestionFinanciera = new Dictionary<int, ToolStripMenuItem>
     {
             {2401, polizasLocalesToolStripMenuItem},     // Polizas Locales
-            {2405, presupustoToolStripMenuItem},        // Presupuesto - CORREGIDO
+            //{2405, presupustoToolStripMenuItem},        // Presupuesto - CORREGIDO
             {2406, activosFijosToolStripMenuItem},       // Activos Fijos
             {2407, cierreContableToolStripMenuItem},     // Cierre Contable
             {2408, estadoDeResultadosToolStripMenuItem}, // Estado de Resultados
@@ -150,7 +150,7 @@ namespace Capa_Vista_Seguridad
             {2410, balanceGeneralToolStripMenuItem},     // Balance General
             {2411, flujoDeEfectivoToolStripMenuItem},    // Flujo de Efectivo
             {2412, estadosFinancierosToolStripMenuItem}, // Estados Financieros
-            {2413, enlacesModulosToolStripMenuItem}      // Enlaces de Modulos
+            //{2413, enlacesModulosToolStripMenuItem}      // Enlaces de Modulos
     };
 
             // 1. DESHABILITA TODOS LOS SUBMENÚS ANTES DE HABILITAR PERMISOS

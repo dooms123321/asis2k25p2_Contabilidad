@@ -44,9 +44,6 @@
             this.balanceGeneralToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flujoDeEfectivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.polizasLocalesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pruebaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.presupustoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.enlacesModulosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Pnl_Superior = new System.Windows.Forms.Panel();
             this.Pic_Cerrar = new System.Windows.Forms.PictureBox();
             this.statusStrip.SuspendLayout();
@@ -90,7 +87,7 @@
             this.menuStrip1.MaximumSize = new System.Drawing.Size(0, 629);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 2, 1203, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(2062, 32);
+            this.menuStrip1.Size = new System.Drawing.Size(1882, 30);
             this.menuStrip1.TabIndex = 24;
             this.menuStrip1.Text = "MenuStrip";
             // 
@@ -100,13 +97,13 @@
             this.cerrarSesiónToolStripMenuItem});
             this.archivoToolStripMenuItem.Font = new System.Drawing.Font("Rockwell", 10F);
             this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
-            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(97, 28);
+            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(97, 26);
             this.archivoToolStripMenuItem.Text = "Archivo";
             // 
             // cerrarSesiónToolStripMenuItem
             // 
             this.cerrarSesiónToolStripMenuItem.Name = "cerrarSesiónToolStripMenuItem";
-            this.cerrarSesiónToolStripMenuItem.Size = new System.Drawing.Size(152, 34);
+            this.cerrarSesiónToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.cerrarSesiónToolStripMenuItem.Text = "Salir";
             this.cerrarSesiónToolStripMenuItem.Click += new System.EventHandler(this.cerrarSesiónToolStripMenuItem_Click);
             // 
@@ -116,14 +113,14 @@
             this.cuentasToolStripMenuItem1});
             this.catálogosToolStripMenuItem.Font = new System.Drawing.Font("Rockwell", 10F);
             this.catálogosToolStripMenuItem.Name = "catálogosToolStripMenuItem";
-            this.catálogosToolStripMenuItem.Size = new System.Drawing.Size(119, 28);
+            this.catálogosToolStripMenuItem.Size = new System.Drawing.Size(119, 26);
             this.catálogosToolStripMenuItem.Text = "Catálogos";
             this.catálogosToolStripMenuItem.Click += new System.EventHandler(this.catálogosToolStripMenuItem_Click);
             // 
             // cuentasToolStripMenuItem1
             // 
             this.cuentasToolStripMenuItem1.Name = "cuentasToolStripMenuItem1";
-            this.cuentasToolStripMenuItem1.Size = new System.Drawing.Size(184, 34);
+            this.cuentasToolStripMenuItem1.Size = new System.Drawing.Size(270, 34);
             this.cuentasToolStripMenuItem1.Text = "Cuentas";
             this.cuentasToolStripMenuItem1.Click += new System.EventHandler(this.cuentasToolStripMenuItem1_Click);
             // 
@@ -135,7 +132,7 @@
             this.cierrePolizasAnualToolStripMenuItem});
             this.procesosToolStripMenuItem.Font = new System.Drawing.Font("Rockwell", 10F);
             this.procesosToolStripMenuItem.Name = "procesosToolStripMenuItem";
-            this.procesosToolStripMenuItem.Size = new System.Drawing.Size(106, 28);
+            this.procesosToolStripMenuItem.Size = new System.Drawing.Size(106, 26);
             this.procesosToolStripMenuItem.Text = "Procesos";
             // 
             // actualizarSaldosToolStripMenuItem
@@ -166,7 +163,7 @@
             this.cambiarContraseñaToolStripMenuItem});
             this.herramientasToolStripMenuItem.Font = new System.Drawing.Font("Rockwell", 10F);
             this.herramientasToolStripMenuItem.Name = "herramientasToolStripMenuItem";
-            this.herramientasToolStripMenuItem.Size = new System.Drawing.Size(149, 28);
+            this.herramientasToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
             this.herramientasToolStripMenuItem.Text = "&Herramientas";
             // 
             // optionsToolStripMenuItem
@@ -189,13 +186,10 @@
             this.presupuestosToolStripMenuItem,
             this.activosFijosToolStripMenuItem,
             this.estadosFinancierosToolStripMenuItem,
-            this.polizasLocalesToolStripMenuItem,
-            this.pruebaToolStripMenuItem,
-            this.presupustoToolStripMenuItem,
-            this.enlacesModulosToolStripMenuItem});
+            this.polizasLocalesToolStripMenuItem});
             this.gestiónFinancieraToolStripMenuItem.Font = new System.Drawing.Font("Rockwell", 10F);
             this.gestiónFinancieraToolStripMenuItem.Name = "gestiónFinancieraToolStripMenuItem";
-            this.gestiónFinancieraToolStripMenuItem.Size = new System.Drawing.Size(197, 28);
+            this.gestiónFinancieraToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
             this.gestiónFinancieraToolStripMenuItem.Text = "Gestión Financiera";
             // 
             // cierreContableToolStripMenuItem
@@ -264,25 +258,6 @@
             this.polizasLocalesToolStripMenuItem.Size = new System.Drawing.Size(292, 34);
             this.polizasLocalesToolStripMenuItem.Text = "Polizas Locales";
             this.polizasLocalesToolStripMenuItem.Click += new System.EventHandler(this.polizasLocalesToolStripMenuItem_Click);
-            // 
-            // pruebaToolStripMenuItem
-            // 
-            this.pruebaToolStripMenuItem.Name = "pruebaToolStripMenuItem";
-            this.pruebaToolStripMenuItem.Size = new System.Drawing.Size(292, 34);
-            this.pruebaToolStripMenuItem.Text = "Prueba";
-            this.pruebaToolStripMenuItem.Click += new System.EventHandler(this.pruebaToolStripMenuItem_Click);
-            // 
-            // presupustoToolStripMenuItem
-            // 
-            this.presupustoToolStripMenuItem.Name = "presupustoToolStripMenuItem";
-            this.presupustoToolStripMenuItem.Size = new System.Drawing.Size(292, 34);
-            this.presupustoToolStripMenuItem.Text = "Presupuesto";
-            // 
-            // enlacesModulosToolStripMenuItem
-            // 
-            this.enlacesModulosToolStripMenuItem.Name = "enlacesModulosToolStripMenuItem";
-            this.enlacesModulosToolStripMenuItem.Size = new System.Drawing.Size(292, 34);
-            this.enlacesModulosToolStripMenuItem.Text = "Enlaces Modulos";
             // 
             // Pnl_Superior
             // 
@@ -364,8 +339,5 @@
         private System.Windows.Forms.ToolStripMenuItem actualizarSaldosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cierrePolizasMesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cierrePolizasAnualToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pruebaToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem presupustoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem enlacesModulosToolStripMenuItem;
     }
 }
