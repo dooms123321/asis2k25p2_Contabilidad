@@ -31,18 +31,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AxShockwaveFlashObjects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
     <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="Capa_Controlador_Estados_Financieros">
       <HintPath>..\Capa_Controlador_Estados_Financieros\bin\Debug\Capa_Controlador_Estados_Financieros.dll</HintPath>
     </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -52,6 +59,59 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ds_BalanceGeneral.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ds_BalanceGeneral.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Ds_BalanceSaldos.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ds_BalanceSaldos.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Ds_EstadoResultados.cs">
+      <DependentUpon>Ds_EstadoResultados.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Ds_EstadoResultados.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ds_EstadoResultados.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Ds_FlujoEfectivo.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ds_FlujoEfectivo.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_VisorReporte_BalanceDeSaldos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_VisorReporte_BalanceDeSaldos.Designer.cs">
+      <DependentUpon>Frm_VisorReporte_BalanceDeSaldos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_VisorReporte_BalanceGeneral.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_VisorReporte_BalanceGeneral.Designer.cs">
+      <DependentUpon>Frm_VisorReporte_BalanceGeneral.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_VisorReporte_EstadoResultados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_VisorReporte_EstadoResultados.Designer.cs">
+      <DependentUpon>Frm_VisorReporte_EstadoResultados.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_VisorReporte_FlujoEfectivo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_VisorReporte_FlujoEfectivo.Designer.cs">
+      <DependentUpon>Frm_VisorReporte_FlujoEfectivo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Rpt_BalanceGeneral.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_BalanceGeneral.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Frm_EstadoDeBalanceDeSaldos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,8 +142,42 @@
     <Compile Include="Frm_EstadosFinancieros.Designer.cs">
       <DependentUpon>Frm_EstadosFinancieros.cs</DependentUpon>
     </Compile>
+    <Compile Include="Rpt_BalanceSaldos.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_BalanceSaldos.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Rpt_EstadoResultados.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_EstadoResultados.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Rpt_FlujoEfectivo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_FlujoEfectivo.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Frm_VisorReporte_BalanceDeSaldos.resx">
+      <DependentUpon>Frm_VisorReporte_BalanceDeSaldos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_VisorReporte_BalanceGeneral.resx">
+      <DependentUpon>Frm_VisorReporte_BalanceGeneral.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_VisorReporte_EstadoResultados.resx">
+      <DependentUpon>Frm_VisorReporte_EstadoResultados.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_VisorReporte_FlujoEfectivo.resx">
+      <DependentUpon>Frm_VisorReporte_FlujoEfectivo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpt_BalanceGeneral.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_BalanceGeneral.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Frm_EstadoDeBalanceDeSaldos.resx">
       <DependentUpon>Frm_EstadoDeBalanceDeSaldos.cs</DependentUpon>
     </EmbeddedResource>
@@ -99,12 +193,71 @@
     <EmbeddedResource Include="Frm_EstadosFinancieros.resx">
       <DependentUpon>Frm_EstadosFinancieros.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Rpt_BalanceSaldos.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_BalanceSaldos.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpt_EstadoResultados.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_EstadoResultados.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpt_FlujoEfectivo.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_FlujoEfectivo.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Ds_BalanceGeneral.xsc">
+      <DependentUpon>Ds_BalanceGeneral.xsd</DependentUpon>
+    </None>
+    <None Include="Ds_BalanceGeneral.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Ds_BalanceGeneral.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Ds_BalanceGeneral.xss">
+      <DependentUpon>Ds_BalanceGeneral.xsd</DependentUpon>
+    </None>
+    <None Include="Ds_BalanceSaldos.xsc">
+      <DependentUpon>Ds_BalanceSaldos.xsd</DependentUpon>
+    </None>
+    <None Include="Ds_BalanceSaldos.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Ds_BalanceSaldos.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Ds_BalanceSaldos.xss">
+      <DependentUpon>Ds_BalanceSaldos.xsd</DependentUpon>
+    </None>
+    <None Include="Ds_EstadoResultados.xsc">
+      <DependentUpon>Ds_EstadoResultados.xsd</DependentUpon>
+    </None>
+    <None Include="Ds_EstadoResultados.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Ds_EstadoResultados.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Ds_EstadoResultados.xss">
+      <DependentUpon>Ds_EstadoResultados.xsd</DependentUpon>
+    </None>
+    <None Include="Ds_FlujoEfectivo.xsc">
+      <DependentUpon>Ds_FlujoEfectivo.xsd</DependentUpon>
+    </None>
+    <None Include="Ds_FlujoEfectivo.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Ds_FlujoEfectivo.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Ds_FlujoEfectivo.xss">
+      <DependentUpon>Ds_FlujoEfectivo.xsd</DependentUpon>
+    </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

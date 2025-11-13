@@ -25,6 +25,10 @@ namespace Capa_Vista_Estados_Financieros
         {
             InitializeComponent();
 
+            groupBox2.Anchor = AnchorStyles.Top;
+            Btn_Ver_Reporte.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+
+
 
 
             // Configuración general del formulario
@@ -316,8 +320,97 @@ namespace Capa_Vista_Estados_Financieros
             groupBox1.Left = (this.ClientSize.Width - groupBox1.Width) / 2;
         }
 
+        private void Btn_VerReporte_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Validar si hay filas cargadas
+                if (Dgv_EstadoBalanceGeneral.Rows.Count == 0)
+                {
+                    MessageBox.Show("Primero genere los datos antes de ver el reporte.",
+                                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
 
+                // Crear DataTable manualmente desde el contenido del DataGridView
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Cuenta");
+                dt.Columns.Add("Nombre");
+                dt.Columns.Add("Debe", typeof(decimal));
+                dt.Columns.Add("Haber", typeof(decimal));
 
+                // Llenar el DataTable con los datos del grid
+                foreach (DataGridViewRow fila in Dgv_EstadoBalanceGeneral.Rows)
+                {
+                    if (!fila.IsNewRow)
+                    {
+                        string cuenta = "";
+                        string nombre = "";
+                        string debeStr = "";
+                        string haberStr = "";
+
+                        if (fila.Cells["Cuenta"].Value != null)
+                            cuenta = fila.Cells["Cuenta"].Value.ToString();
+                        if (fila.Cells["Nombre"].Value != null)
+                            nombre = fila.Cells["Nombre"].Value.ToString();
+
+                        if (fila.Cells["Debe"].Value != null)
+                            debeStr = fila.Cells["Debe"].Value.ToString().Replace("Q", "").Replace(",", "").Trim();
+                        if (fila.Cells["Haber"].Value != null)
+                            haberStr = fila.Cells["Haber"].Value.ToString().Replace("Q", "").Replace(",", "").Trim();
+
+                        object debe, haber;
+
+                        if (string.IsNullOrWhiteSpace(debeStr))
+                            debe = DBNull.Value;
+                        else
+                            debe = Convert.ToDecimal(debeStr);
+
+                        if (string.IsNullOrWhiteSpace(haberStr))
+                            haber = DBNull.Value;
+                        else
+                            haber = Convert.ToDecimal(haberStr);
+
+                        dt.Rows.Add(cuenta, nombre, debe, haber);
+                    }
+                }
+
+                // Validar si hay datos
+                if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show("No hay datos para mostrar en el reporte.",
+                                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                // Crear el DataSet y asignar datos
+                DataSet ds = new DataSet();
+                ds.Tables.Add(dt.Copy());
+                ds.Tables[0].TableName = "BalanceGeneral"; // Nombre debe coincidir con el XSD
+
+                // Crear el reporte y asignar fuente de datos
+                Rpt_BalanceGeneral rpt = new Rpt_BalanceGeneral();
+                rpt.SetDataSource(ds);
+
+                // Asignar los parámetros
+                string tipoOrigen = "Actual";
+                if (Cbo_TipoOrigen.SelectedItem != null)
+                    tipoOrigen = Cbo_TipoOrigen.SelectedItem.ToString();
+
+                rpt.SetParameterValue("TipoOrigen", tipoOrigen);
+                rpt.SetParameterValue("Nivel", Convert.ToInt32(Num_Nivel.Value));
+                rpt.SetParameterValue("FechaActual", DateTime.Now);
+
+                // Mostrar en visor
+                Frm_VisorReporte_BalanceGeneral visor = new Frm_VisorReporte_BalanceGeneral();
+                visor.crystalReportViewer1.ReportSource = rpt;
+                visor.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar el reporte: " + ex.Message);
+            }
+        }
 
     }
 }
