@@ -105,7 +105,7 @@
     <None Include="Resources\Ayuda.chm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\savetheapplication_guardar_2958.png" />
+    <Resource Include="Resources\savetheapplication_guardar_2958.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\sign-emergency-code-sos_61_icon-icons.com_57216.png" />
@@ -115,6 +115,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Boton de ayuda.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Resources\Boton Guardar.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

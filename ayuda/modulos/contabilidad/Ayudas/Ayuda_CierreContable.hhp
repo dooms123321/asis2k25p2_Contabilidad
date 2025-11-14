@@ -1,0 +1,17 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=Ayuda.chm
+Contents file=..\..\asis2k25p2_Contabilidad\prototipos\modulos\contabilidad\Cierre Contable\CierreConable_MVC_Prototipo\Capa_Vista_CierreContable\Resources\Ayuda cierre contable.hhc
+Default Window=Ayuda Cierre Contable
+Display compile progress=No
+Language=0x100a Español (Guatemala)
+
+[WINDOWS]
+Ayuda Cierre Contable="Modulo Contabilidad","..\..\asis2k25p2_Contabilidad\prototipos\modulos\contabilidad\Cierre Contable\CierreConable_MVC_Prototipo\Capa_Vista_CierreContable\Resources\Ayuda cierre contable.hhc",,,,,,,,0x2120,,0x6,,,,,,,,0
+
+
+[FILES]
+..\..\asis2k25p2_Contabilidad\prototipos\modulos\contabilidad\Cierre Contable\CierreConable_MVC_Prototipo\Capa_Vista_CierreContable\Resources\manual_usuario_contabilidad.html
+
+[INFOTYPES]
+

@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Manual de Usuario </title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f8f8f8; line-height: 1.6; }
+    h1, h2 { color: #333; }
+    .card { background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    ul { margin-left: 20px; }
+</style>
+</head>
+<body>
+
+<img src="./quantum.jpg" width="300rem;">
+<h1>Manual de Usuario</h1>
+<p>Este documento proporciona una guía práctica para el uso del formualrio de Cierre Contable.</p>
+
+<div class="card">
+    <h2>1. Cierre Contable</h2>
+    <p>El sistema permite realizar cierres contables de dos tipos:</p>
+    <ul>
+        <li><strong>Cierre Mensual</strong></li>
+        <li><strong>Cierre Anual</strong></li>
+    </ul>
+    <p>El contador puede seleccionar el tipo de cierre desde el formulario principal.</p>
+
+    <img src="./parametros.png">
+</div>
+
+<div class="card">
+    <h2>2. Cargar Cuentas</h2>
+    <p>El usuario debe seleccionar los parámetros:</p>
+    <ul>
+        <li>Fecha desde</li>
+        <li>Fecha hasta</li>
+        <li>Tipo de actualización (En línea o Batch)</li>
+    </ul>
+    <p>Tras seleccionar los parámetros, el sistema cargará todas las cuentas dentro del rango elegido, mostrando:</p>
+    <ul>
+        <li>Total del Debe</li>
+        <li>Total del Haber</li>
+        <li>Saldo total del cierre</li>
+     
+    </ul>
+     
+    <img src="./Cierre.png" width="800rem;">
+</div>
+
+<div class="card">
+    <h2>3. Validaciones del Sistema</h2>
+    <p>Para garantizar la integridad de los datos, el sistema aplica diversas validaciones:</p>
+    <ul>
+        <li>Un cierre mensual solo puede realizarse <strong>una vez por mes</strong>.</li>
+        <li>Un cierre anual solo se puede ejecutar <strong>una vez por año</strong>, aun si no hubo movimientos.</li>
+        <li>El sistema valida automáticamente si existe un cierre previo.</li>
+    </ul>
+    <p>Si no existe un cierre previo, el sistema permitirá guardar y mostrará un mensaje de confirmación.</p>
+
+   <div style="display: flex; gap: 5rem;">
+
+            <img src="./cierre existenete.png">
+            <img src="./guardado exitoso.png">
+
+        </div>
+
+</div>
+
+<div class="card">
+    <h2>4. Reporte de Cierre Contable</h2>
+    <p>El sistema permite generar un reporte con todos los movimientos relacionados al cierre contable, facilitando el análisis y auditoría.</p>
+
+
+    <img src="./reporte.png" width="800rem;">
+</div>
+
+<footer style="margin-top: 40px; font-size: 0.9em; color: #666;">
+    <p>Documento generado automáticamente como material de apoyo al usuario.</p>
+</footer>
+
+</body>
+</html>
