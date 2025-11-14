@@ -196,9 +196,8 @@ namespace Capa_Vista_CierreContable
 
         private void Btn_Guardar_Click(object sender, EventArgs e)
         {
-            // ============================
-            // VALIDACIONES DE CONTROLES
-            // ============================
+
+            
 
             if (Cbo_periodo.SelectedItem == null)
             {
@@ -218,9 +217,7 @@ namespace Capa_Vista_CierreContable
                 return;
             }
 
-            // ============================
-            // INICIO PROCESO DEL CIERRE
-            // ============================
+           
 
             int iAnio = Dtp_fecha_cierre.Value.Year;
             int iMes = Dtp_fecha_cierre.Value.Month;
@@ -250,9 +247,7 @@ namespace Capa_Vista_CierreContable
                 return;
             }
 
-            // ============================
-            // REGISTRAR PERIODO CONTABLE
-            // ============================
+        
 
             DateTime dInicio = new DateTime(iAnio, iMes, 1);
             DateTime dFin = dInicio.AddMonths(1).AddDays(-1);
@@ -306,10 +301,142 @@ namespace Capa_Vista_CierreContable
         private void button1_Click(object sender, EventArgs e)
         {
 
-            Help.ShowHelp(this, @"Resources\Ayuda.chm");
 
 
-           
+
+            try
+            {
+                const string subRutaAyuda = @"ayuda\modulos\contabilidad\Ayudas\Ayuda_CierreContable.chm";
+
+                string rutaEncontrada = null;
+                System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(Application.StartupPath);
+
+                for (int i = 0; i < 10 && dir != null; i++, dir = dir.Parent)
+                {
+                    string candidata = System.IO.Path.Combine(dir.FullName, subRutaAyuda);
+                    if (System.IO.File.Exists(candidata))
+                    {
+                        rutaEncontrada = candidata;
+                        break;
+                    }
+                }
+
+                string rutaAbsolutaRespaldo =
+                    @"C: \Users\Silvia Alcantara\asis2k25p2_Contabilidad\ayuda\modulos\contabilidad\Ayudas";
+
+                
+
+                if (rutaEncontrada == null && System.IO.File.Exists(rutaAbsolutaRespaldo))
+                    rutaEncontrada = rutaAbsolutaRespaldo;
+
+                if (rutaEncontrada != null)
+                {
+
+
+                    Help.ShowHelp(this, rutaEncontrada, HelpNavigator.Topic, "manual_usuario_contabilidad.html");
+                }
+                else
+                {
+                    string intento = System.IO.Path.Combine(Application.StartupPath, subRutaAyuda);
+                    MessageBox.Show(
+                        "No se encontró el archivo de ayuda.\n\nProbé desde:\n" + intento +
+                        "\n\nVerifica que exista esta ruta relativa dentro del proyecto:\n" + subRutaAyuda,
+                        "Archivo de ayuda no encontrado",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al abrir la ayuda:\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+
+
+
+        }
+
+        private void Btn_Guardar_Click_1(object sender, EventArgs e)
+        {
+
+            if (Cbo_periodo.SelectedItem == null)
+            {
+                MessageBox.Show("Debe seleccionar un período (Anual o Mensual).");
+                return;
+            }
+
+            if (Cbo_actualizacion.SelectedItem == null)
+            {
+                MessageBox.Show("Debe seleccionar el modo de actualización.");
+                return;
+            }
+
+            if (Dgv_Cuentas.Rows.Count <= 1) // solo la fila nueva
+            {
+                MessageBox.Show("Debe cargar cuentas antes de guardar el cierre.");
+                return;
+            }
+
+
+
+            int iAnio = Dtp_fecha_cierre.Value.Year;
+            int iMes = Dtp_fecha_cierre.Value.Month;
+            string periodo = Cbo_periodo.SelectedItem.ToString();
+
+            // Verificar si ya existe un cierre registrado
+            if (controlador.ExisteHistoricoPeriodo(iAnio, iMes))
+            {
+                MessageBox.Show("Ya existe un cierre contable para este período.");
+                return;
+            }
+
+            // Obtener lista de códigos de cuentas
+            List<string> codigos = new List<string>();
+
+            foreach (DataGridViewRow fila in Dgv_Cuentas.Rows)
+            {
+                if (!fila.IsNewRow && fila.Cells[1].Value != null)
+                {
+                    codigos.Add(fila.Cells[1].Value.ToString().Trim());
+                }
+            }
+
+            if (codigos.Count == 0)
+            {
+                MessageBox.Show("No hay cuentas válidas para cerrar.");
+                return;
+            }
+
+
+
+            DateTime dInicio = new DateTime(iAnio, iMes, 1);
+            DateTime dFin = dInicio.AddMonths(1).AddDays(-1);
+
+            int iEstado = 1;
+            int iModo = (Cbo_actualizacion.SelectedItem.ToString() == "En línea") ? 1 : 0;
+
+            controlador.CerrarPeriodosAnteriores(iAnio, iMes);
+
+            if (!controlador.ExistePeriodoContable(iAnio, iMes))
+            {
+                controlador.RegistrarPeriodo(iAnio, iMes, dInicio, dFin, iEstado, iModo);
+            }
+
+
+
+            if (!controlador.GuardarHistoricoDesdeLista(iAnio, iMes, codigos))
+            {
+                MessageBox.Show("Error al guardar el histórico.");
+                return;
+            }
+
+            MessageBox.Show("Cierre contable registrado correctamente.");
+
         }
     }
 }

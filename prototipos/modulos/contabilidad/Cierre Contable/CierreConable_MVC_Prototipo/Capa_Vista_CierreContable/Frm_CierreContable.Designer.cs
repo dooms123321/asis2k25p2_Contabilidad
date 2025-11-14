@@ -50,9 +50,9 @@ namespace Capa_Vista_CierreContable
             this.Lbl_SaldosTotales = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.Btn_salir = new System.Windows.Forms.Button();
-            this.Btn_Guardar = new System.Windows.Forms.Button();
             this.Btn_imprimir = new System.Windows.Forms.Button();
             this.Btn_cargar = new System.Windows.Forms.Button();
+            this.Btn_Guardar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Cuentas)).BeginInit();
             this.Gbp_datos.SuspendLayout();
             this.SuspendLayout();
@@ -253,7 +253,7 @@ namespace Capa_Vista_CierreContable
             // button1
             // 
             this.button1.Image = global::Capa_Vista_CierreContable.Properties.Resources.Boton_de_ayuda;
-            this.button1.Location = new System.Drawing.Point(956, 63);
+            this.button1.Location = new System.Drawing.Point(947, 66);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(53, 46);
             this.button1.TabIndex = 18;
@@ -263,28 +263,17 @@ namespace Capa_Vista_CierreContable
             // Btn_salir
             // 
             this.Btn_salir.Image = global::Capa_Vista_CierreContable.Properties.Resources.sign_emergency_code_sos_61_icon_icons_com_57216;
-            this.Btn_salir.Location = new System.Drawing.Point(1046, 66);
+            this.Btn_salir.Location = new System.Drawing.Point(1026, 65);
             this.Btn_salir.Name = "Btn_salir";
-            this.Btn_salir.Size = new System.Drawing.Size(49, 46);
+            this.Btn_salir.Size = new System.Drawing.Size(56, 50);
             this.Btn_salir.TabIndex = 14;
             this.Btn_salir.UseVisualStyleBackColor = true;
             this.Btn_salir.Click += new System.EventHandler(this.Btn_salir_Click);
             // 
-            // Btn_Guardar
-            // 
-            this.Btn_Guardar.Image = global::Capa_Vista_CierreContable.Properties.Resources.savetheapplication_guardar_29581;
-            this.Btn_Guardar.ImageKey = "(ninguno)";
-            this.Btn_Guardar.Location = new System.Drawing.Point(802, 64);
-            this.Btn_Guardar.Name = "Btn_Guardar";
-            this.Btn_Guardar.Size = new System.Drawing.Size(51, 48);
-            this.Btn_Guardar.TabIndex = 12;
-            this.Btn_Guardar.UseVisualStyleBackColor = true;
-            this.Btn_Guardar.Click += new System.EventHandler(this.Btn_Guardar_Click);
-            // 
             // Btn_imprimir
             // 
             this.Btn_imprimir.Image = global::Capa_Vista_CierreContable.Properties.Resources.print_black_printer_tool_symbol_icon_icons_com_54467;
-            this.Btn_imprimir.Location = new System.Drawing.Point(879, 64);
+            this.Btn_imprimir.Location = new System.Drawing.Point(866, 67);
             this.Btn_imprimir.Name = "Btn_imprimir";
             this.Btn_imprimir.Size = new System.Drawing.Size(52, 48);
             this.Btn_imprimir.TabIndex = 11;
@@ -294,24 +283,34 @@ namespace Capa_Vista_CierreContable
             // Btn_cargar
             // 
             this.Btn_cargar.Image = global::Capa_Vista_CierreContable.Properties.Resources.add_insert_new_plus_button_icon_142943;
-            this.Btn_cargar.Location = new System.Drawing.Point(724, 64);
+            this.Btn_cargar.Location = new System.Drawing.Point(707, 65);
             this.Btn_cargar.Name = "Btn_cargar";
-            this.Btn_cargar.Size = new System.Drawing.Size(51, 48);
+            this.Btn_cargar.Size = new System.Drawing.Size(51, 47);
             this.Btn_cargar.TabIndex = 10;
             this.Btn_cargar.UseVisualStyleBackColor = true;
             this.Btn_cargar.Click += new System.EventHandler(this.Btn_cargar_Click);
+            // 
+            // Btn_Guardar
+            // 
+            this.Btn_Guardar.Image = global::Capa_Vista_CierreContable.Properties.Resources.Boton_Guardar;
+            this.Btn_Guardar.Location = new System.Drawing.Point(779, 65);
+            this.Btn_Guardar.Name = "Btn_Guardar";
+            this.Btn_Guardar.Size = new System.Drawing.Size(64, 47);
+            this.Btn_Guardar.TabIndex = 19;
+            this.Btn_Guardar.UseVisualStyleBackColor = true;
+            this.Btn_Guardar.Click += new System.EventHandler(this.Btn_Guardar_Click_1);
             // 
             // Frm_CierreContable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1131, 586);
+            this.Controls.Add(this.Btn_Guardar);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.Lbl_SaldosTotales);
             this.Controls.Add(this.Lbl_TotalHaber);
             this.Controls.Add(this.Lbl_TotalDebe);
             this.Controls.Add(this.Btn_salir);
-            this.Controls.Add(this.Btn_Guardar);
             this.Controls.Add(this.Btn_imprimir);
             this.Controls.Add(this.Btn_cargar);
             this.Controls.Add(this.Lbl_haber);
@@ -350,7 +349,6 @@ namespace Capa_Vista_CierreContable
         private System.Windows.Forms.Label Lbl_haber;
         private System.Windows.Forms.Button Btn_cargar;
         private System.Windows.Forms.Button Btn_imprimir;
-        private System.Windows.Forms.Button Btn_Guardar;
         private System.Windows.Forms.Button Btn_salir;
         private System.Windows.Forms.Label Lbl_TotalDebe;
         private System.Windows.Forms.Label Lbl_TotalHaber;
@@ -358,5 +356,6 @@ namespace Capa_Vista_CierreContable
         private System.Windows.Forms.ComboBox Cbo_actualizacion;
         private System.Windows.Forms.Label Lbl_actualizacion;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button Btn_Guardar;
     }
 }
