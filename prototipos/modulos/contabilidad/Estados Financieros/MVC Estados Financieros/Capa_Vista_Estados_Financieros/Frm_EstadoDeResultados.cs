@@ -349,37 +349,42 @@ namespace Capa_Vista_Estados_Financieros
         {
             try
             {
-                // Ruta RELATIVA dentro del proyecto
-                const string subRutaAyuda = @"Ayuda\Ayuda Conta.chm";
+                // Ruta relativa donde está tu archivo CHM (igual que tu compañero)
+                const string subRutaAyuda = @"ayuda\modulos\contabilidad\Ayudas\Ayuda Conta.chm";
 
-                string rutaCHM = null;
+                string rutaEncontrada = null;
                 DirectoryInfo dir = new DirectoryInfo(Application.StartupPath);
 
-                // Buscar hasta 10 niveles hacia arriba
+                // Busca la carpeta hacia arriba (10 niveles)
                 for (int i = 0; i < 10 && dir != null; i++, dir = dir.Parent)
                 {
-                    string intento = Path.Combine(dir.FullName, subRutaAyuda);
-                    if (File.Exists(intento))
+                    string candidata = Path.Combine(dir.FullName, subRutaAyuda);
+                    if (File.Exists(candidata))
                     {
-                        rutaCHM = intento;
+                        rutaEncontrada = candidata;
                         break;
                     }
                 }
 
-                // Si NO lo encuentra → mostrar mensaje elegante
-                if (rutaCHM == null)
+                // Ruta de respaldo (opcional)
+                string rutaAbsolutaRespaldo =
+                    @"C:\Users\arone\OneDrive\Escritorio\asis2k25p2_Contabilidad\ayuda\modulos\contabilidad\Ayudas\Ayuda Conta.chm";
+
+                if (rutaEncontrada == null && File.Exists(rutaAbsolutaRespaldo))
+                    rutaEncontrada = rutaAbsolutaRespaldo;
+
+                if (rutaEncontrada != null)
                 {
-                    MessageBox.Show("No se encontró el archivo de ayuda (CHM).",
-                        "Ayuda no disponible",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    // Esta es la ruta INTERNA del archivo dentro del CHM
+                    string rutaInterna = @"Estado de Resultados/Ayuda-Estado de Resultads.html";
+
+                    Help.ShowHelp(this, rutaEncontrada, HelpNavigator.Topic, rutaInterna);
                 }
-
-                // RUTA INTERNA del archivo dentro del CHM
-                string paginaInterna = "Estado de Resultados/Ayuda-Estado de Resultads.html";
-
-                // ABRIR LA AYUDA
-                Help.ShowHelp(this, rutaCHM, HelpNavigator.Topic, paginaInterna);
+                else
+                {
+                    MessageBox.Show("No se encontró el archivo de ayuda.", "Advertencia",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             catch (Exception ex)
             {
@@ -387,6 +392,7 @@ namespace Capa_Vista_Estados_Financieros
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
     }
 }

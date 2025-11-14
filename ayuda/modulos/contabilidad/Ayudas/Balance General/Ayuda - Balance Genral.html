@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Manual - Balance General</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<div class="contenedor">
+
+    <h1>Balance General</h1>
+    <p>
+        El formulario de <strong>Balance General</strong> permite consultar la situación financiera 
+        de la empresa, mostrando Activos, Pasivos y Capital según el período seleccionado. 
+        El usuario puede trabajar en modo Actual o Histórico, aplicar filtros por nivel y generar 
+        el reporte correspondiente en Crystal Reports.
+    </p>
+
+    <h2>1. Selección del Origen de Datos</h2>
+    <p>
+        El usuario puede elegir entre:
+        <ul>
+            <li><strong>Actual</strong>: Consulta el balance vigente.</li>
+            <li><strong>Histórico</strong>: Activa los selectores de año y mes.</li>
+        </ul>
+    </p>
+    <div class="imagen">
+        <img src="1.png" alt="Origen Balance General">
+        <p class="pie">Figura 1. Selección del origen de datos.</p>
+    </div>
+
+    <h2>2. Selección del Período (Histórico)</h2>
+    <p>
+        Si se selecciona el modo histórico, se habilitan los campos de 
+        <strong>Año</strong> y <strong>Mes</strong> para definir el período de consulta.
+        Si no existen datos para el mes seleccionado, se muestra un mensaje de alerta.
+    </p>
+    <div class="imagen">
+        <img src="2.png" alt="Periodo Balance General">
+        <p class="pie">Figura 2. Selección de año y mes.</p>
+    </div>
+
+    <h2>3. Selección del Nivel</h2>
+    <p>
+        El Balance General puede filtrarse por niveles:
+        <ul>
+            <li>Nivel 1 — Activo, Pasivo y Capital</li>
+            <li>Nivel 2 — Subcuentas</li>
+            <li>Nivel 3 en adelante — Detalle específico</li>
+        </ul>
+    </p>
+    <div class="imagen">
+        <img src="3.png" alt="Nivel Balance General">
+        <p class="pie">Figura 3. Selector de nivel.</p>
+    </div>
+
+    <h2>4. Generar Consulta</h2>
+    <p>
+        Al hacer clic en <strong>Generar</strong>, el sistema muestra los datos del balance ordenados 
+        por grupos contables junto con sus totales respectivos.
+    </p>
+    <div class="imagen">
+        <img src="4.png" alt="Consulta Balance General">
+        <p class="pie">Figura 4. Datos generados en pantalla.</p>
+    </div>
+
+    <h2>5. Resultado Automático</h2>
+    <p>
+        En la parte inferior del formulario se muestra si el balance está cuadrado o existe diferencia 
+        entre las cuentas de Activo, Pasivo y Capital.
+    </p>
+    <div class="imagen">
+        <img src="5.png" alt="Resultado ecuación contable">
+        <p class="pie">Figura 5. Resultado de la ecuación contable.</p>
+    </div>
+
+    <h2>6. Ver Reporte</h2>
+    <p>
+        El botón <strong>Ver Reporte</strong> genera el documento formal en Crystal Reports, 
+        con los mismos datos mostrados en el formulario.
+    </p>
+    <div class="imagen">
+        <img src="6.png" alt="Reporte Balance General">
+        <p class="pie">Figura 6. Reporte generado.</p>
+    </div>
+
+</div>
+
+</body>
+</html>

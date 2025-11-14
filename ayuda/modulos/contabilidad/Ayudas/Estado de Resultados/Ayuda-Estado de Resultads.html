@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Manual - Estado de Resultados</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<div class="contenedor">
+
+    <h1>Estado de Resultados</h1>
+    <p>
+        El formulario de <strong>Estado de Resultados</strong> permite consultar los ingresos, costos y 
+        gastos del período seleccionado, calculando automáticamente la utilidad o pérdida. 
+        El usuario puede trabajar en modo Actual o Histórico, filtrar por niveles y generar el reporte 
+        correspondiente en Crystal Reports.
+    </p>
+
+    <h2>1. Selección del Origen de Datos</h2>
+    <p>
+        El usuario puede elegir entre:
+        <ul>
+            <li><strong>Actual</strong>: Muestra los datos del período vigente.</li>
+            <li><strong>Histórico</strong>: Activa los selectores de año y mes.</li>
+        </ul>
+    </p>
+    <div class="imagen">
+        <img src="1.png" alt="Origen Estado de Resultados">
+        <p class="pie">Figura 1. Selección del tipo de origen.</p>
+    </div>
+
+    <h2>2. Selección del Período (Histórico)</h2>
+    <p>
+        Si se elige el modo histórico, se habilitan los campos de 
+        <strong>Año</strong> y <strong>Mes</strong> para definir el período a consultar.
+        Si no existen datos para dicho mes, el sistema muestra un mensaje de alerta.
+    </p>
+    <div class="imagen">
+        <img src="2.png" alt="Periodo Estado de Resultados">
+        <p class="pie">Figura 2. Selección de año y mes.</p>
+    </div>
+
+    <h2>3. Selección del Nivel</h2>
+    <p>
+        Los resultados pueden filtrarse por niveles:
+        <ul>
+            <li>Nivel 1 — Ingresos / Costos / Gastos</li>
+            <li>Nivel 2 — Subcategorías</li>
+            <li>Nivel 3 en adelante — Detalle específico</li>
+        </ul>
+    </p>
+    <div class="imagen">
+        <img src="3.png" alt="Nivel Estado de Resultados">
+        <p class="pie">Figura 3. Selector de nivel.</p>
+    </div>
+
+    <h2>4. Generar Consulta</h2>
+    <p>
+        Al presionar <strong>Generar</strong>, el sistema obtiene los datos según los filtros 
+        establecidos y los presenta en el DataGridView.
+    </p>
+    <div class="imagen">
+        <img src="4.png" alt="Consulta Estado de Resultados">
+        <p class="pie">Figura 4. Resultados mostrados en pantalla.</p>
+    </div>
+
+    <h2>5. Resultado Automático</h2>
+    <p>
+        En la parte inferior del formulario se muestra el cálculo final:
+        <strong>Utilidad</strong> o <strong>Pérdida</strong>.
+    </p>
+    <div class="imagen">
+        <img src="5.png" alt="Resultado automático">
+        <p class="pie">Figura 5. Resultado del período.</p>
+    </div>
+
+    <h2>6. Ver Reporte</h2>
+    <p>
+        El botón <strong>Ver Reporte</strong> permite generar el documento formal 
+        en Crystal Reports, con la misma información mostrada en pantalla.
+    </p>
+    <div class="imagen">
+        <img src="6.png" alt="Reporte Estado de Resultados">
+        <p class="pie">Figura 6. Reporte generado.</p>
+    </div>
+
+</div>
+
+</body>
+</html>

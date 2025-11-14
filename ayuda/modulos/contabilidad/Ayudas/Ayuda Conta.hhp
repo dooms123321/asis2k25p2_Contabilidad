@@ -1,0 +1,21 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=Ayuda Conta.chm
+Contents file=Carpetas.hhc
+Default Window=Ayuda
+Default topic=Balance de Saldos\Ayuda-Balance de Saldos.html
+Display compile progress=No
+Language=0x580a Español (Latinoamérica)
+
+[WINDOWS]
+Ayuda="Se explicara como funcionan los formularios","Carpetas.hhc",,"Balance de Saldos\Ayuda-Balance de Saldos.html",,"Balance de Saldos\Ayuda-Balance de Saldos.html","Balance de Saldos\Ayuda-Balance de Saldos.html","Estado de Resultados\Ayuda-Estado de Resultads.html","Estado de Resultados\Ayuda-Estado de Resultads.html",0x23520,,0xc387e,,,,,,,,0
+
+
+[FILES]
+Balance de Saldos\Ayuda-Balance de Saldos.html
+Balance General\Ayuda - Balance Genral.html
+Estado de Resultados\Ayuda-Estado de Resultads.html
+Flujo de Efectivo\Ayuda - Flujo de Efectivo.html
+
+[INFOTYPES]
+
