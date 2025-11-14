@@ -32,7 +32,75 @@ namespace Capa_vista
             Txt_vida_util.KeyPress += Txt_vida_util_KeyPress;
             Txt_vida_util.Leave += Txt_vida_util_Leave;
             Btn_limpiar.Click += Btn_limpiar_Click_1;
+            Txt_costo_adquisicion.Leave += Txt_costo_adquisicion_Leave;
+            Txt_costo_adquisicion.TextChanged += Txt_costo_adquisicion_TextChanged;
         }
+        private void Txt_costo_adquisicion_Leave(object sender, EventArgs e)
+        {
+            CalcularCostoSinIVA();
+        }
+
+        private void Txt_costo_adquisicion_TextChanged(object sender, EventArgs e)
+        {
+            // Mostrar mensaje informativo cuando el usuario esté escribiendo
+            if (Txt_costo_adquisicion.Focused && !string.IsNullOrEmpty(Txt_costo_adquisicion.Text) && Txt_costo_adquisicion.Text != "0.00")
+            {
+                MostrarMensajeIVA();
+            }
+        }
+
+        private void CalcularCostoSinIVA()
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Txt_costo_adquisicion.Text.Trim()) ||
+                    Txt_costo_adquisicion.Text == "0.00" ||
+                    Txt_costo_adquisicion.Text == "0")
+                {
+                    return;
+                }
+
+                // Convertir el valor ingresado a decimal
+                if (decimal.TryParse(Txt_costo_adquisicion.Text, out decimal costoConIVA))
+                {
+                    if (costoConIVA > 0)
+                    {
+                        // Calcular el costo sin IVA (dividir entre 1.12)
+                        decimal costoSinIVA = costoConIVA / 1.12m;
+
+                        // Mostrar el cálculo al usuario
+                        string mensaje = $"Costo con IVA: {costoConIVA:C2}\n" +
+                                       $"IVA (12%): {(costoConIVA - costoSinIVA):C2}\n" +
+                                       $"Costo sin IVA a guardar: {costoSinIVA:C2}";
+
+                        MessageBox.Show(mensaje, "Cálculo Automático de IVA",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Actualizar el texto con el valor sin IVA (opcional, puedes comentar esta línea si no quieres modificar lo que ve el usuario)
+                        // Txt_costo_adquisicion.Text = costoSinIVA.ToString("F2");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al calcular IVA: {ex.Message}");
+            }
+        }
+
+        private void MostrarMensajeIVA()
+        {
+            Txt_costo_adquisicion.BackColor = Color.LightYellow;
+            Timer timer = new Timer();
+            timer.Interval = 2000; // 2 segundos
+            timer.Tick += (s, e) =>
+            {
+                Txt_costo_adquisicion.BackColor = SystemColors.ActiveBorder;
+                timer.Stop();
+                timer.Dispose();
+            };
+            timer.Start();
+        }
+
 
         private void ConfigurarGridDepreciacion()
         {
@@ -611,6 +679,7 @@ namespace Capa_vista
                 Txt_vida_util.Focus();
                 return false;
             }
+
             // Validar que sea un número entero mayor a 0
             if (!int.TryParse(Txt_vida_util.Text, out int vidaUtil) || vidaUtil <= 0)
             {
@@ -814,11 +883,14 @@ namespace Capa_vista
                 return;
             }
 
-            // Convertir valores a decimal
+            // Convertir valores a decimal - CON CÁLCULO DE IVA
             decimal costoAdquisicion, valorResidual;
             try
             {
-                costoAdquisicion = Convert.ToDecimal(Txt_costo_adquisicion.Text);
+                // CALCULAR COSTO SIN IVA AUTOMÁTICAMENTE
+                decimal costoConIVA = Convert.ToDecimal(Txt_costo_adquisicion.Text);
+                costoAdquisicion = costoConIVA / 1.12m; // Quitar el 12% de IVA
+
                 valorResidual = Convert.ToDecimal(Txt_adquisicion.Text);
 
                 // Validaciones adicionales
@@ -845,12 +917,29 @@ namespace Capa_vista
                     Txt_adquisicion.Focus();
                     return;
                 }
+
                 if (!int.TryParse(Txt_vida_util.Text, out int vidaUtil) || vidaUtil <= 0)
                 {
                     MessageBox.Show("La vida útil debe ser un número entero mayor a 0.", "Error",
                                   MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Txt_vida_util.Focus();
                     Txt_vida_util.SelectAll();
+                    return;
+                }
+
+                // Mostrar confirmación del cálculo del IVA
+                decimal ivaCalculado = costoConIVA - costoAdquisicion;
+                string mensajeConfirmacion = $"Resumen del cálculo:\n\n" +
+                                           $"Costo ingresado (con IVA): {costoConIVA:C2}\n" +
+                                           $"IVA quitado (12%): {ivaCalculado:C2}\n" +
+                                           $"Costo a guardar (sin IVA): {costoAdquisicion:C2}\n\n" +
+                                           $"¿Desea continuar con el guardado?";
+
+                DialogResult confirmacion = MessageBox.Show(mensajeConfirmacion, "Confirmar Cálculo de IVA",
+                                                           MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (confirmacion != DialogResult.Yes)
+                {
                     return;
                 }
             }
@@ -866,7 +955,7 @@ namespace Capa_vista
                 Txt_descripcion.Text.Trim(),
                 Cbo_grupo.SelectedItem?.ToString() ?? "",
                 fecha,
-                costoAdquisicion,
+                costoAdquisicion, // Este ya es el valor sin IVA
                 valorResidual,
                 int.Parse(Txt_vida_util.Text),
                 cuentaActivo,
@@ -890,7 +979,6 @@ namespace Capa_vista
             {
                 MessageBox.Show("Error al guardar el activo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void Txt_fecha_adquisicion_KeyPress(object sender, KeyPressEventArgs e)
@@ -1584,6 +1672,11 @@ namespace Capa_vista
                     MessageBoxIcon.Error
                 );
             }
+
+        }
+
+        private void Btn_reportes_activos_Click(object sender, EventArgs e)
+        {
 
         }
     }
