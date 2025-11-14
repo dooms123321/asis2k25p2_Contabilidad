@@ -29,6 +29,7 @@ namespace Capa_Vista_CierreContable
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_CierreContable));
             this.Dgv_Cuentas = new System.Windows.Forms.DataGridView();
             this.Cbo_periodo = new System.Windows.Forms.ComboBox();
             this.Gbp_datos = new System.Windows.Forms.GroupBox();
@@ -227,7 +228,7 @@ namespace Capa_Vista_CierreContable
             this.Lbl_TotalDebe.AutoSize = true;
             this.Lbl_TotalDebe.Location = new System.Drawing.Point(205, 525);
             this.Lbl_TotalDebe.Name = "Lbl_TotalDebe";
-            this.Lbl_TotalDebe.Size = new System.Drawing.Size(49, 17);
+            this.Lbl_TotalDebe.Size = new System.Drawing.Size(39, 16);
             this.Lbl_TotalDebe.TabIndex = 15;
             this.Lbl_TotalDebe.Text = "- - - - -";
             // 
@@ -236,7 +237,7 @@ namespace Capa_Vista_CierreContable
             this.Lbl_TotalHaber.AutoSize = true;
             this.Lbl_TotalHaber.Location = new System.Drawing.Point(474, 525);
             this.Lbl_TotalHaber.Name = "Lbl_TotalHaber";
-            this.Lbl_TotalHaber.Size = new System.Drawing.Size(49, 17);
+            this.Lbl_TotalHaber.Size = new System.Drawing.Size(39, 16);
             this.Lbl_TotalHaber.TabIndex = 16;
             this.Lbl_TotalHaber.Text = "- - - - -";
             this.Lbl_TotalHaber.Click += new System.EventHandler(this.Lbl_TotalHaber_Click);
@@ -246,13 +247,13 @@ namespace Capa_Vista_CierreContable
             this.Lbl_SaldosTotales.AutoSize = true;
             this.Lbl_SaldosTotales.Location = new System.Drawing.Point(747, 528);
             this.Lbl_SaldosTotales.Name = "Lbl_SaldosTotales";
-            this.Lbl_SaldosTotales.Size = new System.Drawing.Size(49, 17);
+            this.Lbl_SaldosTotales.Size = new System.Drawing.Size(39, 16);
             this.Lbl_SaldosTotales.TabIndex = 17;
             this.Lbl_SaldosTotales.Text = "- - - - -";
             // 
             // button1
             // 
-            this.button1.Image = global::Capa_Vista_CierreContable.Properties.Resources.Boton_de_ayuda;
+            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
             this.button1.Location = new System.Drawing.Point(947, 66);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(53, 46);
@@ -262,7 +263,7 @@ namespace Capa_Vista_CierreContable
             // 
             // Btn_salir
             // 
-            this.Btn_salir.Image = global::Capa_Vista_CierreContable.Properties.Resources.sign_emergency_code_sos_61_icon_icons_com_57216;
+            this.Btn_salir.Image = ((System.Drawing.Image)(resources.GetObject("Btn_salir.Image")));
             this.Btn_salir.Location = new System.Drawing.Point(1026, 65);
             this.Btn_salir.Name = "Btn_salir";
             this.Btn_salir.Size = new System.Drawing.Size(56, 50);
@@ -272,7 +273,7 @@ namespace Capa_Vista_CierreContable
             // 
             // Btn_imprimir
             // 
-            this.Btn_imprimir.Image = global::Capa_Vista_CierreContable.Properties.Resources.print_black_printer_tool_symbol_icon_icons_com_54467;
+            this.Btn_imprimir.Image = ((System.Drawing.Image)(resources.GetObject("Btn_imprimir.Image")));
             this.Btn_imprimir.Location = new System.Drawing.Point(866, 67);
             this.Btn_imprimir.Name = "Btn_imprimir";
             this.Btn_imprimir.Size = new System.Drawing.Size(52, 48);
@@ -282,7 +283,7 @@ namespace Capa_Vista_CierreContable
             // 
             // Btn_cargar
             // 
-            this.Btn_cargar.Image = global::Capa_Vista_CierreContable.Properties.Resources.add_insert_new_plus_button_icon_142943;
+            this.Btn_cargar.Image = ((System.Drawing.Image)(resources.GetObject("Btn_cargar.Image")));
             this.Btn_cargar.Location = new System.Drawing.Point(707, 65);
             this.Btn_cargar.Name = "Btn_cargar";
             this.Btn_cargar.Size = new System.Drawing.Size(51, 47);
@@ -292,7 +293,7 @@ namespace Capa_Vista_CierreContable
             // 
             // Btn_Guardar
             // 
-            this.Btn_Guardar.Image = global::Capa_Vista_CierreContable.Properties.Resources.Boton_Guardar;
+            this.Btn_Guardar.Image = ((System.Drawing.Image)(resources.GetObject("Btn_Guardar.Image")));
             this.Btn_Guardar.Location = new System.Drawing.Point(779, 65);
             this.Btn_Guardar.Name = "Btn_Guardar";
             this.Btn_Guardar.Size = new System.Drawing.Size(64, 47);
