@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -191,15 +192,17 @@ namespace Capa_Vista_CierreContable
 
         }
 
+
+
         private void Btn_Guardar_Click(object sender, EventArgs e)
         {
-            int iAnio = Dtp_fecha_cierre.Value.Year;
-            int iMes = Dtp_fecha_cierre.Value.Month;
-            string periodo = Cbo_periodo.SelectedItem.ToString();
+            // ============================
+            // VALIDACIONES DE CONTROLES
+            // ============================
 
-            if (controlador.ExisteHistoricoPeriodo(iAnio, iMes))
+            if (Cbo_periodo.SelectedItem == null)
             {
-                MessageBox.Show("Ya existe un cierre contable para este periodo.");
+                MessageBox.Show("Debe seleccionar un período (Anual o Mensual).");
                 return;
             }
 
@@ -209,20 +212,51 @@ namespace Capa_Vista_CierreContable
                 return;
             }
 
-            List<string> codigos = new List<string>();
-            foreach (DataGridViewRow fila in Dgv_Cuentas.Rows)
-                if (!fila.IsNewRow && fila.Cells[1].Value != null)
-                    codigos.Add(fila.Cells[1].Value.ToString().Trim());
-
-            if (codigos.Count == 0)
+            if (Dgv_Cuentas.Rows.Count <= 1) // solo la fila nueva
             {
-                MessageBox.Show("No hay cuentas cargadas.");
+                MessageBox.Show("Debe cargar cuentas antes de guardar el cierre.");
                 return;
             }
 
-            //  PRIMERO registrar PERÍODO (solo si no existe)
+            // ============================
+            // INICIO PROCESO DEL CIERRE
+            // ============================
+
+            int iAnio = Dtp_fecha_cierre.Value.Year;
+            int iMes = Dtp_fecha_cierre.Value.Month;
+            string periodo = Cbo_periodo.SelectedItem.ToString();
+
+            // Verificar si ya existe un cierre registrado
+            if (controlador.ExisteHistoricoPeriodo(iAnio, iMes))
+            {
+                MessageBox.Show("Ya existe un cierre contable para este período.");
+                return;
+            }
+
+            // Obtener lista de códigos de cuentas
+            List<string> codigos = new List<string>();
+
+            foreach (DataGridViewRow fila in Dgv_Cuentas.Rows)
+            {
+                if (!fila.IsNewRow && fila.Cells[1].Value != null)
+                {
+                    codigos.Add(fila.Cells[1].Value.ToString().Trim());
+                }
+            }
+
+            if (codigos.Count == 0)
+            {
+                MessageBox.Show("No hay cuentas válidas para cerrar.");
+                return;
+            }
+
+            // ============================
+            // REGISTRAR PERIODO CONTABLE
+            // ============================
+
             DateTime dInicio = new DateTime(iAnio, iMes, 1);
             DateTime dFin = dInicio.AddMonths(1).AddDays(-1);
+
             int iEstado = 1;
             int iModo = (Cbo_actualizacion.SelectedItem.ToString() == "En línea") ? 1 : 0;
 
@@ -233,15 +267,18 @@ namespace Capa_Vista_CierreContable
                 controlador.RegistrarPeriodo(iAnio, iMes, dInicio, dFin, iEstado, iModo);
             }
 
-            //  AHORA guardar HISTÓRICO
+
+
             if (!controlador.GuardarHistoricoDesdeLista(iAnio, iMes, codigos))
             {
                 MessageBox.Show("Error al guardar el histórico.");
                 return;
             }
 
-            MessageBox.Show(" Cierre contable registrado correctamente.");
+            MessageBox.Show("Cierre contable registrado correctamente.");
         }
+
+
 
 
         private void Dtp_Fecha_Hasta_ValueChanged(object sender, EventArgs e)
@@ -266,5 +303,13 @@ namespace Capa_Vista_CierreContable
             frm.Show();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            Help.ShowHelp(this, @"Resources\Ayuda.chm");
+
+
+           
+        }
     }
 }
