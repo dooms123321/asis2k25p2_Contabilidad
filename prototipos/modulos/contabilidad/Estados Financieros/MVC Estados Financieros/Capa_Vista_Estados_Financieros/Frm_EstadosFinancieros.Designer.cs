@@ -45,7 +45,7 @@ namespace Capa_Vista_Estados_Financieros
             this.Tsm_EstadosFianacieros});
             this.Msp_EstadosFinancieros.Location = new System.Drawing.Point(0, 0);
             this.Msp_EstadosFinancieros.Name = "Msp_EstadosFinancieros";
-            this.Msp_EstadosFinancieros.Size = new System.Drawing.Size(1233, 28);
+            this.Msp_EstadosFinancieros.Size = new System.Drawing.Size(1233, 30);
             this.Msp_EstadosFinancieros.TabIndex = 0;
             this.Msp_EstadosFinancieros.Text = "Estados Financieros";
             // 
@@ -57,7 +57,7 @@ namespace Capa_Vista_Estados_Financieros
             this.Tsm_BalanceGeneral,
             this.Tsm_FlujoEfectivo});
             this.Tsm_EstadosFianacieros.Name = "Tsm_EstadosFianacieros";
-            this.Tsm_EstadosFianacieros.Size = new System.Drawing.Size(152, 24);
+            this.Tsm_EstadosFianacieros.Size = new System.Drawing.Size(152, 26);
             this.Tsm_EstadosFianacieros.Text = "Estados Financieros";
             // 
             // Tsm_EstadoBalanceDeSaldos
