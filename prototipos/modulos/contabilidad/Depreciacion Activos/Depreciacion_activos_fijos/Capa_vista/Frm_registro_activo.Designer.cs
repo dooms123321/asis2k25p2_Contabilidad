@@ -89,12 +89,13 @@ namespace Capa_vista
             this.LblCostoAdquisicion = new System.Windows.Forms.Label();
             this.Lbl_TotalPoliza = new System.Windows.Forms.Label();
             this.Lbl_ActivoPoliza = new System.Windows.Forms.Label();
-            this.Dtp_fecha_poliza = new System.Windows.Forms.DateTimePicker();
             this.Btn_enviar_poliza_todo = new System.Windows.Forms.Button();
             this.Dgv_polizas_depreciacion = new System.Windows.Forms.DataGridView();
             this.Btn_actualiazr_poliza_depre = new System.Windows.Forms.Button();
             this.Btn_enviar_poliza = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.Dtp_fecha_poliza = new System.Windows.Forms.DateTimePicker();
+            this.btn_ayudas = new System.Windows.Forms.Button();
             this.Gpb_activo.SuspendLayout();
             this.Gpb_cuentas_Activo.SuspendLayout();
             this.Tbc_calculo_activo_fijo.SuspendLayout();
@@ -115,6 +116,7 @@ namespace Capa_vista
             // Gpb_activo
             // 
             this.Gpb_activo.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.Gpb_activo.Controls.Add(this.btn_ayudas);
             this.Gpb_activo.Controls.Add(this.Txt_fecha_adquisicion);
             this.Gpb_activo.Controls.Add(this.label1);
             this.Gpb_activo.Controls.Add(this.Lbl_estado_activo);
@@ -374,6 +376,7 @@ namespace Capa_vista
             this.Btn_limpiar.TabIndex = 4;
             this.Btn_limpiar.Text = "Limpiar";
             this.Btn_limpiar.UseVisualStyleBackColor = false;
+            this.Btn_limpiar.Click += new System.EventHandler(this.Btn_limpiar_Click_1);
             // 
             // Btn_guardar
             // 
@@ -768,13 +771,6 @@ namespace Capa_vista
             this.Lbl_ActivoPoliza.TabIndex = 0;
             this.Lbl_ActivoPoliza.Text = "Activo:";
             // 
-            // Dtp_fecha_poliza
-            // 
-            this.Dtp_fecha_poliza.Location = new System.Drawing.Point(98, 225);
-            this.Dtp_fecha_poliza.Name = "Dtp_fecha_poliza";
-            this.Dtp_fecha_poliza.Size = new System.Drawing.Size(27, 31);
-            this.Dtp_fecha_poliza.TabIndex = 8;
-            // 
             // Btn_enviar_poliza_todo
             // 
             this.Btn_enviar_poliza_todo.BackColor = System.Drawing.SystemColors.ButtonFace;
@@ -830,6 +826,25 @@ namespace Capa_vista
             this.label3.Size = new System.Drawing.Size(539, 41);
             this.label3.TabIndex = 0;
             this.label3.Text = "Enviar polizas de depreciacion";
+            // 
+            // Dtp_fecha_poliza
+            // 
+            this.Dtp_fecha_poliza.Location = new System.Drawing.Point(98, 225);
+            this.Dtp_fecha_poliza.Name = "Dtp_fecha_poliza";
+            this.Dtp_fecha_poliza.Size = new System.Drawing.Size(27, 31);
+            this.Dtp_fecha_poliza.TabIndex = 8;
+            // 
+            // btn_ayudas
+            // 
+            this.btn_ayudas.BackColor = System.Drawing.Color.Silver;
+            this.btn_ayudas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_ayudas.Location = new System.Drawing.Point(1052, 24);
+            this.btn_ayudas.Name = "btn_ayudas";
+            this.btn_ayudas.Size = new System.Drawing.Size(130, 48);
+            this.btn_ayudas.TabIndex = 19;
+            this.btn_ayudas.Text = "Ayuda";
+            this.btn_ayudas.UseVisualStyleBackColor = false;
+            this.btn_ayudas.Click += new System.EventHandler(this.btn_ayudas_Click);
             // 
             // Frm_registro_activo
             // 
@@ -938,5 +953,6 @@ namespace Capa_vista
         private System.Windows.Forms.Label Lbl_TotalPoliza;
         private System.Windows.Forms.Label Lbl_ActivoPoliza;
         private System.Windows.Forms.DateTimePicker Dtp_fecha_poliza;
+        private System.Windows.Forms.Button btn_ayudas;
     }
 }
