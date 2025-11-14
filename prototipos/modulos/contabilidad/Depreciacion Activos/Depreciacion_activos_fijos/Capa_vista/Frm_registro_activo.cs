@@ -29,6 +29,9 @@ namespace Capa_vista
             Dtp_fecha_poliza.Value = DateTime.Now;
             Txt_activo_fijo.KeyPress += Txt_activo_fijo_KeyPress;
             Txt_descripcion.KeyPress += Txt_descripcion_KeyPress;
+            Txt_vida_util.KeyPress += Txt_vida_util_KeyPress;
+            Txt_vida_util.Leave += Txt_vida_util_Leave;
+            Btn_limpiar.Click += Btn_limpiar_Click_1;
         }
 
         private void ConfigurarGridDepreciacion()
@@ -608,6 +611,15 @@ namespace Capa_vista
                 Txt_vida_util.Focus();
                 return false;
             }
+            // Validar que sea un número entero mayor a 0
+            if (!int.TryParse(Txt_vida_util.Text, out int vidaUtil) || vidaUtil <= 0)
+            {
+                MessageBox.Show("La vida útil debe ser un número entero mayor a 0", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Txt_vida_util.Focus();
+                Txt_vida_util.SelectAll();
+                return false;
+            }
 
             // Validar cuentas contables
             if (Cbo_cuenta_activo.SelectedIndex == -1)
@@ -685,10 +697,48 @@ namespace Capa_vista
 
         private void Txt_vida_util_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Solo números enteros
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            // Permitir teclas de control (backspace, delete, etc.)
+            if (char.IsControl(e.KeyChar))
+            {
+                return;
+            }
+
+            // Solo permitir dígitos (números enteros)
+            if (!char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
+                MessageBox.Show("Solo se permiten números enteros en la vida útil.", "Validación",
+                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+        private void Txt_vida_util_Leave(object sender, EventArgs e)
+        {
+            // Validar que no esté vacío y sea un número válido
+            if (string.IsNullOrEmpty(Txt_vida_util.Text.Trim()))
+            {
+                MessageBox.Show("La vida útil es requerida.", "Validación",
+                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Txt_vida_util.Focus();
+                return;
+            }
+
+            // Validar que sea un número mayor a 0
+            if (int.TryParse(Txt_vida_util.Text, out int vidaUtil))
+            {
+                if (vidaUtil <= 0)
+                {
+                    MessageBox.Show("La vida útil debe ser mayor a 0.", "Validación",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Txt_vida_util.Focus();
+                    Txt_vida_util.SelectAll();
+                }
+            }
+            else
+            {
+                MessageBox.Show("La vida útil debe ser un número entero válido.", "Validación",
+                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Txt_vida_util.Focus();
+                Txt_vida_util.SelectAll();
             }
         }
 
@@ -795,6 +845,14 @@ namespace Capa_vista
                     Txt_adquisicion.Focus();
                     return;
                 }
+                if (!int.TryParse(Txt_vida_util.Text, out int vidaUtil) || vidaUtil <= 0)
+                {
+                    MessageBox.Show("La vida útil debe ser un número entero mayor a 0.", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Txt_vida_util.Focus();
+                    Txt_vida_util.SelectAll();
+                    return;
+                }
             }
             catch (Exception ex)
             {
@@ -832,6 +890,7 @@ namespace Capa_vista
             {
                 MessageBox.Show("Error al guardar el activo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
         private void Txt_fecha_adquisicion_KeyPress(object sender, KeyPressEventArgs e)
@@ -1412,7 +1471,121 @@ namespace Capa_vista
             }
         }
 
+        private void Btn_limpiar_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                // Limpiar campos de texto
+                Txt_activo_fijo.Clear();
+                Txt_descripcion.Clear();
+                Txt_costo_adquisicion.Text = "0.00";
+                Txt_adquisicion.Text = "0.00";
+                Txt_vida_util.Clear();
+                Txt_fecha_adquisicion.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
+                // Limpiar ComboBoxes
+                Cbo_grupo.SelectedIndex = -1;
+
+                // Restablecer cuentas contables a sus valores por defecto
+                if (Cbo_cuenta_activo.Items.Count > 0)
+                    Cbo_cuenta_activo.SelectedIndex = 0;
+                if (Cbo_cuenta_depreciacion.Items.Count > 0)
+                    Cbo_cuenta_depreciacion.SelectedIndex = 0;
+                if (Cbo_gastos_depreciacoin.Items.Count > 0)
+                    Cbo_gastos_depreciacoin.SelectedIndex = 0;
+
+                // Restablecer RadioButtons
+                Rdb_activo.Checked = true;
+
+                // Limpiar pestaña de depreciación
+                LimpiarCamposDepreciacion();
+
+                // Limpiar pestaña de pólizas
+                LimpiarPestaniaPolizas();
+
+                // Enfocar el primer campo
+                Txt_activo_fijo.Focus();
+
+                MessageBox.Show("Todos los campos han sido limpiados correctamente.", "Limpieza Exitosa",
+                              MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al limpiar los campos: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void LimpiarPestaniaPolizas()
+        {
+            try
+            {
+                Dgv_polizas_depreciacion.Rows.Clear();
+                Lbl_activo_poliza.Text = "---";
+                Lbl_total_polizas.Text = "---";
+                Lbl_info_total.Text = "---";
+                Lbl_vida_util_poliza.Text = "---";
+                Dtp_fecha_poliza.Value = DateTime.Now;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al limpiar pestaña de pólizas: {ex.Message}");
+            }
+        }
+
+        private void btn_ayudas_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                const string subRutaAyuda = @"ayuda\modulos\contabilidad\Ayudas\Ayuda_Activo_Fijo.chm";
+
+                string rutaEncontrada = null;
+                System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(Application.StartupPath);
+
+                for (int i = 0; i < 10 && dir != null; i++, dir = dir.Parent)
+                {
+                    string candidata = System.IO.Path.Combine(dir.FullName, subRutaAyuda);
+                    if (System.IO.File.Exists(candidata))
+                    {
+                        rutaEncontrada = candidata;
+                        break;
+                    }
+                }
+
+                string rutaAbsolutaRespaldo =
+                    @"C:\Users\cesar\OneDrive\Escritorio\asis2k25p2_Contabilidad\ayuda\modulos\contabilidad\Ayudas\Ayuda_Activo_Fijo.chm";
+
+                if (rutaEncontrada == null && System.IO.File.Exists(rutaAbsolutaRespaldo))
+                    rutaEncontrada = rutaAbsolutaRespaldo;
+
+                if (rutaEncontrada != null)
+                {
+
+
+                    Help.ShowHelp(this, rutaEncontrada, HelpNavigator.Topic, "ayuda_activos_fijos.html");
+                }
+                else
+                {
+                    string intento = System.IO.Path.Combine(Application.StartupPath, subRutaAyuda);
+                    MessageBox.Show(
+                        "No se encontró el archivo de ayuda.\n\nProbé desde:\n" + intento +
+                        "\n\nVerifica que exista esta ruta relativa dentro del proyecto:\n" + subRutaAyuda,
+                        "Archivo de ayuda no encontrado",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al abrir la ayuda:\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+
+        }
     }
 
 }

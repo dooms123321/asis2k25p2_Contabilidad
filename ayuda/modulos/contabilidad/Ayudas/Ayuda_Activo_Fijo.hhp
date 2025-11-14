@@ -1,0 +1,17 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=Ayuda_Activo_Fijo.chm
+Contents file=Ayudas_Depreciacion.hhc
+Default Window=Ayuda-Activos-Fijos-Depreciacion
+Display compile progress=No
+Language=0x100a Español (Guatemala)
+
+[WINDOWS]
+Ayuda-Activos-Fijos-Depreciacion="Depreciacion Activo Fijo Ayuda","Ayudas_Depreciacion.hhc",,"ayuda_activos_fijos.html",,,"ayuda_activos_fijos",,,0x23520,,0x4387e,,,,,,,,0
+
+
+[FILES]
+ayuda_activos_fijos.html
+
+[INFOTYPES]
+
