@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Manual - Balance de Saldos</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<div class="contenedor">
+
+    <h1>Balance de Saldos</h1>
+    <p>
+        El formulario de <strong>Balance de Saldos</strong> permite consultar los saldos contables 
+        en modo Actual o Histórico, filtrar por niveles y generar un reporte formal en Crystal Reports. 
+        Su función principal es validar que el catálogo de cuentas cuadre correctamente.
+    </p>
+
+    <h2>1. Selección del Origen de Datos</h2>
+    <p>
+        El usuario puede elegir entre:
+        <ul>
+            <li><strong>Actual</strong>: Consulta el catálogo de cuentas vigente.</li>
+            <li><strong>Histórico</strong>: Habilita la selección de año y mes para consultar períodos anteriores.</li>
+        </ul>
+    </p>
+    <div class="imagen">
+        <!-- Aquí insertas tu captura -->
+        <img src="1.png" alt="Selector de origen de datos">
+        <p class="pie">Figura 1. Selección del tipo de origen (Actual / Histórico).</p>
+    </div>
+
+    <h2>2. Selección del Período (Histórico)</h2>
+    <p>
+        Si se elige el modo histórico, se habilitan los campos de 
+        <strong>Año</strong> y <strong>Mes</strong> para definir el período de consulta.
+        Si el período no tiene registros, el sistema mostrará un mensaje de alerta.
+    </p>
+    <div class="imagen">
+        <img src="2.png" alt="Selección de periodo">
+        <p class="pie">Figura 2. Selección de año y mes.</p>
+    </div>
+
+    <h2>3. Selección del Nivel</h2>
+    <p>
+        El usuario puede consultar el catálogo por niveles:
+        <ul>
+            <li>Nivel 1 — Cuentas principales</li>
+            <li>Nivel 2 — Subcuentas</li>
+            <li>Nivel 3 — Detalle específico</li>
+        </ul>
+    </p>
+    <div class="imagen">
+        <img src="3.png" alt="Filtro por nivel">
+        <p class="pie">Figura 3. Selector de nivel.</p>
+    </div>
+
+    <h2>4. Generar Consulta</h2>
+    <p>
+        Al presionar el botón <strong>Generar</strong>, el sistema obtiene los datos y 
+        los presenta en el DataGridView, mostrando Código, Nombre, Debe y Haber.
+    </p>
+    <div class="imagen">
+        <img src="4.png" alt="Datos generados">
+        <p class="pie">Figura 4. Datos generados en el DataGridView.</p>
+    </div>
+
+    <h2>5. Resultado Automático</h2>
+    <p>
+        En la parte inferior se muestra si el balance cuadra o existe una diferencia.
+    </p>
+    <div class="imagen">
+        <img src="5.png" alt="Resultado de balance">
+        <p class="pie">Figura 5. Resultado del balance.</p>
+    </div>
+
+    <h2>6. Ver Reporte</h2>
+    <p>
+        El botón <strong>Ver Reporte</strong> genera el documento en Crystal Reports, 
+        donde se muestra la misma información del DataGridView lista para impresión.
+    </p>
+    <div class="imagen">
+        <img src="6.png" alt="Reporte generado">
+        <p class="pie">Figura 6. Reporte de Balance de Saldos.</p>
+    </div>
+
+</div>
+
+</body>
+</html>

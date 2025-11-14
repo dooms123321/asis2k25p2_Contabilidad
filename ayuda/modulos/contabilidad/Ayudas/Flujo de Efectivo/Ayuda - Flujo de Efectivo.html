@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Manual - Flujo de Efectivo</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<div class="contenedor">
+
+    <h1>Flujo de Efectivo</h1>
+    <p>
+        El formulario de <strong>Flujo de Efectivo</strong> permite consultar los movimientos 
+        de efectivo del período seleccionado y calcular automáticamente el aumento o 
+        disminución neta del efectivo. Este estado trabaja en modo Actual o Histórico y 
+        genera un reporte formal en Crystal Reports. A diferencia de otros estados financieros, 
+        este formulario <strong>no utiliza filtros por niveles</strong>.
+    </p>
+
+    <h2>1. Selección del Origen de Datos</h2>
+    <p>
+        El usuario puede elegir entre:
+        <ul>
+            <li><strong>Actual</strong>: Consulta el flujo vigente.</li>
+            <li><strong>Histórico</strong>: Activa los selectores de año y mes.</li>
+        </ul>
+    </p>
+    <div class="imagen">
+        <img src="1.png" alt="Origen Flujo de Efectivo">
+        <p class="pie">Figura 1. Selección del origen de datos.</p>
+    </div>
+
+    <h2>2. Selección del Período (Histórico)</h2>
+    <p>
+        Si se elige el modo histórico, se habilitan los campos de 
+        <strong>Año</strong> y <strong>Mes</strong> para definir el período. 
+        Si no hay datos registrados, se mostrará un mensaje de alerta.
+    </p>
+    <div class="imagen">
+        <img src="2.png" alt="Periodo Flujo de Efectivo">
+        <p class="pie">Figura 2. Selección de año y mes.</p>
+    </div>
+
+    <h2>3. Generar Consulta</h2>
+    <p>
+        Al presionar el botón <strong>Generar</strong>, el sistema organiza los datos 
+        por actividades de operación, inversión y financiamiento, mostrando los 
+        valores correspondientes a cada categoría.
+    </p>
+    <div class="imagen">
+        <img src="3.png" alt="Consulta Flujo de Efectivo">
+        <p class="pie">Figura 3. Datos generados en pantalla.</p>
+    </div>
+
+    <h2>4. Resultado Automático</h2>
+    <p>
+        El sistema calcula de forma automática si hubo un 
+        <strong>aumento</strong> o <strong>disminución</strong> de efectivo en el período.
+    </p>
+    <div class="imagen">
+        <img src="4.png" alt="Aumento o Disminución de Efectivo">
+        <p class="pie">Figura 4. Resultado neto del período.</p>
+    </div>
+
+    <h2>5. Ver Reporte</h2>
+    <p>
+        El botón <strong>Ver Reporte</strong> genera el documento formal en Crystal Reports, 
+        mostrando toda la información organizada en formato de flujo de efectivo.
+    </p>
+    <div class="imagen">
+        <img src="5.png" alt="Reporte Flujo de Efectivo">
+        <p class="pie">Figura 5. Reporte generado.</p>
+    </div>
+
+</div>
+
+</body>
+</html>
