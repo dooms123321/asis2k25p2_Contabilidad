@@ -44,6 +44,7 @@ namespace Capa_Vista_Estados_Financieros
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.Btn_Ver_Reporte = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.Btn_Ayuda = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_FlujoEfectivo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Nud_Mes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Nud_Anio)).BeginInit();
@@ -278,12 +279,30 @@ namespace Capa_Vista_Estados_Financieros
             this.groupBox2.TabIndex = 49;
             this.groupBox2.TabStop = false;
             // 
+            // Btn_Ayuda
+            // 
+            this.Btn_Ayuda.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.Btn_Ayuda.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Btn_Ayuda.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.Btn_Ayuda.FlatAppearance.BorderSize = 2;
+            this.Btn_Ayuda.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Ayuda.Font = new System.Drawing.Font("Rockwell", 10.2F, System.Drawing.FontStyle.Bold);
+            this.Btn_Ayuda.Location = new System.Drawing.Point(13, 95);
+            this.Btn_Ayuda.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Ayuda.Name = "Btn_Ayuda";
+            this.Btn_Ayuda.Size = new System.Drawing.Size(150, 55);
+            this.Btn_Ayuda.TabIndex = 50;
+            this.Btn_Ayuda.Text = "Ayuda 🔎​";
+            this.Btn_Ayuda.UseVisualStyleBackColor = false;
+            this.Btn_Ayuda.Click += new System.EventHandler(this.Btn_Ayuda_Click);
+            // 
             // Frm_Flujo_Efectivo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.ClientSize = new System.Drawing.Size(1182, 653);
+            this.Controls.Add(this.Btn_Ayuda);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.Lbl_Resultado);
@@ -320,5 +339,6 @@ namespace Capa_Vista_Estados_Financieros
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button Btn_Ver_Reporte;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button Btn_Ayuda;
     }
 }

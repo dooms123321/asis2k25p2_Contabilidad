@@ -9,6 +9,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Capa_Controlador_Estados_Financieros;
+using System.IO;
+
 
 namespace Capa_Vista_Estados_Financieros
 {
@@ -363,6 +365,48 @@ namespace Capa_Vista_Estados_Financieros
             }
         }
 
+        private void Btn_Ayuda_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Ruta RELATIVA dentro del proyecto
+                const string subRutaAyuda = @"Ayuda\Ayuda Conta.chm";
+
+                string rutaCHM = null;
+                DirectoryInfo dir = new DirectoryInfo(Application.StartupPath);
+
+                // Buscar hasta 10 niveles hacia arriba
+                for (int i = 0; i < 10 && dir != null; i++, dir = dir.Parent)
+                {
+                    string intento = Path.Combine(dir.FullName, subRutaAyuda);
+                    if (File.Exists(intento))
+                    {
+                        rutaCHM = intento;
+                        break;
+                    }
+                }
+
+                // Si NO lo encuentra → mostrar mensaje elegante
+                if (rutaCHM == null)
+                {
+                    MessageBox.Show("No se encontró el archivo de ayuda (CHM).",
+                        "Ayuda no disponible",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // RUTA INTERNA del archivo dentro del CHM
+                string paginaInterna = "Balance de Saldos/Ayuda-Balance de Saldos.html";
+
+                // ABRIR LA AYUDA
+                Help.ShowHelp(this, rutaCHM, HelpNavigator.Topic, paginaInterna);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al abrir la ayuda:\n" + ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
     }
 }
